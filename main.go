@@ -1,13 +1,38 @@
 package main
 
 import (
+	"database/sql"
 	"log"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/template/html/v2"
+	_ "github.com/mattn/go-sqlite3"
 )
 
 func main() {
+	db, err := sql.Open("sqlite3", "db/test.db")
+	if err != nil {
+		log.Fatal("database missing")
+	}
+	defer db.Close()
+
+	rows, err := db.Query("SELECT id, name FROM user")
+	if err != nil {
+		log.Println("error on selecting from user")
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		var id string
+		var name string
+
+		err = rows.Scan(&id, &name)
+		if err != nil {
+			log.Println("error on row scan", err)
+		}
+		log.Println(id, name)
+	}
+
 	engine := html.New("./views", ".html")
 
 	app := fiber.New(fiber.Config{
@@ -32,7 +57,7 @@ func main() {
 	})
 
 	app.Static("/", "./public")
-	err := app.Listen(":3000")
+	err = app.Listen(":3000")
 	if err != nil {
 		log.Fatal("Failed to listen port 3000")
 	}
