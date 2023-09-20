@@ -20,6 +20,6 @@ jobs:
 
       - name: SSH into EC2 and Run Build Script
         run: |
-          ssh -o StrictHostKeyChecking=no -i $HOME/.ssh/id_rsa ec2-user@${{ secrets.EC2_IP }} 'sudo /home/ec2-user/muse-match/build-script.sh'
+          ssh -o StrictHostKeyChecking=no -i $HOME/.ssh/id_rsa ec2-user@${{ secrets.EC2_IP }} 'sudo bash -s' < /home/ec2-user/muse-match/build-script.sh'
         env:
           HOME: ${{ github.workspace }}
