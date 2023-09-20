@@ -1,7 +1,6 @@
 #!/bin/bash
 
-# TODO: change this path to outside git directory
-PROD_PATH="./prod"
+echo $PROD_PATH
 
 # copy template files
 cp -r views "$PROD_PATH/"
