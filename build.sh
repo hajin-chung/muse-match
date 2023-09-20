@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo $PROD_PATH
+PROD_PATH = "/opt/musematch"
 
 # copy template files
 cp -r views "$PROD_PATH/"
