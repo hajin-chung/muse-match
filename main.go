@@ -16,23 +16,6 @@ func main() {
 	}
 	defer db.Close()
 
-	rows, err := db.Query("SELECT id, name FROM user")
-	if err != nil {
-		log.Println("error on selecting from user")
-	}
-	defer rows.Close()
-
-	for rows.Next() {
-		var id string
-		var name string
-
-		err = rows.Scan(&id, &name)
-		if err != nil {
-			log.Println("error on row scan", err)
-		}
-		log.Println(id, name)
-	}
-
 	engine := html.New("./views", ".html")
 
 	app := fiber.New(fiber.Config{
@@ -40,6 +23,22 @@ func main() {
 	})
 
 	app.Get("/", func(c *fiber.Ctx) error {
+		rows, err := db.Query("SELECT id, name FROM user")
+		if err != nil {
+			log.Println("error on selecting from user")
+		}
+		defer rows.Close()
+
+		for rows.Next() {
+			var id string
+			var name string
+
+			err = rows.Scan(&id, &name)
+			if err != nil {
+				log.Println("error on row scan", err)
+			}
+			log.Println(id, name)
+		}
 		return c.Render("index", fiber.Map{
 			"Title": "Hello World",
 			"Button": fiber.Map{
