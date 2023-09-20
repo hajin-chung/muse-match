@@ -1,7 +1,10 @@
 <!DOCTYPE html>
+<head>
+  <link rel="stylesheet" href="/output.css" />
+</head>
 <body>
   {{template "partials/header" .}}
-  <h1>{{.Title}}</h1>
+  <h1 class="text-xl">{{.Title}}</h1>
   {{template "components/button" .Button }}
   {{template "partials/footer" .}}
 </body>
