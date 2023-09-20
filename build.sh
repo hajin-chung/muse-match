@@ -1,6 +1,6 @@
 #!/bin/bash
 
-export PROD_PATH = "/opt/musematch"
+export PROD_PATH="/opt/musematch"
 
 # copy template files
 cp -r views "$PROD_PATH/"
