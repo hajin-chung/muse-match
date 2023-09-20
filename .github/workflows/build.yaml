@@ -1,0 +1,25 @@
+name: Build and Deploy
+
+on:
+  push:
+    branches:
+      - main  # run actions when main branch changes
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - name: Set Up SSH Key
+        uses: webfactory/ssh-agent@v0.5
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: SSH into EC2 and Run Build Script
+        run: |
+          ssh -o StrictHostKeyChecking=no -i $HOME/.ssh/id_rsa ec2-user@your-ec2-instance-ip 'sudo /home/ec2-user/muse-match/build-script.sh'
+        env:
+          HOME: ${{ github.workspace }}
