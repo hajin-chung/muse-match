@@ -1,6 +1,7 @@
 package globals
 
 import (
+	"log"
 	"os"
 	"reflect"
 	"strings"
@@ -24,6 +25,7 @@ func LoadEnv() error {
 		parts := strings.Split(line, "=")
 		key := parts[0]
 		value := parts[1]
+		log.Printf("%s=%s", key, value)
 
 		reflect.ValueOf(&Env).Elem().FieldByName(key).SetString(value)
 	}
