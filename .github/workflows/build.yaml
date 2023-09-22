@@ -26,6 +26,7 @@ jobs:
         run: |
           ssh -o StrictHostKeyChecking=no -i $HOME/.ssh/id_rsa ec2-user@${{ secrets.EC2_IP }} '
             cd /home/ec2-user/muse-match 
+            rm .env
             echo "REST_API_KEY=${{ secrets.REST_API_KEY }}" >> .env
             echo "DB_URL=db/test.db" >> .env
             echo "REDIRECT_URL=http://54.180.88.41:3000/api/auth/callback/kakao" >> .env
