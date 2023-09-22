@@ -1,20 +1,23 @@
 package main
 
 import (
-	"database/sql"
 	"log"
 
+	"musematch/app/routes"
+
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/gofiber/template/html/v2"
+	"github.com/jmoiron/sqlx"
 	_ "github.com/mattn/go-sqlite3"
 )
 
 func main() {
-	db, err := sql.Open("sqlite3", "db/test.db")
+	// init db
+	db, err := sqlx.Connect("sqlite3", "db/test.db")
 	if err != nil {
-		log.Fatal("database missing")
+		log.Fatal("Failed connecting db")
 	}
-	defer db.Close()
 
 	engine := html.New("./views", ".html")
 
@@ -22,43 +25,19 @@ func main() {
 		Views: engine,
 	})
 
-	app.Get("/", func(c *fiber.Ctx) error {
-		rows, err := db.Query("SELECT id, name FROM user")
-		if err != nil {
-			log.Println("error on selecting from user")
-		}
-		defer rows.Close()
-
-		for rows.Next() {
-			var id string
-			var name string
-
-			err = rows.Scan(&id, &name)
-			if err != nil {
-				log.Println("error on row scan", err)
-			}
-			log.Println(id, name)
-		}
-		return c.Render("index", fiber.Map{
-			"Title": "Hello World",
-			"Button": fiber.Map{
-				"Href": "http://google.com",
-				"Text": "hi",
-			},
-		})
+	app.Use("/", logger.New())
+	app.Use("/", func(c *fiber.Ctx) error {
+		c.Locals("db", db)
+		return c.Next()
 	})
 
-	app.Get("/art/:artId", func(c *fiber.Ctx) error {
-		artId := c.Params("artId")
-		return c.Render("index", fiber.Map{
-			"Title": artId,
-		})
-	})
+	routes.PrivateRoutes(app)
+	routes.PublicRoutes(app)
 
 	app.Static("/", "./public")
+
 	err = app.Listen(":3000")
 	if err != nil {
 		log.Fatal("Failed to listen port 3000")
 	}
-	log.Print("Listening to port 3000")
 }

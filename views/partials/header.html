@@ -1,1 +1,19 @@
-<h2>Header</h2>
+<header class="flex items-center justify-between w-full mt-4">
+  <div class="flex items-center gap-6 md:gap-10">
+    <a class="pr-2 text-4xl select-none font-writing" href="/">Muse Match</a>
+    <a class="hidden p-1 text-lg hover-bg md:block" href="/">전시</a>
+    <a class="hidden p-1 text-lg hover-bg md:block" href="/works">작품</a>
+  </div>
+  <button
+    class="h-8 w-8 p-1 border-[1px] rounded-lg btn md:hidden"
+    id="menuButton"
+  ></button>
+  <div class="flex-col hidden gap-4 md:flex md:flex-row">
+    {{ if .ArtistId }}
+      <a href="/art/{{ .ArtistId }}" class="p-1 text-sm font-bold hover-bg"> 마이 페이지 </a>
+      <a href="/auth/logout" class="p-1 text-sm font-bold hover-bg"> 로그아웃 </a>
+    {{ else }}
+      <a class="p-1 text-sm font-bold hover-bg" href="/auth"> 로그인 </a>
+    {{ end }}
+  </div>
+</header>
