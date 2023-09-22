@@ -8,6 +8,8 @@ require (
 	github.com/mattn/go-sqlite3 v1.14.17
 )
 
+require github.com/lucsky/cuid v1.2.1 // indirect
+
 require (
 	github.com/andybalholm/brotli v1.0.5 // indirect
 	github.com/gofiber/template v1.8.2 // indirect

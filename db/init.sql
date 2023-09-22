@@ -7,12 +7,6 @@ CREATE TABLE user (
   description TEXT DEFAULT ""
 );
 
-CREATE TABLE session (
-	id varchar(10) NOT NULL PRIMARY KEY,
-	userId varchar(10),
-	expires bigint
-);
-
 CREATE TABLE art (
 	id varchar(10) NOT NULL PRIMARY KEY,
 	name varchar(255) NOT NULL,

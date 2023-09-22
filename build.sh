@@ -8,6 +8,7 @@ git pull
 # copy template files
 cp -r views "$PROD_PATH/"
 cp -r public "$PROD_PATH/"
+cp .env
 
 # build server binary
 go build -o "$PROD_PATH/server"
