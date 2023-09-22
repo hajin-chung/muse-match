@@ -10,10 +10,61 @@
   ></button>
   <div class="flex-col hidden gap-4 md:flex md:flex-row">
     {{ if .ArtistId }}
-      <a href="/art/{{ .ArtistId }}" class="p-1 text-sm font-bold hover-bg"> 마이 페이지 </a>
-      <a href="/auth/logout" class="p-1 text-sm font-bold hover-bg"> 로그아웃 </a>
+    <a href="/art/{{ .ArtistId }}" class="p-1 text-sm font-bold hover-bg">
+      마이 페이지
+    </a>
+    <a href="/auth/logout" class="p-1 text-sm font-bold hover-bg"> 로그아웃 </a>
     {{ else }}
-      <a class="p-1 text-sm font-bold hover-bg" href="/auth/login"> 로그인 </a>
+    <a class="p-1 text-sm font-bold hover-bg" href="/auth/login"> 로그인 </a>
     {{ end }}
   </div>
 </header>
+<div
+  class="fixed top-0 left-0 z-30 hidden w-full h-full max-h-screen transition backdrop-brightness-50"
+  id="menu"
+>
+  <div class="w-full backdrop-brightness-50" id="menuEscape"></div>
+  <div
+    class="flex flex-col h-full justify-between p-4 w-2/5 z-50 dark:bg-neutral-800 bg-white shadow-lg rounded-xl min-w-[160px]"
+  >
+    <div class="flex flex-col items-start gap-4">
+      <a class="p-1 text-lg hover-bg" href="/">전시</a>
+      <a class="p-1 text-lg hover-bg" href="/works">작품</a>
+    </div>
+    <div class="flex flex-col items-start gap-4">
+      {{ if .ArtistId }}
+      <a href="/art/{{ .ArtistId }}" class="p-1 text-sm font-bold hover-bg">
+        마이 페이지
+      </a>
+      <a href="/auth/logout" class="p-1 text-sm font-bold hover-bg">
+        로그아웃
+      </a>
+      {{ else }}
+      <a class="p-1 text-sm font-bold hover-bg" href="/auth/login"> 로그인 </a>
+      {{ end }}
+    </div>
+  </div>
+</div>
+
+<script>
+  const menuButtonElement = document.getElementById("menuButton");
+  const menuElement = document.getElementById("menu");
+  const menuEscapeElement = document.getElementById("menuEscape");
+
+  const toggleMenu = () => {
+    if (menuElement) {
+      menuElement.style.display =
+        menuElement.style.display !== "flex" ? "flex" : "none";
+    }
+  };
+
+  menuButtonElement?.addEventListener("click", () => {
+    toggleMenu();
+  });
+
+  menuEscapeElement?.addEventListener("click", (e) => {
+    e.stopPropagation();
+    e.stopImmediatePropagation();
+    toggleMenu();
+  });
+</script>

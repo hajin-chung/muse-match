@@ -107,7 +107,6 @@ func KakaoCallbackController(c *fiber.Ctx) error {
 			log.Println("ERROR on create user", err)
 		}
 	}
-	log.Printf("%s\n", user.Id)
 	sess.Set("id", user.Id)
 	sess.Save()
 
