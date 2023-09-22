@@ -23,6 +23,9 @@ func LoadEnv() error {
 	content := string(data)
 	for _, line := range strings.Split(content, "\n") {
 		parts := strings.Split(line, "=")
+		if len(parts) != 2 {
+			continue
+		}
 		key := parts[0]
 		value := parts[1]
 		log.Printf("%s=%s", key, value)
