@@ -1,12 +1,17 @@
 package queries
 
-import "musematch/app/models"
+import (
+	"log"
+	"musematch/app/models"
+)
 
 func GetArtsByUserId(userId string) ([]models.ArtWithThumbnail, error) {
 	arts := []models.ArtWithThumbnail{}
 	err := db.Select(
 		&arts,
-		"SELECT art.Id, name, description, price, status, image.id as thumbnail FROM art RIGHT JOIN image ON art.id = image.artId WHERE art.userId = $1",
+		`SELECT 
+			art.Id, art.name, art.description, art.price, art.status, image.id as thumbnail 
+			FROM image LEFT JOIN art ON art.id = image.artId WHERE art.userId = $1`,
 		userId,
 	)
 	if err != nil {
@@ -14,4 +19,15 @@ func GetArtsByUserId(userId string) ([]models.ArtWithThumbnail, error) {
 	}
 
 	return arts, nil
+}
+
+func GetArtById(artId string) (models.Art, error) {
+	art := models.Art{}
+	err := db.Get(&art, "SELECT * FROM art WHERE id = $1", artId)
+	if err != nil {
+		log.Println(err)
+		return art, err
+	}
+
+	return art, nil
 }

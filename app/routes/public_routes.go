@@ -12,4 +12,5 @@ func PublicRoutes(a *fiber.App) {
 	a.Get("/auth/logout", controllers.LogoutController)
 	a.Get("/api/auth/callback/kakao", controllers.KakaoCallbackController)
 	a.Get("/art/:userId", controllers.ProfileController)
+	a.Get("/art/:userId/:artId", controllers.ArtController)
 }
