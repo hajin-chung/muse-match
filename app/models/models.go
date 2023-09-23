@@ -24,3 +24,13 @@ type Image struct {
 	ArtId string
 	Idx   int32
 }
+
+type ArtWithThumbnail struct {
+	Id          string
+	Name        string
+	Description string
+	UserId      string
+	Price       int32
+	Status      string
+	Thumbnail   string
+}

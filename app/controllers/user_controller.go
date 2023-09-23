@@ -17,6 +17,10 @@ func ProfileController(c *fiber.Ctx) error {
 	if err != nil {
 		return err
 	}
+	arts, err := queries.GetArtsByUserId(userId)
+	if err != nil {
+		return err
+	}
 
 	return c.Render("pages/profile", fiber.Map{
 		"Title": user.Name,
@@ -25,5 +29,6 @@ func ProfileController(c *fiber.Ctx) error {
 		},
 		"IsMyProfile": userId == currentUserId,
 		"User":        user,
+		"Arts":        arts,
 	}, "layout")
 }

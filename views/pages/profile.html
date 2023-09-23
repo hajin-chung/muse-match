@@ -28,12 +28,42 @@
       <button id="descriptionButton">소개</button>
       <button id="historyButton" class="text-gray-500">연혁</button>
     </div>
-    <p class="hidden whitespace-pre-wrap" id="description">
-      {{ .User.Description }}
+    <p class="whitespace-pre-wrap" id="description">
+      {{- .User.Description -}}
     </p>
-    <p class="whitespace-pre-wrap" id="history">{{ .User.History }}</p>
+    <p class="hidden whitespace-pre-wrap" id="history">
+      {{- .User.History -}}
+    </p>
   </div>
-  <ArtList artistId="{artistId}" client:load />
+  <div class="relative w-full">
+    <p class="mt-10 text-lg font-bold">작품 목록</p>
+    <div class="flex flex-col items-center gap-40 mt-20">
+      {{ range .Arts }}
+      <div class="flex flex-col justify-center gap-10">
+        <img
+          src="/image?id={{ .Thumbnail }}"
+          class="max-h-[80vh] object-contain group-hover:blur-sm transition drop-shadow-2xl"
+        />
+        <div class="flex flex-col items-center">
+          <a
+            href="/art/{{ .User.Id }}/{{ .Id }}"
+            class="text-xl font-extrabold"
+          >
+            {{ .Name }}
+          </a>
+          <p />
+          {{ if .Price }}
+          <p>{{ .Price }} &#8361;</p>
+          {{ else }}
+          <p>가격 미정</p>
+          {{ end }}
+          <p class="text-sm whitespace-pre-wrap">{{ .Description }}</p>
+        </div>
+      </div>
+      <div class="w-[20vw] bg-gray-500 h-[2px]" />
+      {{ end }}
+    </div>
+  </div>
 </div>
 <script>
   const descriptionButton = document.getElementById("descriptionButton");
