@@ -22,7 +22,7 @@ func ArtController(c *fiber.Ctx) error {
 		return err
 	}
 
-	return c.Render("pages/art", fiber.Map{
+	return c.Render("pages/art/index", fiber.Map{
 		"Title": art.Name,
 		"Header": fiber.Map{
 			"ArtistId": currentUserId,
@@ -31,4 +31,22 @@ func ArtController(c *fiber.Ctx) error {
 		"Artist":  user,
 		"Art":     art,
 	}, "layout")
+}
+
+func NewArtViewController(c *fiber.Ctx) error {
+	sess, _ := globals.Store.Get(c)
+
+	currentUserId := sess.Get("id")
+
+	return c.Render("pages/art/new", fiber.Map{
+		"Header": fiber.Map{
+			"ArtistId": currentUserId,
+		},
+	}, "layout")
+}
+
+func NewArtController(c *fiber.Ctx) error {
+	return c.JSON(fiber.Map{
+		"success": true,
+	})
 }

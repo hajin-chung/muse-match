@@ -22,3 +22,16 @@ CREATE TABLE image (
 	url varchar(2048) NOT NULL,
 	artId varchar(10)
 );
+
+CREATE TABLE exhibit (
+	id varchar(10) NOT NULL PRIMARY KEY,
+	title text default "",
+	location text not null,
+	startDate integer
+);
+
+create table exhibitArts (
+	exhibitId varchar(10) NOT NULL,
+	artId varchar(10) NOT NULL,
+	PRIMARY KEY (exhibitId, artId)
+)
