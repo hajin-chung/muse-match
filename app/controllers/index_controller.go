@@ -12,6 +12,7 @@ func IndexController(c *fiber.Ctx) error {
 
 	return c.Render("pages/index", fiber.Map{
 		"Title": "Muse Match",
+		"Theme": c.Locals("theme"),
 		"Header": fiber.Map{
 			"ArtistId": sess.Get("id"),
 		},

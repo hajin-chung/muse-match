@@ -26,6 +26,7 @@ func LoginController(c *fiber.Ctx) error {
 
 	return c.Render("pages/login", fiber.Map{
 		"Title": "로그인",
+		"Theme": c.Locals("theme"),
 		"Kakao": fiber.Map{
 			"Href": kakaoHref,
 		},
@@ -54,7 +55,7 @@ type Token struct {
 
 func KakaoCallbackController(c *fiber.Ctx) error {
 	// TODO: handle error
-	sess, err := globals.Store.Get(c)
+	sess, _ := globals.Store.Get(c)
 
 	u, _ := url.Parse(c.OriginalURL())
 
@@ -83,14 +84,14 @@ func KakaoCallbackController(c *fiber.Ctx) error {
 	defer res.Body.Close()
 
 	var jwt JWT
-	data, err := io.ReadAll(res.Body)
-	err = json.Unmarshal(data, &jwt)
+	data, _ := io.ReadAll(res.Body)
+	_ = json.Unmarshal(data, &jwt)
 
 	var token Token
 	utils.DecodeJWT(jwt.Token, &token)
 
 	// TODO: handle err
-	user, err := queries.GetUserBySub(token.Sub)
+	user, _ := queries.GetUserBySub(token.Sub)
 	if (user == models.User{}) { // create user
 		user = models.User{
 			Id:          utils.CreateId(),

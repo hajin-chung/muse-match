@@ -24,6 +24,7 @@ func ArtController(c *fiber.Ctx) error {
 
 	return c.Render("pages/art/index", fiber.Map{
 		"Title": art.Name,
+		"Theme": c.Locals("theme"),
 		"Header": fiber.Map{
 			"ArtistId": currentUserId,
 		},
@@ -39,6 +40,7 @@ func NewArtViewController(c *fiber.Ctx) error {
 	currentUserId := sess.Get("id")
 
 	return c.Render("pages/art/new", fiber.Map{
+		"Theme": c.Locals("theme"),
 		"Header": fiber.Map{
 			"ArtistId": currentUserId,
 		},

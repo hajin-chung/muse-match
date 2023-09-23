@@ -26,6 +26,7 @@ func ProfileController(c *fiber.Ctx) error {
 
 	return c.Render("pages/profile", fiber.Map{
 		"Title": user.Name,
+		"Theme": c.Locals("theme"),
 		"Header": fiber.Map{
 			"ArtistId": currentUserId,
 		},

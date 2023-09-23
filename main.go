@@ -4,6 +4,7 @@ import (
 	"log"
 
 	"musematch/app/globals"
+	"musematch/app/middleware"
 	"musematch/app/queries"
 	"musematch/app/routes"
 
@@ -39,6 +40,7 @@ func main() {
 	})
 
 	app.Use("/", logger.New())
+	app.Use("/", middleware.ThemeFromCookie)
 
 	routes.PrivateRoutes(app)
 	routes.PublicRoutes(app)
