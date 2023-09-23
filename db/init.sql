@@ -4,14 +4,17 @@ CREATE TABLE user (
 	email TEXT NOT NULL,
 	sub TEXT NOT NULL,
 	picture TEXT,
-  description TEXT DEFAULT ""
+  description TEXT DEFAULT "",
+	history TEXT DEFAULT ""
 );
 
 CREATE TABLE art (
 	id varchar(10) NOT NULL PRIMARY KEY,
 	name varchar(255) NOT NULL,
 	description text,
-	userId varchar(10)
+	userId varchar(10),
+	price INT,
+	status text
 );
 
 CREATE TABLE image (
