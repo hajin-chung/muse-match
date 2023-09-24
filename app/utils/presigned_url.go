@@ -33,8 +33,21 @@ func InitS3() error {
 	return nil
 }
 
-func GetPutUrl(id string) (string, error) {
+func PresignedPutUrl(id string) (string, error) {
 	req, _ := s3Client.PutObjectRequest(&s3.PutObjectInput{
+		Bucket: aws.String(globals.Env.BUCKET_NAME),
+		Key:    aws.String(id),
+	})
+	url, err := req.Presign(15 * time.Minute)
+	if err != nil {
+		return "", err
+	}
+
+	return url, nil
+}
+
+func PresignedGetUrl(id string) (string, error) {
+	req, _ := s3Client.GetObjectRequest(&s3.GetObjectInput{
 		Bucket: aws.String(globals.Env.BUCKET_NAME),
 		Key:    aws.String(id),
 	})

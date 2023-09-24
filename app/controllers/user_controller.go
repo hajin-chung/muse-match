@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"log"
 	"musematch/app/globals"
 	"musematch/app/queries"
 
@@ -21,6 +22,7 @@ func ProfileController(c *fiber.Ctx) error {
 	if err != nil {
 		return err
 	}
+	log.Printf("%+v\n", arts)
 
 	return c.Render("pages/profile", fiber.Map{
 		"Title": user.Name,
