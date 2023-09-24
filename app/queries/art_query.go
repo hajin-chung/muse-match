@@ -3,6 +3,7 @@ package queries
 import (
 	"log"
 	"musematch/app/models"
+	"musematch/app/utils"
 )
 
 func GetArtsByUserId(userId string) ([]models.ArtWithThumbnail, error) {
@@ -30,4 +31,16 @@ func GetArtById(artId string) (models.Art, error) {
 	}
 
 	return art, nil
+}
+
+func CreateArt(newArtInfo models.NewArtInfo, userId string) (string, error) {
+	id := utils.CreateId()
+	_, err := db.Exec(
+		"INSERT INTO art (id, name, description, userId, price, status) VALUES ($1, $2, $3, $4, 0, '')",
+		id, newArtInfo.Title, newArtInfo.Description, userId)
+	if err != nil {
+		return "", err
+	}
+
+	return id, nil
 }

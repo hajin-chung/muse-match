@@ -8,6 +8,7 @@ import (
 )
 
 func PrivateRoutes(a *fiber.App) {
-	a.Get("/art/new", middleware.SessionProtected, controllers.NewArtViewController)
+	// a.Get("/art/new", middleware.SessionProtected, controllers.NewArtViewController)
+	a.Get("/art/new", controllers.NewArtViewController)
 	a.Post("/api/art", middleware.SessionProtected, controllers.NewArtController)
 }

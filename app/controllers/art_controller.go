@@ -1,8 +1,12 @@
 package controllers
 
 import (
+	"encoding/json"
+	"log"
 	"musematch/app/globals"
+	"musematch/app/models"
 	"musematch/app/queries"
+	"musematch/app/utils"
 
 	"github.com/gofiber/fiber/v2"
 )
@@ -21,6 +25,7 @@ func ArtController(c *fiber.Ctx) error {
 	if err != nil {
 		return err
 	}
+	log.Printf("%+v\n", art)
 
 	return c.Render("pages/art/index", fiber.Map{
 		"Title": art.Name,
@@ -48,7 +53,25 @@ func NewArtViewController(c *fiber.Ctx) error {
 }
 
 func NewArtController(c *fiber.Ctx) error {
+	sess, _ := globals.Store.Get(c)
+
+	userId := sess.Get("id").(string)
+	newArt := models.NewArtInfo{}
+	_ = json.Unmarshal(c.Body(), &newArt)
+	artId, err := queries.CreateArt(newArt, userId)
+	if err != nil {
+		return err
+	}
+
+	uploadUrls := []string{}
+	for i := 0; i < newArt.ImageCount; i++ {
+		imageId := utils.CreateId()
+		queries.CreateImage(imageId, artId)
+		uploadUrls = append(uploadUrls, utils.GenerateUrl(imageId))
+	}
+
 	return c.JSON(fiber.Map{
-		"success": true,
+		"success":    true,
+		"uploadUrls": uploadUrls,
 	})
 }

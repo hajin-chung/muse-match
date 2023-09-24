@@ -51,8 +51,8 @@
 <script>
   const html = document.querySelector("html");
   const themeButtons = [...document.querySelectorAll("#themeButton")];
-
   let theme = html.getAttribute("theme");
+
   themeButtons.forEach((elem) => {
     elem.innerHTML = theme === "dark" ? "라이트모드" : "다크모드";
     elem.onclick = () => {
@@ -65,8 +65,7 @@
       }
 
       elem.innerHTML = theme === "dark" ? "라이트모드" : "다크모드";
-      console.log(theme);
-      document.cookie = `theme=${theme}`;
+      document.cookie = `theme=${theme}; path=/`;
     };
   });
 </script>

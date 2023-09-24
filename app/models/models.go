@@ -19,6 +19,12 @@ type Art struct {
 	Status      string
 }
 
+type NewArtInfo struct {
+	Title       string `json:"title"`
+	Description string `json:"description"`
+	ImageCount  int    `json:"imageCount"`
+}
+
 type Image struct {
 	Id    string
 	ArtId string

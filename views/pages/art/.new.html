@@ -1,0 +1,138 @@
+{{ template "components/Header" .Header }}
+
+<div class="flex flex-col w-full">
+  <div class="h-4"></div>
+  <p class="text-xl font-bold">작품 추가하기</p>
+  <div class="h-4"></div>
+  <div class="relative overflow-x-hidden h-[800px]">
+    <div
+      class="absolute top-0 w-full transition-all"
+      id="images"
+      style="left: 0"
+    >
+      <input type="file" class="hidden" id="imageInput" />
+      <div class="flex flex-col w-full gap-4 p-8 bg-transparent">
+        <div
+          class="w-full h-[400px] bg-neutral-100 dark:bg-neutral-800 rounded-2xl"
+        >
+          <img
+            src="/icons/image.svg"
+            id="image"
+            class="object-contain w-full h-full border-none outline-none rounded-2xl"
+          />
+        </div>
+        <div
+          id="imageList"
+          class="w-full overflow-x-auto flex bg-neutral-100 dark:bg-neutral-800 rounded-2xl items-center p-[10px] gap-[10px]"
+        >
+          <button class="w-20 h-20">
+            <label class="w-full h-full" id="addImage" for="imageInput">
+              <img
+                src="/icons/plus.svg"
+                class="w-full h-full p-6 dark:invert"
+              />
+            </label>
+          </button>
+        </div>
+        <button class="self-end p-1 transition hover:text-purple-300" id="next">
+          다음 >>
+        </button>
+      </div>
+    </div>
+    <div
+      class="absolute top-0 w-full transition-all"
+      id="infos"
+      style="left: 100%"
+    >
+      <div class="relative flex flex-col w-full gap-4">
+        <button
+          class="self-start p-1 transition hover:text-purple-300"
+          id="prev"
+        >
+          << 이전
+        </button>
+        <div class="flex w-full">
+          <p class="w-1/4 text-lg font-bold">제목</p>
+          <input
+            class="w-3/4 p-1 transition border-2 border-transparent rounded-lg outline-none focus:border-neutral-200 bg-neutral-100 dark:bg-neutral-800 focus:dark:border-neutral-700"
+          />
+        </div>
+        <div class="flex w-full">
+          <p class="w-1/4 text-lg font-bold">설명</p>
+          <textarea
+            class="w-3/4 p-1 transition border-2 border-transparent rounded-lg outline-none focus:border-neutral-200 bg-neutral-100 dark:bg-neutral-800 focus:dark:border-neutral-700"
+            type="text"
+          ></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button class="relative hidden w-20 h-20" id="imageButtonTemplate">
+  <div class="absolute z-10 top-1 right-1" id="remove">
+    <img
+      src="/icons/remove.svg"
+      class="w-4 h-4 p-[1px] rounded-full bg-neutral-500"
+    />
+  </div>
+  <img src="" class="object-cover w-full h-full rounded-lg" id="image" />
+</button>
+
+<script>
+  let selectedImage = undefined;
+
+  const imagePane = document.getElementById("images");
+  const infoPane = document.getElementById("infos");
+  const imageButtonTemplate = document.getElementById("imageButtonTemplate");
+  const imageButtonList = document.getElementById("imageList");
+  const imageInput = document.getElementById("imageInput");
+  const imagePreview = document.getElementById("image");
+  const nextButton = document.getElementById("next");
+  const prevButton = document.getElementById("prev");
+  let imageList = [];
+
+  nextButton.onclick = () => {
+    imagePane.style.left = "-100%";
+    infoPane.style.left = "0";
+  };
+
+  prevButton.onclick = () => {
+    imagePane.style.left = "0";
+    infoPane.style.left = "100%";
+  };
+
+  imageInput.onchange = (e) => {
+    const file = e.target.files[0];
+    const url = URL.createObjectURL(file);
+    imageInput.value = "";
+    imagePreview.src = url;
+    imageList.push(url);
+    createImageButton(url);
+  };
+
+  function createImageButton(url) {
+    const imageButton = imageButtonTemplate.cloneNode(true);
+    const image = imageButton.querySelector("#image");
+    const removeButton = imageButton.querySelector("#remove");
+
+    imageButton.onclick = () => {
+      console.log("hi");
+      imagePreview.src = url;
+    };
+
+    removeButton.onclick = (e) => {
+      e.stopPropagation();
+      imageList = imageList.filter((i) => i !== url);
+      imagePreview.src =
+        imageList.length > 0
+          ? imageList[imageList.length - 1]
+          : "/icons/image.svg";
+      imageButtonList.removeChild(imageButton);
+    };
+
+    imageButton.classList.remove("hidden");
+    image.src = url;
+    imageButtonList.appendChild(imageButton);
+  }
+</script>
