@@ -12,7 +12,7 @@ func GetArtsByUserId(userId string) ([]models.ArtWithThumbnail, error) {
 		&arts,
 		`SELECT 
 			art.Id, art.name, art.description, art.price, art.status, image.id as thumbnail 
-			FROM image LEFT JOIN art ON art.id = image.artId WHERE art.userId = $1`,
+			FROM image LEFT JOIN art ON art.id = image.artId WHERE art.userId = $1 GROUP BY art.id HAVING COUNT(image.id) = 1`,
 		userId,
 	)
 	if err != nil {
