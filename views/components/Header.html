@@ -9,6 +9,7 @@
     id="menuButton"
   ></button>
   <div class="flex-col hidden gap-4 md:flex md:flex-row">
+    <button id="themeButton" class="p-1 text-sm font-bold hover-bg"></button>
     {{ if .ArtistId }}
     <a href="/art/{{ .ArtistId }}" class="p-1 text-sm font-bold hover-bg">
       마이 페이지
@@ -32,6 +33,7 @@
       <a class="p-1 text-lg hover-bg" href="/works">작품</a>
     </div>
     <div class="flex flex-col items-start gap-4">
+      <button id="themeButton" class="p-1 text-sm font-bold hover-bg"></button>
       {{ if .ArtistId }}
       <a href="/art/{{ .ArtistId }}" class="p-1 text-sm font-bold hover-bg">
         마이 페이지
@@ -45,6 +47,29 @@
     </div>
   </div>
 </div>
+
+<script>
+  const html = document.querySelector("html");
+  const themeButtons = [...document.querySelectorAll("#themeButton")];
+
+  let theme = html.getAttribute("theme");
+  themeButtons.forEach((elem) => {
+    elem.innerHTML = theme === "dark" ? "라이트모드" : "다크모드";
+    elem.onclick = () => {
+      if (theme === "dark") {
+        theme = "light";
+        html.classList.remove("dark");
+      } else {
+        theme = "dark";
+        html.classList.add("dark");
+      }
+
+      elem.innerHTML = theme === "dark" ? "라이트모드" : "다크모드";
+      console.log(theme);
+      document.cookie = `theme=${theme}`;
+    };
+  });
+</script>
 
 <script>
   const menuButtonElement = document.getElementById("menuButton");
