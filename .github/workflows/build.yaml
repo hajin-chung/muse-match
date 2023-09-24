@@ -30,10 +30,10 @@ jobs:
             echo "REST_API_KEY=${{ secrets.REST_API_KEY }}" >> .env
             echo "DB_URL=db/test.db" >> .env
             echo "REDIRECT_URI=http://54.180.88.41:3000/api/auth/callback/kakao" >> .env
-            echo "ACCESS_KEY=${{ secrets.ACCESS_KEY }} >> .env"
-            echo "SECRET_KEY=${{ secrets.SECRET_KEY }} >> .env"
-            echo "BUCKET_NAME=${{ secrets.BUCKET_NAME }} >> .env"
-            echo "ACCOUNT_ID=${{ secrets.ACCOUNT_ID }} >> .env"
+            echo "ACCESS_KEY=${{ secrets.ACCESS_KEY }}" >> .env
+            echo "SECRET_KEY=${{ secrets.SECRET_KEY }}" >> .env
+            echo "BUCKET_NAME=${{ secrets.BUCKET_NAME }}" >> .env
+            echo "ACCOUNT_ID=${{ secrets.ACCOUNT_ID }}" >> .env
             sudo ./build.sh
           '
         env:
