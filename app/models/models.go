@@ -10,6 +10,12 @@ type User struct {
 	History     string
 }
 
+type UpdateUserInfo struct {
+	Name        string `json:"name"`
+	Description string `json:"description"`
+	History     string `json:"history"`
+}
+
 type Art struct {
 	Id          string
 	Name        string

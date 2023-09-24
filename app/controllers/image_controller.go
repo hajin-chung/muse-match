@@ -16,3 +16,16 @@ func GetImageController(c *fiber.Ctx) error {
 
 	return c.Redirect(imageUrl)
 }
+
+func PutImageController(c *fiber.Ctx) error {
+	imageId := c.Query("id")
+
+	imageUrl, err := utils.PresignedPutUrl(imageId)
+	if err != nil {
+		return err
+	}
+
+	return c.JSON(fiber.Map{
+		"uploadUrl": imageUrl,
+	})
+}

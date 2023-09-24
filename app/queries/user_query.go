@@ -32,3 +32,12 @@ func CreateUser(newUser *models.User) error {
 
 	return nil
 }
+
+func UpdateUser(userId string, updateUserInfo *models.UpdateUserInfo) error {
+	_, err := db.Exec("UPDATE user SET name=$1, description=$2, history=$3 WHERE id=$4", updateUserInfo.Name, updateUserInfo.Description, updateUserInfo.History, userId)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
