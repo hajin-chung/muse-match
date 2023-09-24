@@ -25,7 +25,6 @@ func ArtController(c *fiber.Ctx) error {
 	if err != nil {
 		return err
 	}
-	log.Printf("%+v\n", art)
 
 	return c.Render("pages/art/index", fiber.Map{
 		"Title": art.Name,
@@ -67,7 +66,13 @@ func NewArtController(c *fiber.Ctx) error {
 	for i := 0; i < newArt.ImageCount; i++ {
 		imageId := utils.CreateId()
 		queries.CreateImage(imageId, artId)
-		uploadUrls = append(uploadUrls, utils.GenerateUrl(imageId))
+		url, err := utils.GetPutUrl(imageId)
+		if err != nil {
+			log.Println(err)
+			continue
+		}
+		log.Println(url)
+		uploadUrls = append(uploadUrls, url)
 	}
 
 	return c.JSON(fiber.Map{

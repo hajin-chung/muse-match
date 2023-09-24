@@ -7,6 +7,7 @@ import (
 	"musematch/app/middleware"
 	"musematch/app/queries"
 	"musematch/app/routes"
+	"musematch/app/utils"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/logger"
@@ -16,17 +17,20 @@ import (
 
 func main() {
 	var err error
-	// load env
 	err = globals.LoadEnv()
 	if err != nil {
 		log.Fatal(err)
 	}
 	log.Printf("%+v\n", globals.Env)
 
-	// init db
 	err = queries.InitDB()
 	if err != nil {
 		log.Fatal("Failed to init db")
+	}
+
+	err = utils.InitS3()
+	if err != nil {
+		log.Fatal("Failed to init s3")
 	}
 
 	// create session store

@@ -11,6 +11,10 @@ type EnvType struct {
 	REST_API_KEY string
 	REDIRECT_URI string
 	DB_URL       string
+	ACCOUNT_ID   string
+	ACCESS_KEY   string
+	SECRET_KEY   string
+	BUCKET_NAME  string
 }
 
 var Env EnvType
