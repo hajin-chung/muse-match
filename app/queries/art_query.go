@@ -10,9 +10,7 @@ func GetArtsByUserId(userId string) ([]models.ArtWithThumbnail, error) {
 	arts := []models.ArtWithThumbnail{}
 	err := db.Select(
 		&arts,
-		`SELECT 
-			art.Id, art.name, art.description, art.price, art.status, image.id as thumbnail 
-			FROM image LEFT JOIN art ON art.id = image.artId WHERE art.userId = $1 GROUP BY art.id HAVING COUNT(image.id) = 1`,
+		`SELECT art.id, art.name, image.id from art left join image where art.userId='$1' group by art.id`,
 		userId,
 	)
 	if err != nil {
