@@ -35,7 +35,7 @@ type ArtWithThumbnail struct {
 	Id          string
 	Name        string
 	Description string
-	UserId      string
+	UserId      string `db:"userId"`
 	Price       int32
 	Status      string
 	Thumbnail   string
