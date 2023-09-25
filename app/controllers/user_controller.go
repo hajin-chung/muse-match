@@ -27,11 +27,9 @@ func ProfileController(c *fiber.Ctx) error {
 	}
 
 	return c.Render("pages/profile/index", fiber.Map{
-		"Title": user.Name,
-		"Theme": c.Locals("theme"),
-		"Header": fiber.Map{
-			"ArtistId": currentUserId,
-		},
+		"Title":       user.Name,
+		"Theme":       c.Locals("theme"),
+		"ArtistId":    currentUserId,
 		"IsMyProfile": userId == currentUserId,
 		"User":        user,
 		"Arts":        arts,
@@ -49,12 +47,10 @@ func ProfileUpdateViewController(c *fiber.Ctx) error {
 	}
 
 	return c.Render("pages/profile/update", fiber.Map{
-		"Title":  "프로필 수정하기",
-		"Theme":  c.Locals("theme"),
-		"Header": fiber.Map{
-			// "ArtistId": currentUserId,
-		},
-		"User": user,
+		"Title":    "프로필 수정하기",
+		"Theme":    c.Locals("theme"),
+		"ArtistId": currentUserId,
+		"User":     user,
 	}, "layout")
 }
 
