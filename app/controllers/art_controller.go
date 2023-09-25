@@ -71,7 +71,6 @@ func NewArtController(c *fiber.Ctx) error {
 			log.Println(err)
 			continue
 		}
-		log.Println(url)
 		uploadUrls = append(uploadUrls, url)
 	}
 

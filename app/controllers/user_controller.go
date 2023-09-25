@@ -3,7 +3,6 @@ package controllers
 import (
 	"encoding/json"
 	"fmt"
-	"log"
 	"musematch/app/globals"
 	"musematch/app/models"
 	"musematch/app/queries"
@@ -26,7 +25,6 @@ func ProfileController(c *fiber.Ctx) error {
 	if err != nil {
 		return err
 	}
-	log.Printf("%+v\n", arts)
 
 	return c.Render("pages/profile/index", fiber.Map{
 		"Title": user.Name,
