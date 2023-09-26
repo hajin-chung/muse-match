@@ -5,6 +5,7 @@ go 1.20
 require (
 	github.com/gofiber/fiber/v2 v2.49.2
 	github.com/gofiber/template/html/v2 v2.0.5
+	github.com/lucsky/cuid v1.2.1
 	github.com/mattn/go-sqlite3 v1.14.17
 )
 
@@ -25,12 +26,11 @@ require (
 	github.com/aws/aws-sdk-go-v2/service/sts v1.22.0 // indirect
 	github.com/aws/smithy-go v1.14.2 // indirect
 	github.com/jmespath/go-jmespath v0.4.0 // indirect
-	github.com/lucsky/cuid v1.2.1 // indirect
 )
 
 require (
 	github.com/andybalholm/brotli v1.0.5 // indirect
-	github.com/aws/aws-sdk-go v1.45.15
+	github.com/aws/aws-sdk-go v1.45.16
 	github.com/aws/aws-sdk-go-v2 v1.21.0
 	github.com/aws/aws-sdk-go-v2/config v1.18.42
 	github.com/aws/aws-sdk-go-v2/service/s3 v1.39.0

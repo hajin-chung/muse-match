@@ -7,7 +7,7 @@ import (
 )
 
 func PublicRoutes(a *fiber.App) {
-	a.Get("/", controllers.IndexController)
+	a.Get("/", controllers.ExhibitListController)
 	a.Get("/auth/login", controllers.LoginController)
 	a.Get("/auth/logout", controllers.LogoutController)
 	a.Get("/api/auth/callback/kakao", controllers.KakaoCallbackController)

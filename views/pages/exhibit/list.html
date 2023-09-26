@@ -1,0 +1,28 @@
+{{ template "components/Header" . }}
+
+<div class="h-4"></div>
+<div class="w-full flex flex-col gap-4">
+  <div class="flex gap-8 flex-col w-full p-4">
+    {{ range .Exhibits }}
+    <a
+      class="rounded-xl filter aspect-[5/1] overflow-hidden relative group w-full"
+      href="/exhibit/{{ .Id }}"
+    >
+      <div
+        class="w-8 h-8 absolute z-20 bottom-4 right-4 text-gray-500 group-hover:text-white transition"
+      ></div>
+      <div
+        class="flex flex-col justify-end gap-2 z-10 absolute w-full h-full bg-black rounded-xl p-4 bg-opacity-20 transition"
+      >
+        <p class="font-bold text-2xl mb-10">{{ .Title }}</p>
+        <p class="text-sm">위치: {{ .Location }}</p>
+        <p class="">기간: {{ .StartDate }} ~ {{ .EndDate }}</p>
+      </div>
+      <img
+        class="w-full h-full object-cover absolute top-0 left-0 blur-sm z-0 group-hover:blur-none transition"
+        src="/image?id={{ .Id }} "
+      />
+    </a>
+    {{ end }}
+  </div>
+</div>

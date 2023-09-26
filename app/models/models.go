@@ -46,3 +46,11 @@ type ArtWithThumbnail struct {
 	Status      string
 	Thumbnail   string
 }
+
+type Exhibit struct {
+	Id        string
+	Title     string
+	Location  string
+	StartDate string `db:"startDate"`
+	EndDate   string `db:"endDate"`
+}

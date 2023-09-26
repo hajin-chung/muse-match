@@ -27,7 +27,8 @@ CREATE TABLE exhibit (
 	id varchar(10) NOT NULL PRIMARY KEY,
 	title text default "",
 	location text not null,
-	startDate integer
+	startDate text,
+	endDate text
 );
 
 create table exhibitArts (
