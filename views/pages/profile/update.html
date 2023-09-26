@@ -128,14 +128,12 @@
       await fetch(pictureUrl, {
         method: "PUT",
         body: pictureFile,
-        mode: "cors",
       });
     }
     if (headerFile) {
       await fetch(headerUrl, {
         method: "PUT",
         body: headerFile,
-        mode: "cors",
       });
     }
     inputs.classList.remove("curtain");
