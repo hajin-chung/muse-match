@@ -61,7 +61,7 @@ func NewArtController(c *fiber.Ctx) error {
 	uploadUrls := []string{}
 	for i := 0; i < newArt.ImageCount; i++ {
 		imageId := utils.CreateId()
-		queries.CreateImage(imageId, artId)
+		queries.CreateImage(imageId, artId, i)
 		url, err := utils.PresignedPutUrl(imageId)
 		if err != nil {
 			log.Println(err)

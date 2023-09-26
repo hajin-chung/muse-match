@@ -19,8 +19,8 @@ CREATE TABLE art (
 
 CREATE TABLE image (
 	id varchar(10) NOT NULL PRIMARY KEY,
-	url varchar(2048) NOT NULL,
-	artId varchar(10)
+	artId varchar(10),
+	idx INT
 );
 
 CREATE TABLE exhibit (

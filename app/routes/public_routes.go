@@ -8,6 +8,7 @@ import (
 
 func PublicRoutes(a *fiber.App) {
 	a.Get("/", controllers.ExhibitListController)
+	a.Get("/exhibit/:exhibitId", controllers.ExhibitController)
 	a.Get("/auth/login", controllers.LoginController)
 	a.Get("/auth/logout", controllers.LogoutController)
 	a.Get("/api/auth/callback/kakao", controllers.KakaoCallbackController)

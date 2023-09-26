@@ -12,3 +12,10 @@ func GetExhibits() ([]models.Exhibit, error) {
 
 	return exhibits, nil
 }
+
+func GetExhibitById(exhibitId string) (models.Exhibit, error) {
+	exhibit := models.Exhibit{}
+
+	err := db.Get(&exhibit, "SELECT * FROM exhibit WHERE id = $1", exhibitId)
+	return exhibit, err
+}
