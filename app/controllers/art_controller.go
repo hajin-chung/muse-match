@@ -75,3 +75,22 @@ func NewArtController(c *fiber.Ctx) error {
 		"uploadUrls": uploadUrls,
 	})
 }
+
+func UpdateArtViewController(c *fiber.Ctx) error {
+	sess, _ := globals.Store.Get(c)
+
+	currentUserId := sess.Get("id")
+	artId := c.Params("artId")
+	art, err := queries.GetArtById(artId)
+	if err != nil {
+		return err
+	}
+	images, err := queries.GetImagesByArtId(artId)
+
+	return c.Render("pages/art/update", fiber.Map{
+		"Theme":  c.Locals("theme"),
+		"UserId": currentUserId,
+		"Art":    art,
+		"Images": images,
+	}, "layout")
+}

@@ -10,8 +10,12 @@
 </div>
 {{if .IsMyArt }}
 <div class="flex self-end gap-4">
-  <!-- <ArtDeleteButton artId="{artId}" client:load />
-  <ArtEditButton artId="{artId}" client:load /> -->
+  <a
+    class="p-1 rounded-full border-[1px]"
+    href="/art/{{ .Art.Id }}/update"
+  >
+    수정하기
+  </a>
 </div>
 {{ end }}
 <div class="flex items-end self-end gap-4">
