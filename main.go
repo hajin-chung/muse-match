@@ -52,8 +52,13 @@ func main() {
 
 	app.Static("/", "./public")
 
-	err = app.Listen(":3000")
+	if globals.Env.MODE == "PROD" {
+		err = app.Listen(":80")
+	} else {
+		err = app.Listen(":3000")
+	}
+
 	if err != nil {
-		log.Fatal("Failed to listen port 3000")
+		log.Fatal("Failed to listen port")
 	}
 }

@@ -8,6 +8,7 @@ import (
 )
 
 type EnvType struct {
+	MODE         string
 	REST_API_KEY string
 	REDIRECT_URI string
 	DB_URL       string
