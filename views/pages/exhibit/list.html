@@ -15,9 +15,13 @@
         class="flex flex-col justify-end gap-2 z-10 absolute w-full h-full bg-black rounded-xl p-4 bg-opacity-20 transition"
       >
         <p class="font-bold text-2xl mb-10">{{ .Title }}</p>
-        <p class="text-sm">위치: {{ .Location }}</p>
-        <p class="">기간: {{ .StartDate }} ~ {{ .EndDate }}</p>
+        <p class="text-sm">위치: {{ .Location }}
+        </p>
+        <p class="">기간
+        : {{ .StartDate }} ~ {{ .EndDate }}</p>
       </div>
+          
+        
       <img
         class="w-full h-full object-cover absolute top-0 left-0 blur-sm z-0 group-hover:blur-none transition"
         src="/image?id={{ .Id }} "

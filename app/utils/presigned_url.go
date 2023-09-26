@@ -1,7 +1,6 @@
 package utils
 
 import (
-	"fmt"
 	"musematch/app/globals"
 	"time"
 
@@ -14,15 +13,13 @@ import (
 var s3Client *s3.S3
 
 func InitS3() error {
-	endpoint := fmt.Sprintf("https://%s.r2.cloudflarestorage.com", globals.Env.ACCOUNT_ID)
 	cred := credentials.NewStaticCredentials(
 		globals.Env.ACCESS_KEY,
 		globals.Env.SECRET_KEY,
 		"",
 	)
 	sess, err := session.NewSession(&aws.Config{
-		Region:      aws.String("auto"),
-		Endpoint:    aws.String(endpoint),
+		Region:      aws.String("ap-northeast-2"),
 		Credentials: cred,
 	})
 	if err != nil {
