@@ -5,9 +5,6 @@ golang (fiber, slqx) + sqlite3 + html templates
 
 # TODO
 
-- art carousell
-- exhibit list
-- exhibit page
 - admin page
 - production ready db
 - health check

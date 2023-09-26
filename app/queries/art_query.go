@@ -61,7 +61,7 @@ func GetArtsByExhibitId(exhibitId string) ([]models.ExhibitArt, error) {
 		LEFT JOIN art ON exhibitArts.artId = art.id
 		LEFT JOIN image ON art.id = image.artId 
 		LEFT JOIN user ON art.userId = user.id
-		WHERE art.userId=$1 group by art.id`,
+		WHERE exhibitArts.exhibitId = $1 AND image.idx = 0`,
 		exhibitId,
 	)
 	if err != nil {

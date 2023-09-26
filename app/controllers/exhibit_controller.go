@@ -39,9 +39,10 @@ func ExhibitController(c *fiber.Ctx) error {
 	}
 
 	return c.Render("pages/exhibit/index", fiber.Map{
-		"Title":  exhibit.Title,
-		"Theme":  c.Locals("theme"),
-		"UserId": currentUserId,
-		"Arts":   arts,
+		"Title":   exhibit.Title,
+		"Theme":   c.Locals("theme"),
+		"UserId":  currentUserId,
+		"Exhibit": exhibit,
+		"Arts":    arts,
 	}, "layout")
 }

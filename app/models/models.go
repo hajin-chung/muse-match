@@ -56,12 +56,12 @@ type Exhibit struct {
 }
 
 type ExhibitArt struct {
-	ArtId      string `db:"artId"`
-	Name       string
-	Descrition string `db:"description"`
-	Thumbnail  string
-	Price      int
-	Status     string
-	UserId     string `db:"userId"`
-	UserName   string `db:"userName"`
+	ArtId       string `db:"artId"`
+	Name        string
+	Description string `db:"description"`
+	Thumbnail   string
+	Price       int
+	Status      string
+	UserId      string `db:"userId"`
+	UserName    string `db:"userName"`
 }
