@@ -25,6 +25,10 @@ func ArtController(c *fiber.Ctx) error {
 	if err != nil {
 		return err
 	}
+	images, err := queries.GetImagesByArtId(artId)
+	if err != nil {
+		return err
+	}
 
 	return c.Render("pages/art/index", fiber.Map{
 		"Title":   art.Name,
@@ -33,6 +37,7 @@ func ArtController(c *fiber.Ctx) error {
 		"IsMyArt": currentUserId == userId,
 		"Artist":  user,
 		"Art":     art,
+		"Images":  images,
 	}, "layout")
 }
 
@@ -86,6 +91,9 @@ func UpdateArtViewController(c *fiber.Ctx) error {
 		return err
 	}
 	images, err := queries.GetImagesByArtId(artId)
+	if err != nil {
+		return err
+	}
 
 	return c.Render("pages/art/update", fiber.Map{
 		"Theme":  c.Locals("theme"),

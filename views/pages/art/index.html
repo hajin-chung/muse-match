@@ -1,6 +1,8 @@
 {{ template "components/Header" . }}
 
-<!-- <Images imageUrls="{images}" client:idle /> -->
+<div class="h-8"></div>
+{{ template "components/ImageCarousel" . }}
+<div class="h-8"></div>
 <div class="flex flex-col gap-[2px] mx-3 my-5 items-start">
   <h2 class="text-2xl font-extrabold">{{ .Art.Name }}</h2>
   <a href="/art/{{ .Artist.Id }}" class="mb-5 text-xl font-bold">

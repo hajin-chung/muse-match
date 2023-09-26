@@ -33,7 +33,7 @@ type NewArtInfo struct {
 
 type Image struct {
 	Id    string
-	ArtId string
+	ArtId string `db:"artId"`
 	Idx   int32
 }
 
