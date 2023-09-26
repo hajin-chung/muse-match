@@ -11,8 +11,8 @@ func IndexController(c *fiber.Ctx) error {
 	sess, _ := globals.Store.Get(c)
 
 	return c.Render("pages/index", fiber.Map{
-		"Title":    "Muse Match",
-		"Theme":    c.Locals("theme"),
-		"ArtistId": sess.Get("id"),
+		"Title":  "Muse Match",
+		"Theme":  c.Locals("theme"),
+		"UserId": sess.Get("id"),
 	}, "layout")
 }

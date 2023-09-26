@@ -19,7 +19,7 @@ func ExhibitListController(c *fiber.Ctx) error {
 	return c.Render("pages/exhibit/list", fiber.Map{
 		"Title":    "상시전시",
 		"Theme":    c.Locals("theme"),
-		"ArtistId": currentUserId,
+		"UserId":   currentUserId,
 		"Exhibits": exhibits,
 	}, "layout")
 }
@@ -39,9 +39,9 @@ func ExhibitController(c *fiber.Ctx) error {
 	}
 
 	return c.Render("pages/exhibit/index", fiber.Map{
-		"Title":    exhibit.Title,
-		"Theme":    c.Locals("theme"),
-		"ArtistId": currentUserId,
-		"Arts":     arts,
+		"Title":  exhibit.Title,
+		"Theme":  c.Locals("theme"),
+		"UserId": currentUserId,
+		"Arts":   arts,
 	}, "layout")
 }
