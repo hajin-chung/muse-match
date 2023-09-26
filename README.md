@@ -6,6 +6,8 @@ golang (fiber, slqx) + sqlite3 + html templates
 # TODO
 
 - admin page
+- copy data from astro server
+- edit art
 - production ready db
 - health check
 - proper error handling
