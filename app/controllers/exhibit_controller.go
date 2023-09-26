@@ -1,8 +1,11 @@
 package controllers
 
 import (
+	"encoding/json"
 	"musematch/app/globals"
+	"musematch/app/models"
 	"musematch/app/queries"
+	"musematch/app/utils"
 
 	"github.com/gofiber/fiber/v2"
 )
@@ -45,4 +48,40 @@ func ExhibitController(c *fiber.Ctx) error {
 		"Exhibit": exhibit,
 		"Arts":    arts,
 	}, "layout")
+}
+
+func CreateExhibitController(c *fiber.Ctx) error {
+	newExhibit := models.NewExhibitInfo{}
+	json.Unmarshal(c.Body(), &newExhibit)
+	exhibitId, err := queries.CreateExhibit(newExhibit)
+	if err != nil {
+		return err
+	}
+
+	uploadUrl, err := utils.PresignedPutUrl(exhibitId)
+	if err != nil {
+		return err
+	}
+
+	return c.JSON(fiber.Map{
+		"url": uploadUrl,
+	})
+}
+
+func UpdateExhibitController(c *fiber.Ctx) error {
+	newExhibit := models.Exhibit{}
+	json.Unmarshal(c.Body(), &newExhibit)
+	err := queries.UpdateExhibit(newExhibit)
+	if err != nil {
+		return err
+	}
+
+	uploadUrl, err := utils.PresignedPutUrl(newExhibit.Id)
+	if err != nil {
+		return err
+	}
+
+	return c.JSON(fiber.Map{
+		"url": uploadUrl,
+	})
 }

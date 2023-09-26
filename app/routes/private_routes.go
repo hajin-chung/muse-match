@@ -13,4 +13,6 @@ func PrivateRoutes(a *fiber.App) {
 	a.Put("/image", middleware.SessionProtected, controllers.PutImageController)
 	a.Get("/me/profile", middleware.SessionProtected, controllers.ProfileUpdateViewController)
 	a.Post("/api/me/profile", middleware.SessionProtected, controllers.ProfileUpdateController)
+	a.Post("/admin/auth", middleware.SessionProtected, controllers.AdminAuthController)
+	a.Get("/admin/auth", middleware.SessionProtected, controllers.AdminAuthViewController)
 }

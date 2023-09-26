@@ -41,3 +41,9 @@ func UpdateUser(userId string, updateUserInfo *models.UpdateUserInfo) error {
 
 	return nil
 }
+
+func GetUsers() ([]models.User, error) {
+	users := []models.User{}
+	err := db.Select(&users, "SELECT * FROM user")
+	return users, err
+}

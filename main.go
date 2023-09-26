@@ -48,6 +48,7 @@ func main() {
 
 	routes.PrivateRoutes(app)
 	routes.PublicRoutes(app)
+	routes.AdminRoutes(app)
 
 	app.Static("/", "./public")
 

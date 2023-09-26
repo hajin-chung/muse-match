@@ -1,0 +1,188 @@
+{{ template "components/Header" .}}
+
+<div
+  class="border-1 p-4 flex flex-col gap-2 border-2 w-full rounded-lg items-start mt-4"
+>
+  <p class="text-xl">사용자 관리</p>
+  {{ range .Users }}
+  <a href="/admin/as/{{ .Id }}" class="p-1 rounded-lg artist"> {{ .Name }} </a>
+  <div class="h-4"></div>
+  {{ end }}
+</div>
+<div
+  class="border-1 p-4 flex flex-col gap-6 border-2 w-full rounded-lg items-start mt-4"
+>
+  <p class="text-xl">전시 관리</p>
+  <div class="flex flex-col gap-4 w-full" id="new">
+    <div class="flex w-full justify-between">
+      <p>사진</p>
+      <input type="file" id="imageInput" />
+    </div>
+    <div class="flex gap-2 w-full items-center">
+      <p>제목</p>
+      <input
+        class="flex-1 w-full p-1 transition border-2 border-transparent rounded-lg outline-none focus:border-neutral-200 bg-neutral-100 dark:bg-neutral-800 focus:dark:border-neutral-700"
+        id="title"
+      />
+    </div>
+    <div class="flex gap-2 w-full items-center">
+      <p>장소</p>
+      <input
+        class="flex-1 w-full p-1 transition border-2 border-transparent rounded-lg outline-none focus:border-neutral-200 bg-neutral-100 dark:bg-neutral-800 focus:dark:border-neutral-700"
+        id="location"
+      />
+    </div>
+    <div class="flex gap-4">
+      <div class="flex gap-2 w-full items-center">
+        <p>시작</p>
+        <input
+          class="flex-1 w-full p-1 transition border-2 border-transparent rounded-lg outline-none focus:border-neutral-200 bg-neutral-100 dark:bg-neutral-800 focus:dark:border-neutral-700"
+          id="startDate"
+        />
+      </div>
+      <div class="flex gap-2 w-full items-center">
+        <p>종료</p>
+        <input
+          class="flex-1 w-full p-1 transition border-2 border-transparent rounded-lg outline-none focus:border-neutral-200 bg-neutral-100 dark:bg-neutral-800 focus:dark:border-neutral-700"
+          id="endDate"
+        />
+      </div>
+    </div>
+    <button
+      id="submit"
+      class="self-end w-full p-1 font-bold border-2 border-transparent rounded-lg md:w-fit hover:border-neutral-200 bg-neutral-100 dark:bg-neutral-800 hover:dark:border-neutral-700"
+    >
+      등록
+    </button>
+  </div>
+  {{ range .Exhibits }}
+  <div class="flex flex-col gap-4 w-full updateExhibit" id="{{ .Id }}">
+    <p>사진</p>
+    <img
+      src="/image?id={{ .Id }}"
+      class="w-full aspect-[5/1] rounded-xl object-cover"
+    />
+    <input type="file" id="imageInput" />
+    <div class="flex gap-2 w-full items-center">
+      <p>제목</p>
+      <input
+        class="flex-1 w-full p-1 transition border-2 border-transparent rounded-lg outline-none focus:border-neutral-200 bg-neutral-100 dark:bg-neutral-800 focus:dark:border-neutral-700"
+        id="title"
+        value="{{ .Title }}"
+      />
+    </div>
+    <div class="flex gap-2 w-full items-center">
+      <p>장소</p>
+      <input
+        class="flex-1 w-full p-1 transition border-2 border-transparent rounded-lg outline-none focus:border-neutral-200 bg-neutral-100 dark:bg-neutral-800 focus:dark:border-neutral-700"
+        id="location"
+        value="{{ .Location }}"
+      />
+    </div>
+    <div class="flex gap-8">
+      <div class="flex gap-2 w-full items-center">
+        <p>시작</p>
+        <input
+          class="flex-1 w-full p-1 transition border-2 border-transparent rounded-lg outline-none focus:border-neutral-200 bg-neutral-100 dark:bg-neutral-800 focus:dark:border-neutral-700"
+          id="startDate"
+          value="{{ .StartDate }}"
+        />
+      </div>
+      <div class="flex gap-2 w-full items-center">
+        <p>종료</p>
+        <input
+          class="flex-1 w-full p-1 transition border-2 border-transparent rounded-lg outline-none focus:border-neutral-200 bg-neutral-100 dark:bg-neutral-800 focus:dark:border-neutral-700"
+          id="endDate"
+          value="{{ .EndDate }}"
+        />
+      </div>
+    </div>
+    <div class="flex self-end gap-4">
+      <button
+        id="submit"
+        class="self-end w-full p-1 font-bold border-2 border-transparent rounded-lg md:w-fit hover:border-neutral-200 bg-neutral-100 dark:bg-neutral-800 hover:dark:border-neutral-700"
+      >
+        수정
+      </button>
+    </div>
+  </div>
+  {{ end }}
+</div>
+
+<script>
+  const imageInput = document.querySelector("#new #imageInput");
+  const submitButton = document.querySelector("#new #submit");
+  const titleInput = document.querySelector("#new #title");
+  const locationInput = document.querySelector("#new #location");
+  const startInput = document.querySelector("#new #startDate");
+  const endInput = document.querySelector("#new #endDate");
+  let newImage;
+
+  imageInput.onchange = (e) => {
+    const file = e.target.files[0];
+    const url = URL.createObjectURL(file);
+    newImage = file;
+  };
+
+  submitButton.onclick = async () => {
+    const body = {
+      title: titleInput.value,
+      location: locationInput.value,
+      startDate: startInput.value,
+      endDate: endInput.value,
+    };
+    const res = await fetch("/exhibit", {
+      method: "POST",
+      body: JSON.stringify(body),
+    });
+    const { url } = await res.json();
+
+    if (newImage) {
+      await fetch(url, {
+        method: "PUT",
+        body: newImage,
+      });
+    }
+  };
+
+  const updateForms = document.querySelectorAll(".updateExhibit");
+  updateForms.forEach((u) => {
+    const id = u.id;
+    const imageInput = u.querySelector("#imageInput");
+    const submitButton = u.querySelector("#submit");
+    const titleInput = u.querySelector("#title");
+    const locationInput = u.querySelector("#location");
+    const startInput = u.querySelector("#startDate");
+    const endInput = u.querySelector("#endDate");
+
+    let newImage;
+
+    imageInput.onchange = (e) => {
+      const file = e.target.files[0];
+      const url = URL.createObjectURL(file);
+      newImage = file;
+    };
+
+    submitButton.onclick = async () => {
+      const body = {
+        id: id,
+        title: titleInput.value,
+        location: locationInput.value,
+        startDate: startInput.value,
+        endDate: endInput.value,
+      };
+      const res = await fetch(`/exhibit/${id}`, {
+        method: "POST",
+        body: JSON.stringify(body),
+      });
+      const { url } = await res.json();
+
+      if (newImage) {
+        await fetch(url, {
+          method: "PUT",
+          body: newImage,
+        });
+      }
+    };
+  });
+</script>

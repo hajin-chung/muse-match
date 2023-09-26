@@ -47,12 +47,19 @@ type ArtWithThumbnail struct {
 	Thumbnail   string
 }
 
+type NewExhibitInfo struct {
+	Title     string `db:"title" json:"title"`
+	Location  string `db:"location" json:"location"`
+	StartDate string `db:"startDate" json:"startDate"`
+	EndDate   string `db:"endDate" json:"endDate"`
+}
+
 type Exhibit struct {
-	Id        string
-	Title     string
-	Location  string
-	StartDate string `db:"startDate"`
-	EndDate   string `db:"endDate"`
+	Id        string `json:"id"`
+	Title     string `json:"title"`
+	Location  string `json:"location"`
+	StartDate string `db:"startDate" json:"startDate"`
+	EndDate   string `db:"endDate" json:"endDate"`
 }
 
 type ExhibitArt struct {

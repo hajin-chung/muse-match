@@ -15,6 +15,7 @@ type EnvType struct {
 	ACCESS_KEY   string
 	SECRET_KEY   string
 	BUCKET_NAME  string
+	ADMIN        string
 }
 
 var Env EnvType
