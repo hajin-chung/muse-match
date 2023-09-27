@@ -38,9 +38,10 @@
       pos = {x:e.touches[0].clientX, y: e.touches[0].clientY};
     }
     slide.ontouchend = (e) => {
+      console.log(e)
       if (!pos) return;
-      const dx = e.touches[0].clientX - pos.x;
-      const dy = e.touches[0].clientY - pos.y;
+      const dx = e.changedTouches[0].clientX - pos.x;
+      const dy = e.changedTouches[0].clientY - pos.y;
       pos = undefined;
 
       if (dx < 0) next();
