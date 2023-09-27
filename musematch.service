@@ -4,6 +4,7 @@ Description=Muse Match Server
 [Service]
 ExecStart=/opt/musematch/server
 Restart=always
+User=ec2-user
 WorkingDirectory=/opt/musematch
 
 [Install]
