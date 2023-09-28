@@ -102,3 +102,37 @@ func UpdateArtViewController(c *fiber.Ctx) error {
 		"Images": images,
 	}, "layout")
 }
+
+func UpdateArtController(c *fiber.Ctx) error {
+	sess, _ := globals.Store.Get(c)
+
+	userId := sess.Get("id").(string)
+	artId := c.Params("artId")
+	newArt := models.NewArtInfo{}
+	_ = json.Unmarshal(c.Body(), &newArt)
+	err := queries.UpdateArt(artId, newArt, userId)
+	if err != nil {
+		return err
+	}
+
+	err = queries.DeleteImageByArtId(artId)
+	if err != nil {
+		return err
+	}
+	uploadUrls := []string{}
+	for i := 0; i < newArt.ImageCount; i++ {
+		imageId := utils.CreateId()
+		queries.CreateImage(imageId, artId, i)
+		url, err := utils.PresignedPutUrl(imageId)
+		if err != nil {
+			log.Println(err)
+			continue
+		}
+		uploadUrls = append(uploadUrls, url)
+	}
+
+	return c.JSON(fiber.Map{
+		"success":    true,
+		"uploadUrls": uploadUrls,
+	})
+}

@@ -2,3 +2,4 @@ musematch
 prod
 test.db
 .env
+tmp

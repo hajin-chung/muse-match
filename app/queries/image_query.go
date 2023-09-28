@@ -13,3 +13,8 @@ func GetImagesByArtId(artId string) ([]models.Image, error) {
 	err := db.Select(&images, "SELECT * FROM image WHERE artId = $1", artId)
 	return images, err
 }
+
+func DeleteImageByArtId(artId string) error {
+	_, err := db.Exec("DELETE FROM image WHERE artId = $1", artId)
+	return err
+}

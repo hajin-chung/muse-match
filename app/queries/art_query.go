@@ -44,6 +44,14 @@ func CreateArt(newArtInfo models.NewArtInfo, userId string) (string, error) {
 	return id, nil
 }
 
+func UpdateArt(artId string, newArtInfo models.NewArtInfo, userId string) error {
+	_, err := db.Exec(
+		"UPDATE art SET name = $1, description = $2 WHERE id = $3 AND userId = $4",
+		newArtInfo.Title, newArtInfo.Description, artId, userId)
+
+	return err
+}
+
 func GetArtsByExhibitId(exhibitId string) ([]models.ExhibitArt, error) {
 	arts := []models.ExhibitArt{}
 	err := db.Select(

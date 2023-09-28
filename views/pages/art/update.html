@@ -5,11 +5,11 @@
   <p class="text-xl font-bold">작품 수정하기</p>
   <div class="h-4"></div>
   <div
-    class="flex flex-col items-center flex-1 gap-8 transition-all md:items-start md:flex-row"
+    class="flex flex-col items-center flex-1 w-full gap-8 transition-all md:items-start md:flex-row"
     id="inputs"
   >
     <input type="file" class="hidden" id="imageInput" />
-    <div class="flex flex-col w-full max-w-[580px] gap-4 bg-transparent">
+    <div class="flex flex-col w-1/2 gap-4 overflow-hidden bg-transparent">
       <p class="text-lg font-bold">작품사진</p>
       <div
         class="w-full h-[400px] bg-neutral-100 dark:bg-neutral-800 rounded-2xl"
@@ -31,7 +31,7 @@
         </button>
       </div>
     </div>
-    <div class="relative flex flex-col w-full gap-4">
+    <div class="relative flex flex-col w-1/2 gap-4">
       <div class="flex flex-col w-full gap-2">
         <p class="text-lg font-bold">제목</p>
         <input
@@ -74,7 +74,16 @@
 </button>
 
 <script>
-  let selectedImage = undefined;
+  const artId = "{{ .Art.Id }}";
+  const existingImages = [
+    {{ range .Images }}
+      "{{.Id}}",
+    {{ end }}
+  ];
+</script>
+
+<script>
+  const defaultImage = "/icons/image.svg";
 
   const imagePane = document.getElementById("images");
   const infoPane = document.getElementById("infos");
@@ -85,6 +94,22 @@
   let imageList = [];
 
   // push server rendered images to imageList
+  async function loadImages() {
+    imageList = await Promise.all(
+      existingImages.map(async (id, i) => {
+        const res = await fetch(`/image?id=${id}`);
+        const blob = await res.blob();
+        const file = new File([blob], id, blob);
+        return file;
+      })
+    );
+
+    imageList.forEach((file) => {
+      createImageButton(file);
+    });
+  }
+
+  loadImages().catch((e) => console.error(e));
 
   imageInput.onchange = (e) => {
     const file = e.target.files[0];
@@ -113,6 +138,7 @@
           ? imageList[imageList.length - 1]
           : "/icons/image.svg";
       imageButtonList.removeChild(imageButton);
+      imagePreview.src = defaultImage;
     };
 
     imageButton.classList.remove("hidden");
@@ -131,14 +157,12 @@
       description: descInput.value,
       imageCount: imageList.length,
     };
-    console.log(body);
-    const res = await fetch("/api/art", {
+    const res = await fetch(`/art/${artId}`, {
       method: "POST",
       body: JSON.stringify(body),
     });
 
     const data = await res.json();
-    console.log(data);
 
     await Promise.all(
       data.uploadUrls.map(async (url, idx) => {
