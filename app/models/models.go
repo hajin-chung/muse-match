@@ -23,7 +23,7 @@ type Art struct {
 	Name        string
 	Description string
 	UserId      string `db:"userId"`
-	Price       int32
+	Price       sql.NullInt32
 	Status      string
 }
 
@@ -69,7 +69,7 @@ type ExhibitArt struct {
 	Name        string
 	Description string `db:"description"`
 	Thumbnail   string
-	Price       int
+	Price       sql.NullInt32
 	Status      string
 	UserId      string `db:"userId"`
 	UserName    string `db:"userName"`
