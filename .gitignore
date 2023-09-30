@@ -3,3 +3,4 @@ prod
 test.db
 .env
 tmp
+migrate.sql

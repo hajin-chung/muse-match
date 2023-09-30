@@ -15,7 +15,7 @@ golang (fiber, slqx) + sqlite3 + html templates
 - [x] create new art
 - [x] exhibit page
 - [x] admin page
-- [ ] edit art
+- [x] edit art
 - [ ] proper error handling
   - message to slack
   - logging errors with environment

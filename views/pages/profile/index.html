@@ -70,8 +70,8 @@
             {{ .Name }}
           </a>
           <p />
-          {{ if .Price }}
-          <p>{{ .Price }} &#8361;</p>
+          {{ if .Price.Valid }}
+          <p>{{ .Price.Int32 }} &#8361;</p>
           {{ else }}
           <p>가격 미정</p>
           {{ end }}

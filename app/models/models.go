@@ -1,5 +1,7 @@
 package models
 
+import "database/sql"
+
 type User struct {
 	Id          string
 	Name        string
@@ -42,7 +44,7 @@ type ArtWithThumbnail struct {
 	Name        string
 	Description string
 	UserId      string `db:"userId"`
-	Price       int32
+	Price       sql.NullInt32
 	Status      string
 	Thumbnail   string
 }
