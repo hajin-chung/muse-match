@@ -126,14 +126,12 @@
       description: descInput.value,
       imageCount: imageList.length,
     };
-    console.log(body);
     const res = await fetch("/art", {
       method: "POST",
       body: JSON.stringify(body),
     });
 
     const data = await res.json();
-    console.log(data);
 
     await Promise.all(
       data.uploadUrls.map(async (url, idx) => {
@@ -145,5 +143,6 @@
     );
 
     inputs.classList.remove("curtain");
+    document.location.href = `/art/${data.userId}/${data.artId}`;
   };
 </script>

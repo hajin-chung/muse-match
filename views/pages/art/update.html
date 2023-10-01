@@ -170,7 +170,6 @@
       price: parseInt(priceInput.value),
       imageCount: imageList.length,
     };
-    console.log(body)
     const res = await fetch(`/art/${artId}`, {
       method: "POST",
       body: JSON.stringify(body),

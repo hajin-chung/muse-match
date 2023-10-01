@@ -45,7 +45,6 @@ func CreateArt(newArtInfo models.NewArtInfo, userId string) (string, error) {
 }
 
 func UpdateArt(artId string, newArtInfo models.NewArtInfo, userId string) error {
-	log.Println(newArtInfo)
 	_, err := db.Exec(
 		"UPDATE art SET name = $1, description = $2, price = $3 WHERE id = $4 AND userId = $5",
 		newArtInfo.Title, newArtInfo.Description, newArtInfo.Price, artId, userId)

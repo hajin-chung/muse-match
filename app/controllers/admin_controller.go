@@ -3,7 +3,6 @@ package controllers
 import (
 	"encoding/json"
 	"fmt"
-	"log"
 	"musematch/app/globals"
 	"musematch/app/queries"
 
@@ -22,7 +21,6 @@ func AdminController(c *fiber.Ctx) error {
 	if err != nil {
 		return err
 	}
-	log.Println(users)
 
 	return c.Render("pages/admin/index", fiber.Map{
 		"Theme":    c.Locals("theme"),

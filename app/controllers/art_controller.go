@@ -77,6 +77,8 @@ func NewArtController(c *fiber.Ctx) error {
 
 	return c.JSON(fiber.Map{
 		"success":    true,
+		"userId":     userId,
+		"artId":      artId,
 		"uploadUrls": uploadUrls,
 	})
 }
@@ -113,7 +115,6 @@ func UpdateArtController(c *fiber.Ctx) error {
 	if err != nil {
 		return err
 	}
-	log.Println(newArt)
 
 	err = queries.UpdateArt(artId, newArt, userId)
 	if err != nil {
@@ -138,6 +139,8 @@ func UpdateArtController(c *fiber.Ctx) error {
 
 	return c.JSON(fiber.Map{
 		"success":    true,
+		"userId":     userId,
+		"artId":      artId,
 		"uploadUrls": uploadUrls,
 	})
 }
