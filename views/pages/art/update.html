@@ -9,7 +9,9 @@
     id="inputs"
   >
     <input type="file" class="hidden" id="imageInput" />
-    <div class="flex flex-col w-1/2 gap-4 overflow-hidden bg-transparent">
+    <div
+      class="flex flex-col flex-1 w-full gap-4 overflow-hidden bg-transparent"
+    >
       <p class="text-lg font-bold">작품사진</p>
       <div
         class="w-full h-[400px] bg-neutral-100 dark:bg-neutral-800 rounded-2xl"
@@ -31,7 +33,7 @@
         </button>
       </div>
     </div>
-    <div class="relative flex flex-col w-1/2 gap-4">
+    <div class="relative flex flex-col flex-1 w-full gap-4">
       <div class="flex flex-col w-full gap-2">
         <p class="text-lg font-bold">제목</p>
         <input
@@ -49,6 +51,15 @@
         >
         {{- .Art.Description -}}
         </textarea>
+      </div>
+      <div class="flex flex-col w-full gap-2">
+        <p class="text-lg font-bold">겨격</p>
+        <input
+          type="number"
+          class="w-full p-1 transition border-2 border-transparent rounded-lg outline-none focus:border-neutral-200 bg-neutral-100 dark:bg-neutral-800 focus:dark:border-neutral-700"
+          id="price"
+          value="{{ .Art.Price }}"
+        />
       </div>
       <button
         id="submit"
@@ -150,13 +161,16 @@
   const inputs = document.getElementById("inputs");
   const titleInput = document.getElementById("title");
   const descInput = document.getElementById("desc");
+  const priceInput = document.getElementById("price");
   submitButton.onclick = async () => {
     inputs.classList.add("curtain");
     const body = {
       title: titleInput.value,
       description: descInput.value,
+      price: parseInt(priceInput.value),
       imageCount: imageList.length,
     };
+    console.log(body)
     const res = await fetch(`/art/${artId}`, {
       method: "POST",
       body: JSON.stringify(body),

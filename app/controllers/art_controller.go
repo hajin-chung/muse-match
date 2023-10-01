@@ -109,8 +109,13 @@ func UpdateArtController(c *fiber.Ctx) error {
 	userId := sess.Get("id").(string)
 	artId := c.Params("artId")
 	newArt := models.NewArtInfo{}
-	_ = json.Unmarshal(c.Body(), &newArt)
-	err := queries.UpdateArt(artId, newArt, userId)
+	err := json.Unmarshal(c.Body(), &newArt)
+	if err != nil {
+		return err
+	}
+	log.Println(newArt)
+
+	err = queries.UpdateArt(artId, newArt, userId)
 	if err != nil {
 		return err
 	}

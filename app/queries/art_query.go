@@ -35,7 +35,7 @@ func GetArtById(artId string) (models.Art, error) {
 func CreateArt(newArtInfo models.NewArtInfo, userId string) (string, error) {
 	id := utils.CreateId()
 	_, err := db.Exec(
-		"INSERT INTO art (id, name, description, userId, price, status) VALUES ($1, $2, $3, $4, 0, '')",
+		"INSERT INTO art (id, name, description, userId, price, status) VALUES ($1, $2, $3, $4, NULL, '')",
 		id, newArtInfo.Title, newArtInfo.Description, userId)
 	if err != nil {
 		return "", err
@@ -45,9 +45,10 @@ func CreateArt(newArtInfo models.NewArtInfo, userId string) (string, error) {
 }
 
 func UpdateArt(artId string, newArtInfo models.NewArtInfo, userId string) error {
+	log.Println(newArtInfo)
 	_, err := db.Exec(
-		"UPDATE art SET name = $1, description = $2 WHERE id = $3 AND userId = $4",
-		newArtInfo.Title, newArtInfo.Description, artId, userId)
+		"UPDATE art SET name = $1, description = $2, price = $3 WHERE id = $4 AND userId = $5",
+		newArtInfo.Title, newArtInfo.Description, newArtInfo.Price, artId, userId)
 
 	return err
 }

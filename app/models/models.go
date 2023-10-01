@@ -30,6 +30,7 @@ type Art struct {
 type NewArtInfo struct {
 	Title       string `json:"title"`
 	Description string `json:"description"`
+	Price       int    `json:"price"`
 	ImageCount  int    `json:"imageCount"`
 }
 
