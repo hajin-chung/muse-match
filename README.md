@@ -26,4 +26,4 @@ golang (fiber, slqx) + sqlite3 + html templates
 - [ ] production ready db
   - automatical backup script
 - [ ] health check
-- [ ] tailwindcss build step
+- [x] tailwindcss build step
