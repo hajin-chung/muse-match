@@ -8,15 +8,16 @@ import (
 )
 
 type EnvType struct {
-	MODE         string
-	REST_API_KEY string
-	REDIRECT_URI string
-	DB_URL       string
-	ACCOUNT_ID   string
-	ACCESS_KEY   string
-	SECRET_KEY   string
-	BUCKET_NAME  string
-	ADMIN        string
+	MODE          string
+	REST_API_KEY  string
+	REDIRECT_URI  string
+	DB_URL        string
+	ACCOUNT_ID    string
+	ACCESS_KEY    string
+	SECRET_KEY    string
+	BUCKET_NAME   string
+	ADMIN         string
+	SLACK_WEBHOOK string
 }
 
 var Env EnvType

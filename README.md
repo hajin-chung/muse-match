@@ -17,11 +17,11 @@ golang (fiber, slqx) + sqlite3 + html templates
 - [x] admin page
 - [x] edit art
 - [x] art url qr code
-- [ ] proper error handling
+- [x] proper error handling
   - message to slack
   - logging errors with environment
   - refine error page (500 status page)
-- [ ] handle 404 not found
+- [x] handle 404 not found
 - [x] copy data from astro server
 - [ ] production ready db
   - automatical backup script

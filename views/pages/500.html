@@ -1,0 +1,7 @@
+{{ template "components/Header" . }}
+
+<div class="flex flex-col w-full gap-4 p-10 mt-10">
+  <p class="text-2xl font-bold">오류가 발생했습니다.</p>
+  <p class="text-2xl font-bold">잠시 후 다시 시도해주세요.</p>
+  <p class="text-gray-800 font-sm">{{ .Message }}</p>
+</div>

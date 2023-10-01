@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 
+	"musematch/app/controllers"
 	"musematch/app/globals"
 	"musematch/app/middleware"
 	"musematch/app/queries"
@@ -40,7 +41,8 @@ func main() {
 	engine := html.New("./views", ".html")
 
 	app := fiber.New(fiber.Config{
-		Views: engine,
+		Views:        engine,
+		ErrorHandler: controllers.ErrorController,
 	})
 
 	app.Use("/", logger.New())
@@ -51,6 +53,7 @@ func main() {
 	routes.AdminRoutes(app)
 
 	app.Static("/", "./public")
+	app.Use(controllers.NotFoundController)
 
 	err = app.Listen(":3000")
 
