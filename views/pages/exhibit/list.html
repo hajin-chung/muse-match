@@ -8,11 +8,9 @@
       class="rounded-xl filter aspect-[5/1] h-[185px] overflow-hidden relative group w-full"
       href="/exhibit/{{ .Id }}"
     >
+    <!-- arrow icon -->
       <div
-        class="absolute z-20 w-8 h-8 text-gray-500 transition bottom-4 right-4 group-hover:text-white"
-      ></div>
-      <div
-        class="absolute z-10 flex flex-col justify-end w-full h-full gap-2 p-4 text-white transition bg-black rounded-xl bg-opacity-20"
+        class="absolute z-10 flex flex-col justify-end w-full h-full gap-2 p-4 text-white transition bg-black bg-opacity-50 rounded-xl"
       >
         <p class="mb-10 text-2xl font-bold">{{ .Title }}</p>
         <p class="text-sm">위치: {{ .Location }}</p>

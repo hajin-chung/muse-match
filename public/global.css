@@ -1,3 +1,14 @@
+:root {
+  --swiper-pagination-bottom: 0;
+  --swiper-pagination-color: #6b7280;
+  --swiper-pagination-bullet-inactive-color: #878787;
+}
+
+.swiper.imageSwiper {
+  overflow-x: clip;
+  overflow-y: initial;
+}
+
 /* width */
 ::-webkit-scrollbar {
   width: 4px;
