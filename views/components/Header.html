@@ -5,9 +5,11 @@
     <a class="hidden p-1 text-lg hover-bg md:block" href="/works">작품</a>
   </div>
   <button
-    class="h-8 w-8 p-1 border-[1px] rounded-lg btn md:hidden"
+    class="h-8 w-8 p-1 border-[1px] rounded-lg border-black dark:border-white md:hidden"
     id="menuButton"
-  ></button>
+  >
+    <img src="/icons/menu.svg" class="dark:invert" />
+  </button>
   <div class="flex-col hidden gap-4 md:flex md:flex-row">
     <button id="themeButton" class="p-1 text-sm font-bold hover-bg"></button>
     {{ if .UserId }}
@@ -21,12 +23,13 @@
   </div>
 </header>
 <div
-  class="fixed top-0 left-0 z-30 hidden w-full h-full max-h-screen transition backdrop-brightness-50"
+  class="fixed top-0 left-0 z-30 hidden w-full h-full max-h-screen transition-all bg-black bg-opacity-50"
   id="menu"
 >
-  <div class="w-full backdrop-brightness-50" id="menuEscape"></div>
+  <div class="top-0 left-0 z-30 w-full h-full" id="menuEscape"></div>
   <div
-    class="flex flex-col h-full justify-between p-4 w-2/5 z-50 dark:bg-neutral-800 bg-white shadow-lg rounded-xl min-w-[160px]"
+    class="flex flex-col h-full justify-between p-4 w-2/5 z-50 dark:bg-neutral-800 bg-white shadow-lg rounded-s-xl min-w-[160px] transition-all"
+    id="menuBar"
   >
     <div class="flex flex-col items-start gap-4">
       <a class="p-1 text-lg hover-bg" href="/">전시</a>
@@ -73,12 +76,29 @@
 <script>
   const menuButtonElement = document.getElementById("menuButton");
   const menuElement = document.getElementById("menu");
+  const menuBarElement = document.getElementById("menuBar");
   const menuEscapeElement = document.getElementById("menuEscape");
 
   const toggleMenu = () => {
-    if (menuElement) {
-      menuElement.style.display =
-        menuElement.style.display !== "flex" ? "flex" : "none";
+    if (!menuElement) return;
+    if (menuElement.style.display !== "flex") {
+      menuElement.style.display = "flex";
+      menuBarElement.style.transform = "translateX(160px)";
+      menuElement.style.backgroundColor = "rgba(0, 0, 0, 0)";
+      requestAnimationFrame(() => {
+        menuBarElement.style.transform = "translateX(0)";
+        menuElement.style.backgroundColor = "rgba(0, 0, 0, 0.5)";
+      });
+    } else {
+      menuBarElement.style.transform = "translateX(0)";
+      menuElement.style.backgroundColor = "rgba(0, 0, 0, 0.5)";
+      setTimeout(() => {
+        menuElement.style.display = "none";
+      }, 150);
+      requestAnimationFrame(() => {
+        menuBarElement.style.transform = "translateX(160px)";
+        menuElement.style.backgroundColor = "rgba(0, 0, 0, 0)";
+      });
     }
   };
 
