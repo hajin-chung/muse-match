@@ -18,6 +18,7 @@ type EnvType struct {
 	BUCKET_NAME   string
 	ADMIN         string
 	SLACK_WEBHOOK string
+	LOG_FILE       string
 }
 
 var Env EnvType
