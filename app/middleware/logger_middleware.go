@@ -8,7 +8,7 @@ import (
 )
 
 func Logger(c *fiber.Ctx) error {
-	reqMsg := fmt.Sprintf("REQ [%s] %s %s ", c.IP(), c.Method(), c.OriginalURL())
+	reqMsg := fmt.Sprintf("REQ %15s %s %s ", c.IP(), c.Method(), c.OriginalURL())
 	for key, value := range c.GetReqHeaders() {
 		reqMsg += fmt.Sprintf("%s:%s;", key, value)
 	}
@@ -17,7 +17,7 @@ func Logger(c *fiber.Ctx) error {
 
 	res := c.Next()
 
-	resMsg := fmt.Sprintf("RES [%s] %s %s ", c.IP(), c.Method(), c.OriginalURL())
+	resMsg := fmt.Sprintf("RES %15s %s %s ", c.IP(), c.Method(), c.OriginalURL())
 	for key, value := range c.GetRespHeaders() {
 		resMsg += fmt.Sprintf("%s:%s;", key, value)
 	}
