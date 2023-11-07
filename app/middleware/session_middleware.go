@@ -1,7 +1,6 @@
 package middleware
 
 import (
-	"log"
 	"musematch/app/globals"
 
 	"github.com/gofiber/fiber/v2"
@@ -26,7 +25,6 @@ func AdminProtected(c *fiber.Ctx) error {
 		return c.Status(500).Redirect("/auth/login")
 	}
 	secret := sess.Get("secret")
-	log.Println(secret)
 	if secret != globals.Env.ADMIN {
 		return c.Status(500).Redirect("/admin/auth")
 	}

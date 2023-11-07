@@ -12,6 +12,7 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/logger"
+	"github.com/gofiber/fiber/v2/middleware/monitor"
 	"github.com/gofiber/template/html/v2"
 	_ "github.com/mattn/go-sqlite3"
 )
@@ -47,6 +48,7 @@ func main() {
 
 	app.Use("/", logger.New())
 	app.Use("/", middleware.ThemeFromCookie)
+	app.Get("/metrics", middleware.AdminProtected, monitor.New())
 
 	routes.PrivateRoutes(app)
 	routes.PublicRoutes(app)
