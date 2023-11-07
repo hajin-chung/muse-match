@@ -2,7 +2,6 @@
 
 golang (fiber, slqx) + sqlite3 + html templates
 
-
 # TODO
 
 - [x] setup ec2
@@ -25,5 +24,26 @@ golang (fiber, slqx) + sqlite3 + html templates
 - [x] copy data from astro server
 - [ ] production ready db
   - automatical backup script
-- [ ] health check
+- [x] health check
 - [x] tailwindcss build step
+
+# production setting
+
+0. install requirements
+  
+  - go
+  - sqlite3
+  - tailwindcss cli
+
+1. create database file
+
+```
+mkdir $PROD_PATH/db
+sqlite3 $PROD_PATH/db/musematch.db < db/init.sql
+```
+
+2. run build script
+
+```
+./build.sh
+```
