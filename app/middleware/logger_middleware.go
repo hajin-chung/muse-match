@@ -17,7 +17,7 @@ func Logger(c *fiber.Ctx) error {
 
 	res := c.Next()
 
-	resMsg := fmt.Sprintf("RES [%s] %s %s", c.IP(), c.Method(), c.OriginalURL())
+	resMsg := fmt.Sprintf("RES [%s] %s %s ", c.IP(), c.Method(), c.OriginalURL())
 	for key, value := range c.GetRespHeaders() {
 		resMsg += fmt.Sprintf("%s:%s;", key, value)
 	}
