@@ -8,17 +8,16 @@ import (
 )
 
 type EnvType struct {
-	MODE          string
-	REST_API_KEY  string
-	REDIRECT_URI  string
-	DB_URL        string
-	ACCOUNT_ID    string
-	ACCESS_KEY    string
-	SECRET_KEY    string
-	BUCKET_NAME   string
-	ADMIN         string
-	SLACK_WEBHOOK string
-	LOG_FILE       string
+	MODE          string // DEV | PROD
+	REST_API_KEY  string // kakao oauth rest api key
+	REDIRECT_URI  string // kakao oauth redirect uri
+	DB_URL        string // sqlite db url
+	ACCESS_KEY    string // aws access key
+	SECRET_KEY    string // aws secret key
+	BUCKET_NAME   string // aws s3 bucket name
+	ADMIN         string // admin session secret token
+	SLACK_WEBHOOK string // slack webhook url
+	LOG_FILE      string // log file path
 }
 
 var Env EnvType
@@ -36,7 +35,7 @@ func LoadEnv() error {
 		}
 		key := parts[0]
 		value := parts[1]
-		log.Printf("%s=%s", key, value)
+		log.Printf("%s=\"%s\"", key, value)
 
 		reflect.ValueOf(&Env).Elem().FieldByName(key).SetString(value)
 	}

@@ -22,7 +22,6 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	log.Printf("%+v\n", globals.Env)
 
 	err = queries.InitDB()
 	if err != nil {
