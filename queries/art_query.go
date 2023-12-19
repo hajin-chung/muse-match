@@ -2,8 +2,8 @@ package queries
 
 import (
 	"log"
-	"musematch/app/models"
-	"musematch/app/utils"
+	"musematch/models"
+	"musematch/utils"
 )
 
 func GetArtsByUserId(userId string) ([]models.ArtWithThumbnail, error) {

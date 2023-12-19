@@ -1,7 +1,7 @@
 package utils
 
 import (
-	"musematch/app/globals"
+	"musematch/globals"
 	"time"
 
 	"github.com/aws/aws-sdk-go/aws"

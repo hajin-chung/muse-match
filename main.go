@@ -3,12 +3,12 @@ package main
 import (
 	"log"
 
-	"musematch/app/controllers"
-	"musematch/app/globals"
-	"musematch/app/middleware"
-	"musematch/app/queries"
-	"musematch/app/routes"
-	"musematch/app/utils"
+	"musematch/controllers"
+	"musematch/globals"
+	"musematch/middleware"
+	"musematch/queries"
+	"musematch/routes"
+	"musematch/utils"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/monitor"

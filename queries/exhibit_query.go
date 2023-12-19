@@ -1,8 +1,8 @@
 package queries
 
 import (
-	"musematch/app/models"
-	"musematch/app/utils"
+	"musematch/models"
+	"musematch/utils"
 )
 
 func GetExhibits() ([]models.Exhibit, error) {

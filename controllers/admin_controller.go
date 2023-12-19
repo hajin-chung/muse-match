@@ -3,8 +3,8 @@ package controllers
 import (
 	"encoding/json"
 	"fmt"
-	"musematch/app/globals"
-	"musematch/app/queries"
+	"musematch/globals"
+	"musematch/queries"
 
 	"github.com/gofiber/fiber/v2"
 )

@@ -1,8 +1,8 @@
 package routes
 
 import (
-	"musematch/app/controllers"
-	"musematch/app/middleware"
+	"musematch/controllers"
+	"musematch/middleware"
 
 	"github.com/gofiber/fiber/v2"
 )

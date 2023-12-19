@@ -1,7 +1,7 @@
 package queries
 
 import (
-	"musematch/app/globals"
+	"musematch/globals"
 
 	"github.com/jmoiron/sqlx"
 )

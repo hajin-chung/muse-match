@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"log"
-	"musematch/app/globals"
+	"musematch/globals"
 	"net/http"
 )
 

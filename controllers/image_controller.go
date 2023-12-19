@@ -1,7 +1,7 @@
 package controllers
 
 import (
-	"musematch/app/utils"
+	"musematch/utils"
 
 	"github.com/gofiber/fiber/v2"
 )

@@ -3,10 +3,10 @@ package controllers
 import (
 	"encoding/json"
 	"log"
-	"musematch/app/globals"
-	"musematch/app/models"
-	"musematch/app/queries"
-	"musematch/app/utils"
+	"musematch/globals"
+	"musematch/models"
+	"musematch/queries"
+	"musematch/utils"
 
 	"github.com/gofiber/fiber/v2"
 )

@@ -1,6 +1,6 @@
 musematch
 prod
-test.db
+*.db
 .env
 tmp
 migrate.sql

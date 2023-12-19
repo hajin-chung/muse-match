@@ -1,6 +1,6 @@
 package queries
 
-import "musematch/app/models"
+import "musematch/models"
 
 func GetUserBySub(sub string) (models.User, error) {
 	user := models.User{}
