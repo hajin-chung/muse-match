@@ -3,13 +3,15 @@ package models
 import "database/sql"
 
 type User struct {
-	Id          string `db:"id"`
-	Name        string `db:"name"`
-	Email       string `db:"email"`
-	Sub         string `db:"sub"`
-	Picture     string `db:"picture"`
-	Description string `db:"description"`
-	Note        string `db:"note"`
+	Id          string        `db:"id"`
+	Name        string        `db:"name"`
+	Email       string        `db:"email"`
+	Sub         string        `db:"sub"`
+	Picture     string        `db:"picture"`
+	Description string        `db:"description"`
+	Note        string        `db:"note"`
+	IsOwner     sql.NullInt32 `db:"is_owner"`
+
 	InstagramId string `db:"instagram_id"`
 	FacebookId  string `db:"facebook_id"`
 	TwitterId   string `db:"twitter_id"`

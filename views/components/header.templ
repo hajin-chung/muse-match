@@ -4,7 +4,7 @@ import "musematch/models"
 
 templ Header(user *models.User) {
 	<div class="w-full flex justify-center shadow-md">
-		<div class="flex justify-between items-center w-layout h-12">
+		<div class="flex justify-between items-center w-layout h-12 relative">
 			<div class="flex items-center">
 				<a href="/" class="font-writing text-2xl">Muse Match</a>
 				<div class="w-16"></div>
@@ -33,7 +33,7 @@ templ Header(user *models.User) {
 						<p class="text-xs">{ user.Name }</p>
 					</a>
 					<div class="w-1"></div>
-					<button id="dropdown">
+					<button id="dropdown-button">
 						<img src="/icons/chevron-down.svg" class="w-4 h-4"/>
 					</button>
 				} else {
@@ -42,6 +42,21 @@ templ Header(user *models.User) {
 					<a href="/auth" class="text-xs">로그인</a>
 				}
 			</div>
+			if user != nil {
+				<div id="dropdown-menu" class="absolute -bottom-1 right-0 hidden p-4 flex-col gap-2 shadow-md translate-y-full rounded-lg">
+					<a class="text-xs" href="/dashboard">마이 페이지</a>
+					<a class="text-xs" href="/dashboard">
+						if user.IsOwner.Int32 != 0 {
+							전시 관리	
+						} else {
+							사장님 등록
+						}
+					</a>
+					<a class="text-xs" href="/dashboard">회원 정보</a>
+					<a class="text-xs" href="/auth/logout">로그아웃</a>
+				</div>
+			}
 		</div>
 	</div>
+	<script src="/scripts/header-dropdown.js"></script>
 }

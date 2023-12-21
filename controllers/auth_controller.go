@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"bytes"
+	"database/sql"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -101,6 +102,7 @@ func KakaoCallbackController(c *fiber.Ctx) error {
 			Picture:     token.Picture,
 			Description: "",
 			Note:        "",
+			IsOwner:     sql.NullInt32{Int32: 0, Valid: true},
 			InstagramId: "",
 			FacebookId:  "",
 			TwitterId:   "",

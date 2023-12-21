@@ -25,9 +25,9 @@ func GetUserById(id string) (*models.User, error) {
 func CreateUser(newUser *models.User) error {
 	_, err := db.NamedExec(`
 		INSERT INTO user 
-			(id, name, email, sub, picture, description, note, instagram_id, facebook_id, twitter_id)
+			(id, name, email, sub, picture, description, note, is_owner, instagram_id, facebook_id, twitter_id)
 		VALUES 
-		  (:id, :name, :email, :sub, :picture, :description, :note, :instagram_id, :facebook_id, :twitter_id)`,
+			(:id, :name, :email, :sub, :picture, :description, :note, :is_owner, :instagram_id, :facebook_id, :twitter_id)`,
 		newUser,
 	)
 	return err

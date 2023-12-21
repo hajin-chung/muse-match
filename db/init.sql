@@ -9,6 +9,7 @@ CREATE TABLE user (
 	picture TEXT NOT NULL,
 	description TEXT DEFAULT "",
 	note TEXT DEFAUTL "",
+	is_owner INT NOT NULL,
 	
 	instagram_id TEXT,
 	facebook_id TEXT,
