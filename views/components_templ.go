@@ -125,7 +125,7 @@ func Header(user *models.User) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		if user != nil {
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div id=\"dropdown-menu\" class=\"absolute -bottom-1 right-0 hidden p-4 flex-col gap-2 shadow-md translate-y-full rounded-lg\"><a class=\"text-xs\" href=\"/dashboard/arts\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div id=\"dropdown-menu\" class=\"absolute -bottom-1 right-0 hidden p-4 flex-col gap-2 shadow-md translate-y-full rounded-lg\"><a class=\"text-xs\" href=\"/dashboard/art\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -207,7 +207,7 @@ func DashboardNavBar(highlight string) templ.Component {
 			templ_7745c5c3_Var16 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"flex flex-col justify-center border-l-gray-400 border-[1px]\"><div class=\"mx-8 gap-8 flex flex-col justify-center\"><a href=\"/dashboard/profile\" class=\"flex gap-2\"><img src=\"/icons/user.svg\" class=\"w-6 h-6\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"flex flex-col justify-center border-l-gray-400 border-[1px] gap-8 px-8 flex-shrink-0\"><a href=\"/dashboard/profile\" class=\"flex gap-2\"><img src=\"/icons/user.svg\" class=\"w-6 h-6\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -311,7 +311,7 @@ func DashboardNavBar(highlight string) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</p></a></div></div>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</p></a></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

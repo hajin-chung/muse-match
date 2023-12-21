@@ -42,6 +42,7 @@ func main() {
 	app := fiber.New(fiber.Config{
 		// ErrorHandler: controllers.ErrorController,
 		// TODO: create error handler
+		DisableStartupMessage: true,
 	})
 
 	app.Use(middleware.Logger)
@@ -53,7 +54,7 @@ func main() {
 	app.Get("/auth/login", controllers.LoginController)
 	app.Get("/auth/callback/kakao", controllers.KakaoCallbackController)
 
-	app.Get("/dashboard/arts", middleware.SessionProtected, controllers.DashboardArtController)
+	app.Get("/dashboard/art", middleware.SessionProtected, controllers.DashboardArtController)
 	// app.Get("/auth/callback/naver", controllers.NaverCallbackController)
 
 	// app.Use(controllers.NotFoundController)

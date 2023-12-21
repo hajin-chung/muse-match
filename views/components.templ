@@ -44,7 +44,7 @@ templ Header(user *models.User) {
 			</div>
 			if user != nil {
 				<div id="dropdown-menu" class="absolute -bottom-1 right-0 hidden p-4 flex-col gap-2 shadow-md translate-y-full rounded-lg">
-					<a class="text-xs" href="/dashboard/arts">마이 페이지</a>
+					<a class="text-xs" href="/dashboard/art">마이 페이지</a>
 					<a class="text-xs" href="/dashboard">
 						if user.IsOwner != 0 {
 							전시 관리	
@@ -62,32 +62,30 @@ templ Header(user *models.User) {
 }
 
 templ DashboardNavBar(highlight string) {
-	<div class="flex flex-col justify-center border-l-gray-400 border-[1px]">
-		<div class="mx-8 gap-8 flex flex-col justify-center">
-			<a href="/dashboard/profile" class="flex gap-2">
-				<img src="/icons/user.svg" class="w-6 h-6"/>
-				<p class={ "text-xl", templ.KV("font-bold", highlight == "profile") }>
-					프로필 편집
-				</p>
-			</a>
-			<a href="/dashboard/arts" class="flex gap-2">
-				<img src="/icons/art.svg" class="w-6 h-6"/>
-				<p class={ "text-xl", templ.KV("font-bold", highlight == "arts") }>
-					작품
-				</p>
-			</a>
-			<a href="/dashboard/exhibit" class="flex gap-2">
-				<img src="/icons/exhibit.svg" class="w-6 h-6"/>
-				<p class={ "text-xl", templ.KV("font-bold", highlight == "exhibit") }>
-					전시하기
-				</p>
-			</a>
-			<a href="/dashboard/state" class="flex gap-2">
-				<img src="/icons/info.svg" class="w-6 h-6"/>
-				<p class={ "text-xl", templ.KV("font-bold", highlight == "state") }>
-					전시 현황
-				</p>
-			</a>
-		</div>
+	<div class="flex flex-col justify-center border-l-gray-400 border-[1px] gap-8 px-8 flex-shrink-0">
+		<a href="/dashboard/profile" class="flex gap-2">
+			<img src="/icons/user.svg" class="w-6 h-6"/>
+			<p class={ "text-xl", templ.KV("font-bold", highlight == "profile") }>
+				프로필 편집
+			</p>
+		</a>
+		<a href="/dashboard/arts" class="flex gap-2">
+			<img src="/icons/art.svg" class="w-6 h-6"/>
+			<p class={ "text-xl", templ.KV("font-bold", highlight == "arts") }>
+				작품
+			</p>
+		</a>
+		<a href="/dashboard/exhibit" class="flex gap-2">
+			<img src="/icons/exhibit.svg" class="w-6 h-6"/>
+			<p class={ "text-xl", templ.KV("font-bold", highlight == "exhibit") }>
+				전시하기
+			</p>
+		</a>
+		<a href="/dashboard/state" class="flex gap-2">
+			<img src="/icons/info.svg" class="w-6 h-6"/>
+			<p class={ "text-xl", templ.KV("font-bold", highlight == "state") }>
+				전시 현황
+			</p>
+		</a>
 	</div>
 }
