@@ -1,6 +1,5 @@
 package views
 
-import "musematch/views/components"
 import "musematch/models"
 
 templ Layout(title string) {
@@ -19,7 +18,8 @@ templ Layout(title string) {
 
 templ LayoutWithHeader(title string, user *models.User) {
 	@Layout(title) {
-		@components.Header(user)
+		@Header(user)
 		{ children... }
 	}
 }
+

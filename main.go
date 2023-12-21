@@ -50,8 +50,10 @@ func main() {
 
 	app.Use(middleware.ContentTypeHtml)
 	app.Get("/", controllers.MainController)
-	app.Get("/auth", controllers.LoginController)
+	app.Get("/auth/login", controllers.LoginController)
 	app.Get("/auth/callback/kakao", controllers.KakaoCallbackController)
+
+	app.Get("/dashboard/arts", middleware.SessionProtected, controllers.DashboardArtController)
 	// app.Get("/auth/callback/naver", controllers.NaverCallbackController)
 
 	// app.Use(controllers.NotFoundController)

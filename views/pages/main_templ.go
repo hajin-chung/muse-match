@@ -11,7 +11,6 @@ import "io"
 import "bytes"
 
 import "musematch/views"
-import "musematch/views/components"
 import "musematch/models"
 
 func Main(title string, user *models.User) templ.Component {
@@ -33,7 +32,7 @@ func Main(title string, user *models.User) templ.Component {
 				templ_7745c5c3_Buffer = templ.GetBuffer()
 				defer templ.ReleaseBuffer(templ_7745c5c3_Buffer)
 			}
-			templ_7745c5c3_Err = components.Header(user).Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = views.Header(user).Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

@@ -1,0 +1,42 @@
+package pages
+
+import "musematch/models"
+import "musematch/views"
+import "strconv"
+
+templ DashboardArtPage(title string, user *models.User, arts []models.ArtInfo) {
+	@views.Layout(title) {
+		<div class="w-screen h-screen overflow-hidden flex flex-col">
+			@views.Header(user)
+			<div class="w-full h-full flex">
+				@views.DashboardNavBar("arts")
+				<div class="flex flex-col w-full px-6 pt-7">
+					<div class="flex w-full justify-between items-end pb-4">
+						<p class="font-bold text-2xl">작품</p>
+						<button class="flex items-center gap-2 py-1.5 px-4 bg-black rounded-lg text-white">
+							<img src="/icons/plus.svg" class="w-6 h-6 invert"/>
+							<p class="font-bold">작품 추가</p>
+						</button>
+					</div>
+					<div class="grid gap-6 grid-cols-auto-280">
+						for _, art := range arts {
+							<div class="flex flex-col gap-3">
+								<img src={ "/image?id=" + art.Thumbnail } class="w-[280px] h-[210px]"/>
+								<div class="flex gap-2">
+									<div class="flex flex-col gap-1 w-full">
+										<p class="font-bold">{ art.Name }</p>
+										<p class="text-xs font-thin">{ art.Description }</p>
+										<p class="text-xs">{ strconv.Itoa(art.Price) }</p>
+									</div>
+									<a href="/">
+										<img src="/icons/pen.svg" class="w-6 h-6"/>
+									</a>
+								</div>
+							</div>
+						}
+					</div>
+				</div>
+			</div>
+		</div>
+	}
+}

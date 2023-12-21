@@ -1,11 +1,10 @@
 package pages
 
 import "musematch/views"
-import "musematch/views/components"
 import "musematch/models"
 
 templ Main(title string, user *models.User) {
 	@views.Layout(title) {
-		@components.Header(user)
+		@views.Header(user)
 	}
 }

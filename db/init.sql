@@ -112,9 +112,9 @@ CREATE TABLE place_location (
 
 CREATE TABLE exhibit (
 	id varchar(10) NOT NULL PRIMARY KEY,
+	art_id varchar(10) NOT NULL,
 	location_id varchar(10) NOT NULL,
 	start_date TEXT NOT NULL,
 	end_date TEXT NOT NULL,
-	art_id varchar(10) NOT NULL,
 	state TEXT NOT NULL -- "WAIT" | "INSTALL" | "FAIL" | "EXHIBIT" | "DONE"
 );

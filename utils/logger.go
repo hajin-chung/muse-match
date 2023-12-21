@@ -2,13 +2,13 @@ package utils
 
 import (
 	"log"
-	"os"
+	// "os"
 )
 
 func InitLog(name string) error {
-	logFile, err := os.OpenFile(".log.txt", os.O_RDWR | os.O_CREATE | os.O_APPEND, 0666)
-	log.SetOutput(logFile)
-	return err
+	// logFile, err := os.OpenFile(".log.txt", os.O_RDWR | os.O_CREATE | os.O_APPEND, 0666)
+	// log.SetOutput(logFile)
+	return nil
 }
 
 func Log(msg string) error {

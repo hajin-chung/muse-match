@@ -17,6 +17,9 @@ module.exports = {
 			width: {
 				layout: "1344px",
 			},
+			gridTemplateColumns: {
+				'auto-280': 'repeat(auto-fit, minmax(200px, 1fr))'
+			}
 		},
 	},
 	darkMode: "class",

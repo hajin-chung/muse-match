@@ -1,16 +1,14 @@
 package models
 
-import "database/sql"
-
 type User struct {
-	Id          string        `db:"id"`
-	Name        string        `db:"name"`
-	Email       string        `db:"email"`
-	Sub         string        `db:"sub"`
-	Picture     string        `db:"picture"`
-	Description string        `db:"description"`
-	Note        string        `db:"note"`
-	IsOwner     sql.NullInt32 `db:"is_owner"`
+	Id          string `db:"id"`
+	Name        string `db:"name"`
+	Email       string `db:"email"`
+	Sub         string `db:"sub"`
+	Picture     string `db:"picture"`
+	Description string `db:"description"`
+	Note        string `db:"note"`
+	IsOwner     int    `db:"is_owner"`
 
 	InstagramId string `db:"instagram_id"`
 	FacebookId  string `db:"facebook_id"`
@@ -24,11 +22,11 @@ type UserLink struct {
 }
 
 type UserHistory struct {
-	Id      string        `db:"id"`
-	UserId  string        `db:"user_id"`
-	Title   string        `db:"title"`
-	Content string        `db:"content"`
-	Deleted sql.NullInt32 `db:"deleted"`
+	Id      string `db:"id"`
+	UserId  string `db:"user_id"`
+	Title   string `db:"title"`
+	Content string `db:"content"`
+	Deleted int    `db:"deleted"`
 }
 
 type UserArtList struct {
@@ -58,12 +56,22 @@ type UserLikePlace struct {
 }
 
 type Art struct {
-	Id          string        `db:"id"`
-	Name        string        `db:"name"`
-	Description string        `db:"description"`
-	UserId      string        `db:"user_id"`
-	Price       sql.NullInt32 `db:"price"`
-	Info        string        `db:"info"`
+	Id          string `db:"id"`
+	Name        string `db:"name"`
+	Description string `db:"description"`
+	UserId      string `db:"user_id"`
+	Price       int    `db:"price"`
+	Info        string `db:"info"`
+}
+
+type ArtInfo struct { // used in cards
+	Id          string `db:"id"`
+	Name        string `db:"name"`
+	Description string `db:"description"`
+	UserId      string `db:"user_id"`
+	Price       int    `db:"price"`
+	Artist      string `db:"artist"`
+	Thumbnail   string `db:"thumbnail"`
 }
 
 type ArtTag struct {
@@ -72,9 +80,9 @@ type ArtTag struct {
 }
 
 type ArtImage struct {
-	Id    string        `db:"id"`
-	ArtId string        `db:"art_id"`
-	Idx   sql.NullInt32 `db:"idx"`
+	Id    string `db:"id"`
+	ArtId string `db:"art_id"`
+	Idx   int    `db:"idx"`
 }
 
 type Place struct {
@@ -93,9 +101,9 @@ type PlaceLink struct {
 }
 
 type PlaceImage struct {
-	Id      string        `db:"id"`
-	PlaceId string        `db:"place_id"`
-	Idx     sql.NullInt32 `db:"idx"`
+	Id      string `db:"id"`
+	PlaceId string `db:"place_id"`
+	Idx     int    `db:"idx"`
 }
 
 type PlaceLocation struct {
