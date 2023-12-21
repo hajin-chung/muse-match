@@ -7,12 +7,10 @@ import (
 	"musematch/globals"
 	"musematch/middleware"
 	"musematch/queries"
-	"musematch/routes"
 	"musematch/utils"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/monitor"
-	"github.com/gofiber/template/html/v2"
 	_ "github.com/mattn/go-sqlite3"
 )
 
@@ -41,24 +39,19 @@ func main() {
 		log.Fatal("Failed to init log")
 	}
 
-	// init template engine
-	engine := html.New("./views", ".html")
-
 	app := fiber.New(fiber.Config{
-		Views:        engine,
-		ErrorHandler: controllers.ErrorController,
+		// ErrorHandler: controllers.ErrorController,
+		// TODO: create error handler
 	})
 
 	app.Use(middleware.Logger)
-	app.Use("/", middleware.ThemeFromCookie)
+	app.Use(middleware.ContentTypeHtml)
 	app.Get("/metrics", middleware.AdminProtected, monitor.New())
 
-	routes.PrivateRoutes(app)
-	routes.PublicRoutes(app)
-	routes.AdminRoutes(app)
+	app.Get("/", controllers.IndexController)
 
 	app.Static("/", "./public")
-	app.Use(controllers.NotFoundController)
+	// app.Use(controllers.NotFoundController)
 
 	err = app.Listen(":3000")
 
