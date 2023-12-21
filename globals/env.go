@@ -8,16 +8,19 @@ import (
 )
 
 type EnvType struct {
-	MODE          string // DEV | PROD
-	REST_API_KEY  string // kakao oauth rest api key
-	REDIRECT_URI  string // kakao oauth redirect uri
-	DB_URL        string // sqlite db url
-	ACCESS_KEY    string // aws access key
-	SECRET_KEY    string // aws secret key
-	BUCKET_NAME   string // aws s3 bucket name
-	ADMIN         string // admin session secret token
-	SLACK_WEBHOOK string // slack webhook url
-	LOG_FILE      string // log file path
+	MODE               string // DEV | PROD
+	KAKAO_API_KEY      string // kakao oauth rest api key
+	KAKAO_REDIRECT_URI string // kakao oauth redirect uri
+	NAVER_CLIENT_ID    string
+	NAVER_SECRET       string
+	NAVER_REDIRECT_URI string
+	DB_URL             string // sqlite db url
+	ACCESS_KEY         string // aws access key
+	SECRET_KEY         string // aws secret key
+	BUCKET_NAME        string // aws s3 bucket name
+	ADMIN              string // admin session secret token
+	SLACK_WEBHOOK      string // slack webhook url
+	LOG_FILE           string // log file path
 }
 
 var Env EnvType

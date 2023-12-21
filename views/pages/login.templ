@@ -1,0 +1,36 @@
+package pages
+
+import "musematch/views"
+
+templ Login(title string, kakaoUrl string, naverUrl string, googleUrl string) {
+	@views.Layout(title) {
+		<div class="w-screen h-screen absolute overflow-hidden">
+			<div class="w-full h-full absolute bg-black bg-opacity-40 flex justify-center items-center">
+				<div class="relative flex flex-col p-11 bg-white rounded-lg">
+					<button id="close" class="absolute top-4 right-4">
+						<img src="/icons/xmark.svg" class="w-7 h-7"/>
+					</button>
+					<p class="text-2xl font-bold">간편 로그인</p>
+					<div class="h-12"></div>
+					<a href={ templ.URL(kakaoUrl) } class="py-2 px-5 border-2 border-black border-opacity-10 bg-kakao flex items-center w-[300px] rounded-lg">
+						<img src="/icons/kakao.svg" class="w-9 h-9"/>
+						<p class="w-full text-center text-xl font-bold">카카오로 시작하기</p>
+					</a>
+					// <div class="h-7"></div>
+					// <a href={ templ.URL(naverUrl) } class="py-2 px-5 border-2 border-black border-opacity-10 bg-naver flex items-center w-[300px] rounded-lg">
+					//						<img src="/icons/naver.svg" class="w-9 h-9"/>
+					//						<p class="w-full text-center text-xl font-bold">네이버로 시작하기</p>
+					//					</a>
+					//					<div class="h-7"></div>
+					//					<a href={ templ.URL(googleUrl) } class="py-2 px-5 border-2 border-black border-opacity-10 bg-white flex items-center w-[300px] rounded-lg">
+					//						<img src="/icons/google.svg" class="w-9 h-9"/>
+					//						<p class="w-full text-center text-xl font-bold">구글로 시작하기</p>
+					//					</a>
+				</div>
+			</div>
+			<div class="w-full h-full overflow-hidden absoulte top-0 left-0">
+				// TODO: flowing arts
+			</div>
+		</div>
+	}
+}

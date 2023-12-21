@@ -3,75 +3,111 @@ package models
 import "database/sql"
 
 type User struct {
-	Id          string
-	Name        string
-	Email       string
-	Sub         string
-	Picture     string
-	Description string
-	History     string
+	Id          string `db:"id"`
+	Name        string `db:"name"`
+	Email       string `db:"email"`
+	Sub         string `db:"sub"`
+	Picture     string `db:"picture"`
+	Description string `db:"description"`
+	Note        string `db:"note"`
+	InstagramId string `db:"instagram_id"`
+	FacebookId  string `db:"facebook_id"`
+	TwitterId   string `db:"twitter_id"`
 }
 
-type UpdateUserInfo struct {
-	Name        string `json:"name"`
-	Description string `json:"description"`
-	History     string `json:"history"`
+type UserLink struct {
+	Id      string `db:"id"`
+	UserId  string `db:"user_id"`
+	Content string `db:"content"`
+}
+
+type UserHistory struct {
+	Id      string        `db:"id"`
+	UserId  string        `db:"user_id"`
+	Title   string        `db:"title"`
+	Content string        `db:"content"`
+	Deleted sql.NullInt32 `db:"deleted"`
+}
+
+type UserArtList struct {
+	Id     string `db:"id"`
+	UserId string `db:"user_id"`
+	Title  string `db:"title"`
+}
+
+type UserArtListItem struct {
+	ListId string `db:"list_id"`
+	ArtId  string `db:"art_id"`
+}
+
+type UserLikeUser struct {
+	UserId     string `db:"user_id"`
+	LikeUserId string `db:"like_user_id"`
+}
+
+type UserLikeArt struct {
+	UserId string `db:"user_id"`
+	ArtId  string `db:"art_id"`
+}
+
+type UserLikePlace struct {
+	UserId  string `db:"user_id"`
+	PlaceId string `db:"place_id"`
 }
 
 type Art struct {
-	Id          string
-	Name        string
-	Description string
-	UserId      string `db:"userId"`
-	Price       sql.NullInt32
-	Status      string
+	Id          string        `db:"id"`
+	Name        string        `db:"name"`
+	Description string        `db:"description"`
+	UserId      string        `db:"user_id"`
+	Price       sql.NullInt32 `db:"price"`
+	Info        string        `db:"info"`
 }
 
-type NewArtInfo struct {
-	Title       string `json:"title"`
-	Description string `json:"description"`
-	Price       int    `json:"price"`
-	ImageCount  int    `json:"imageCount"`
+type ArtTag struct {
+	ArtId string `db:"art_id"`
+	Tag   string `db:"tag"`
 }
 
-type Image struct {
-	Id    string
-	ArtId string `db:"artId"`
-	Idx   int32
+type ArtImage struct {
+	Id    string        `db:"id"`
+	ArtId string        `db:"art_id"`
+	Idx   sql.NullInt32 `db:"idx"`
 }
 
-type ArtWithThumbnail struct {
-	Id          string
-	Name        string
-	Description string
-	UserId      string `db:"userId"`
-	Price       sql.NullInt32
-	Status      string
-	Thumbnail   string
+type Place struct {
+	Id          string `db:"id"`
+	Title       string `db:"title"`
+	Address     string `db:"address"`
+	InstagramId string `db:"instagram_id"`
+	FacebookId  string `db:"facebook_id"`
+	TwitterId   string `db:"twitter_id"`
 }
 
-type NewExhibitInfo struct {
-	Title     string `db:"title" json:"title"`
-	Location  string `db:"location" json:"location"`
-	StartDate string `db:"startDate" json:"startDate"`
-	EndDate   string `db:"endDate" json:"endDate"`
+type PlaceLink struct {
+	Id      string `db:"id"`
+	PlaceId string `db:"place_id"`
+	Content string `db:"content"`
+}
+
+type PlaceImage struct {
+	Id      string        `db:"id"`
+	PlaceId string        `db:"place_id"`
+	Idx     sql.NullInt32 `db:"idx"`
+}
+
+type PlaceLocation struct {
+	Id          string `db:"id"`
+	PlaceId     string `db:"place_id"`
+	Title       string `db:"title"`
+	Description string `db:"description"`
 }
 
 type Exhibit struct {
-	Id        string `json:"id"`
-	Title     string `json:"title"`
-	Location  string `json:"location"`
-	StartDate string `db:"startDate" json:"startDate"`
-	EndDate   string `db:"endDate" json:"endDate"`
-}
-
-type ExhibitArt struct {
-	ArtId       string `db:"artId"`
-	Name        string
-	Description string `db:"description"`
-	Thumbnail   string
-	Price       sql.NullInt32
-	Status      string
-	UserId      string `db:"userId"`
-	UserName    string `db:"userName"`
+	Id         string `db:"id"`
+	LocationId string `db:"location_id"`
+	StartDate  string `db:"start_date"`
+	EndDate    string `db:"end_date"`
+	ArtId      string `db:"art_id"`
+	State      string `db:"state"`
 }

@@ -1,16 +1,18 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ["views/**/*.html"],
+  content: ["views/**/*.templ"],
   theme: {
     extend: {
       fontFamily: {
-        serif: "Nanum Myeongjo",
+        sans: "Pretendard Variable",
         writing: "Satisfy",
       },
       colors: {
-        yellow: {
-          kakao: "#f9e000",
-        },
+        kakao: "#FAE100",
+        naver: "#2DB400",
+      },
+      width: {
+        layout: "1344px",
       },
     },
   },

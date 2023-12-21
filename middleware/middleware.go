@@ -56,3 +56,8 @@ func ContentTypeHtml(c *fiber.Ctx) error {
 	c.Set(fiber.HeaderContentType, fiber.MIMETextHTML)
 	return c.Next()
 }
+
+func ContentTypeAuto(c *fiber.Ctx) error {
+	c.Set(fiber.HeaderContentDPR, "image/svg+xml") 
+	return c.Next()
+}

@@ -6,6 +6,7 @@ CREATE TABLE user (
 	name TEXT NOT NULL,
 	email TEXT NOT NULL,
 	sub TEXT NOT NULL,
+	picture TEXT NOT NULL,
 	description TEXT DEFAULT "",
 	note TEXT DEFAUTL "",
 	
@@ -30,7 +31,7 @@ CREATE TABLE user_history (
 
 CREATE TABLE user_art_list (
 	id varchar(10) NOT NULL PRIMARY KEY,
-	user_id varchar(10) NULL PRIMARY KEY,
+	user_id varchar(10) NOT NULL,
 	title TEXT DEFAULT ""
 );
 
@@ -44,19 +45,19 @@ CREATE TABLE user_like_user (
 	user_id varchar(10) NOT NULL,
 	like_user_id varchar(10) NOT NULL,
 	PRIMARY KEY(user_id, like_user_id)
-)
+);
 
 CREATE TABLE user_like_art (
 	user_id varchar(10) NOT NULL,
 	art_id varchar(10) NOT NULL,
 	PRIMARY KEY(user_id, art_id)
-)
+);
 
 CREATE TABLE user_like_place (
 	user_id varchar(10) NOT NULL,
 	place_id varchar(10) NOT NULL,
 	PRIMARY KEY(user_id, place_id)
-)
+);
 
 CREATE TABLE art (
 	id varchar(10) NOT NULL PRIMARY KEY,
@@ -68,7 +69,7 @@ CREATE TABLE art (
 );
 
 CREATE TABLE art_tag (
-	art_id varchar(10) NOT NULL PRIMARY KEY,
+	art_id varchar(10) NOT NULL,
 	tag TEXT NOT NULL,
 	PRIMARY KEY(art_id, tag)
 );
@@ -92,18 +93,18 @@ CREATE TABLE place (
 CREATE TABLE place_link (
 	id varchar(10) NOT NULL PRIMARY KEY,
 	place_id varchar(10) NOT NULL,
-	content TEXT DEFAULT "",
+	content TEXT DEFAULT ""
 );
 
 CREATE TABLE place_image (
 	id varchar(10) NOT NULL PRIMARY KEY,
-	place_id varchar(10) NOT NULL PRIMARY KEY,
+	place_id varchar(10) NOT NULL,
 	idx INT NOT NULL
 );
 
 CREATE TABLE place_location (
 	id varchar(10) NOT NULL PRIMARY KEY,
-	place_id varchar(10) NOT NULL PRIMARY KEY,
+	place_id varchar(10) NOT NULL,
 	title TEXT NOT NULL,
 	description TEXT NOT NULL
 );
@@ -115,4 +116,4 @@ CREATE TABLE exhibit (
 	end_date TEXT NOT NULL,
 	art_id varchar(10) NOT NULL,
 	state TEXT NOT NULL -- "WAIT" | "INSTALL" | "FAIL" | "EXHIBIT" | "DONE"
-)
+);

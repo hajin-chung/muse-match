@@ -45,12 +45,15 @@ func main() {
 	})
 
 	app.Use(middleware.Logger)
-	app.Use(middleware.ContentTypeHtml)
 	app.Get("/metrics", middleware.AdminProtected, monitor.New())
-
-	app.Get("/", controllers.IndexController)
-
 	app.Static("/", "./public")
+
+	app.Use(middleware.ContentTypeHtml)
+	app.Get("/", controllers.MainController)
+	app.Get("/auth", controllers.LoginController)
+	app.Get("/auth/callback/kakao", controllers.KakaoCallbackController)
+	// app.Get("/auth/callback/naver", controllers.NaverCallbackController)
+
 	// app.Use(controllers.NotFoundController)
 
 	err = app.Listen(":3000")

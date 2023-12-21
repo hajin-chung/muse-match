@@ -5,38 +5,38 @@ on:
     branches:
       - main  # run actions when main branch changes
 
-jobs:
-  build:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v2
-
-      - name: Set Up SSH Key
-        uses: webfactory/ssh-agent@v0.7.0
-        with:
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-
-      - name: Check code
-        run: |
-          ls
-
-      - name: SSH into EC2 and Run Build Script
-        run: |
-          ssh -o StrictHostKeyChecking=no -i $HOME/.ssh/id_rsa ec2-user@${{ secrets.EC2_IP }} '
-            cd /home/ec2-user/muse-match 
-            rm .env
-            echo "REST_API_KEY=${{ secrets.REST_API_KEY }}" >> .env
-            echo "DB_URL=db/test.db" >> .env
-            echo "REDIRECT_URI=https://musematch.app/api/auth/callback/kakao" >> .env
-            echo "ACCESS_KEY=${{ secrets.ACCESS_KEY }}" >> .env
-            echo "SECRET_KEY=${{ secrets.SECRET_KEY }}" >> .env
-            echo "BUCKET_NAME=${{ secrets.BUCKET_NAME }}" >> .env
-            echo "ADMIN=${{ secrets.ADMIN }}" >> .env
-            echo "MODE=PROD" >> .env
-            ehco "SLACK_WEBHOOK=${{ secrets.SLACK_WEBHOOK }}" >> .env
-            sudo ./build.sh
-          '
-        env:
-          HOME: ${{ github.workspace }}
+# jobs:
+#   build:
+#     runs-on: ubuntu-latest
+#
+#     steps:
+#       - name: Checkout Code
+#         uses: actions/checkout@v2
+#
+#       - name: Set Up SSH Key
+#         uses: webfactory/ssh-agent@v0.7.0
+#         with:
+#           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+#
+#       - name: Check code
+#         run: |
+#           ls
+#
+#       - name: SSH into EC2 and Run Build Script
+#         run: |
+#           ssh -o StrictHostKeyChecking=no -i $HOME/.ssh/id_rsa ec2-user@${{ secrets.EC2_IP }} '
+#             cd /home/ec2-user/muse-match 
+#             rm .env
+#             echo "REST_API_KEY=${{ secrets.REST_API_KEY }}" >> .env
+#             echo "DB_URL=db/test.db" >> .env
+#             echo "REDIRECT_URI=https://musematch.app/api/auth/callback/kakao" >> .env
+#             echo "ACCESS_KEY=${{ secrets.ACCESS_KEY }}" >> .env
+#             echo "SECRET_KEY=${{ secrets.SECRET_KEY }}" >> .env
+#             echo "BUCKET_NAME=${{ secrets.BUCKET_NAME }}" >> .env
+#             echo "ADMIN=${{ secrets.ADMIN }}" >> .env
+#             echo "MODE=PROD" >> .env
+#             ehco "SLACK_WEBHOOK=${{ secrets.SLACK_WEBHOOK }}" >> .env
+#             sudo ./build.sh
+#           '
+#         env:
+#           HOME: ${{ github.workspace }}

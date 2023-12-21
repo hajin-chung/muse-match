@@ -1,0 +1,47 @@
+package components
+
+import "musematch/models"
+
+templ Header(user *models.User) {
+	<div class="w-full flex justify-center shadow-md">
+		<div class="flex justify-between items-center w-layout h-12">
+			<div class="flex items-center">
+				<a href="/" class="font-writing text-2xl">Muse Match</a>
+				<div class="w-16"></div>
+				<a href="/art" class="font-medium">작품</a>
+				<div class="w-10"></div>
+				<a href="/artist" class="font-medium">작가</a>
+				<div class="w-10"></div>
+				<a href="/exhibit" class="font-medium">전시</a>
+			</div>
+			<div class="flex items-center">
+				<a href="/like">
+					<img src="/icons/heart.svg" class="w-5 h-5"/>
+				</a>
+				<div class="w-3"></div>
+				<a href="/search">
+					<img src="/icons/search.svg" class="w-5 h-5"/>
+				</a>
+				<div class="w-4"></div>
+				<div class="h-6 border-[1px] border-gray-400"></div>
+				// TODO: change black border
+				<div class="w-5"></div>
+				if user != nil {
+					<a href={ templ.URL("/artist/" + user.Id) } class="flex items-center">
+						<img src={ user.Picture } class="w-5 h-5 rounded-full"/>
+						<div class="w-3"></div>
+						<p class="text-xs">{ user.Name }</p>
+					</a>
+					<div class="w-1"></div>
+					<button id="dropdown">
+						<img src="/icons/chevron-down.svg" class="w-4 h-4"/>
+					</button>
+				} else {
+					<a href="/auth" class="text-xs">회원가입</a>
+					<div class="w-4"></div>
+					<a href="/auth" class="text-xs">로그인</a>
+				}
+			</div>
+		</div>
+	</div>
+}

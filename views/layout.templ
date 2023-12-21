@@ -1,0 +1,25 @@
+package views
+
+import "musematch/views/components"
+import "musematch/models"
+
+templ Layout(title string) {
+	<html>
+		<head>
+			<link rel="stylesheet" href="/output.css"/>
+			<link rel="stylesheet" href="/global.css"/>
+			<meta charset="UTF-8"/>
+			<title>{ title }</title>
+		</head>
+		<body class="flex flex-col w-full">
+			{ children... }
+		</body>
+	</html>
+}
+
+templ LayoutWithHeader(title string, user *models.User) {
+	@Layout(title) {
+		@components.Header(user)
+		{ children... }
+	}
+}
