@@ -67,7 +67,7 @@ func DashboardArtPage(title string, user *models.User, arts []models.ArtInfo) te
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</p></a></div><div class=\"grid gap-6 grid-cols-auto-280\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</p></a></div><div class=\"w-full h-full overflow-y-scroll\"><div class=\"grid grid-cols-auto-280 gap-6 justify-center pb-20\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -80,7 +80,7 @@ func DashboardArtPage(title string, user *models.User, arts []models.ArtInfo) te
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" class=\"w-[280px] h-[210px]\"><div class=\"flex gap-2\"><div class=\"flex flex-col gap-1 w-full\"><p class=\"font-bold\">")
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" class=\"w-[280px] h-[210px]\"><div class=\"flex gap-2 items-start\"><div class=\"flex flex-col gap-1 w-full\"><p class=\"font-bold\">")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
@@ -89,7 +89,7 @@ func DashboardArtPage(title string, user *models.User, arts []models.ArtInfo) te
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</p><p class=\"text-xs font-thin\">")
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</p><p class=\"text-xs font-extralight clip-2\">")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
@@ -121,7 +121,7 @@ func DashboardArtPage(title string, user *models.User, arts []models.ArtInfo) te
 					return templ_7745c5c3_Err
 				}
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div></div></div></div>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div></div></div></div></div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -176,7 +176,7 @@ func DashboardArtNewPage(title string, user *models.User) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"h-full overflow-y-scroll w-full flex justify-center\"><div class=\"flex flex-col px-[100px] py-6 h-max w-[80%]\"><p class=\"font-bold text-xl\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"h-full overflow-y-scroll w-full flex justify-center\"><div class=\"flex flex-col px-[100px] py-6 h-max w-4/5 pb-32\"><p class=\"font-bold text-xl\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -185,7 +185,7 @@ func DashboardArtNewPage(title string, user *models.User) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</p><div class=\"h-6\"></div><div class=\"flex gap-5 h-[540px] w-full\"><div class=\"w-full h-full\"><img class=\"w-full h-full bg-gray-100 rounded-lg\"></div><div class=\"flex flex-col w-20 gap-4 relative\"><button class=\"rounded-lg border-2 border-black flex w-20 h-20 items-center justify-center sticky bottom-0\"><img src=\"/icons/plus.svg\" class=\"w-8 h-8\"></button></div></div><div class=\"w-full flex gap-7\"><div class=\"px-5 py-6 flex flex-col shadow-md w-80\"><input id=\"name\" class=\"bg-gray-200 font-bold text-2xl w-full px-2 py-1.5 rounded-lg\" placeholder=\"볓이 빛나는 밤에\"><div class=\"h-7\"></div><textarea class=\"p-2 bg-gray-200 font-thin text-xs w-full h-11 rounded-lg\" id=\"description\" placeholder=\"oil on canvas\n20cm X 10cm (x호) | 2022\"></textarea><div class=\"h-2\"></div><div class=\"flex gap-1.5 items-center\"><input id=\"price\" class=\"px-3 py-1.5 w-24 rounded-lg bg-gray-200\"><p>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</p><div class=\"h-6\"></div><div class=\"flex gap-5 h-[540px] w-full\"><div class=\"w-full h-full\"><img id=\"preview\" class=\"w-full h-full bg-gray-100 rounded-lg object-contain\"></div><div class=\"flex flex-col relative h-full\"><div class=\"max-h-full w-full overflow-y-scroll\"><div class=\"flex flex-col w-20\" id=\"thumbnail-list\"><div id=\"thumbnail-template\" class=\"w-20 h-20 relative mb-4 hidden group\" draggable=\"true\"><button class=\"w-7 h-7 hidden group-hover:flex absolute rounded-lg bg-gray-200 opacity-80 top-0 right-0 justify-center items-center\" id=\"thumbnail-remove\"><img src=\"/icons/xmark.svg\" class=\"h-5 w-5\"></button> <img class=\"w-20 h-20 rounded-lg object-cover\" id=\"thumbnail-image\"></div></div></div><button id=\"add-button\" class=\"rounded-lg border-2 border-black flex w-20 h-20 items-center justify-center sticky bottom-0 shrink-0\"><img src=\"/icons/plus.svg\" class=\"w-8 h-8\"></button></div></div><div class=\"h-5\"></div><div class=\"w-full flex gap-7 flex-shrink-0 items-start\"><div class=\"px-5 py-6 flex flex-col shadow-md w-80 flex-shrink-0\"><input id=\"name\" class=\"bg-gray-100 font-bold text-2xl w-full px-2 py-1.5 rounded-lg\" placeholder=\"볓이 빛나는 밤에\"><div class=\"h-7\"></div><textarea class=\"p-2 bg-gray-100 font-extralight text-xs w-full h-11 rounded-lg\" id=\"description\" placeholder=\"oil on canvas\n20cm X 10cm (x호) | 2022\"></textarea><div class=\"h-2\"></div><div class=\"flex gap-1.5 items-center\"><input id=\"price\" class=\"px-3 py-1.5 w-24 rounded-lg bg-gray-100 text-center\" type=\"number\" placeholder=\"가격 미정\"><p>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -194,16 +194,52 @@ func DashboardArtNewPage(title string, user *models.User) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</p></div></div></div></div></div></div><div class=\"flex justify-center w-full border-t-gray-400 border-[1px] absolute bottom-0 bg-white\"><div class=\"flex justify-end items-center w-layout py-1.5\"><button id=\"submit\" class=\"flex items-center py-2 px-4 gap-1.5 bg-black rounded-lg\"><img src=\"/icons/check.svg\" class=\"w-6 h-6 invert\"><p class=\"font-bold text-white\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</p></div></div><div class=\"flex flex-col w-full\"><p class=\"font-bold text-xl\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Var13 := `등록`
+			templ_7745c5c3_Var13 := `작품 정보`
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var13)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</p></button></div></div></div>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</p><div class=\"h-2\"></div><textarea id=\"info\" class=\"w-full p-3 rounded-lg bg-gray-100 h-40\" placeholder=\"별이 빛나는 밤은 고흐의 가장 널리 알려진 작품 중 하나로, 고흐가 정신병으로 인한 고통을 떠올려 그림 속의 소용돌이가 무너졌습니다. 이 그림은 고흐가 정신병이 심했을 적 스스로 요양원에 들어가 요양원의 철창을 통해 바라본 바깥 풍경을 3일 만에 그려낸 작품입니다.\"></textarea><div class=\"h-5\"></div><div class=\"flex gap-5 items-start\"><p class=\"font-bold text-xl shrink-0\">")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Var14 := `태그`
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var14)
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</p><div class=\"self-center flex gap-1 w-full p-1 border-[1px] border-gray-200 rounded-lg flex-wrap items-center\" id=\"tag-list\"><div class=\"items-center bg-gray-200 rounded-full py-0.5 px-1.5 hidden\" id=\"tag-template\"><p class=\"text-xs\">")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Var15 := `#`
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var15)
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</p><p class=\"text-xs\" id=\"tag-name\"></p><div class=\"w-1.5\"></div><button id=\"remove-tag\"><img src=\"/icons/xmark.svg\" class=\"w-2 h-2\"></button></div><input id=\"tag-input\" type=\"text\" class=\"text-sm w-20 h-6 outline-none\"></div></div></div></div></div></div></div><div class=\"flex justify-center w-full border-t-gray-400 border-[1px] absolute bottom-0 bg-white\"><div class=\"flex justify-end items-center w-layout py-1.5\"><button id=\"submit\" class=\"flex items-center py-2 px-4 gap-1.5 bg-black rounded-lg\"><img src=\"/icons/check.svg\" class=\"w-6 h-6 invert\" id=\"check\"><div class=\"w-6 h-6 hidden\" id=\"spinner\"><span class=\"w-5 h-5 m-0.5 loader\"></span></div><p class=\"font-bold text-white\">")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Var16 := `등록`
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var16)
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</p></button></div></div><input type=\"file\" id=\"image-input\" accept=\"image/png, image/jpeg\" class=\"hidden\"><script src=\"/scripts/dashboard-art-new.js\" type=\"module\">")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Var17 := ``
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var17)
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</script></div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

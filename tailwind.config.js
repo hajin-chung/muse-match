@@ -18,7 +18,7 @@ module.exports = {
 				layout: "1344px",
 			},
 			gridTemplateColumns: {
-				'auto-280': 'repeat(auto-fit, minmax(200px, 1fr))'
+				'auto-280': 'repeat(auto-fill, 280px)'
 			}
 		},
 	},

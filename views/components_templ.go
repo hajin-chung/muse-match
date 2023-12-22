@@ -174,7 +174,7 @@ func Header(user *models.User) templ.Component {
 				return templ_7745c5c3_Err
 			}
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div></div><script src=\"/scripts/header-dropdown.js\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div></div><script src=\"/scripts/header-dropdown.js\" type=\"module\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -211,7 +211,7 @@ func DashboardNavBar(highlight string) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		var templ_7745c5c3_Var17 = []any{"text-xl", templ.KV("font-bold", highlight == "profile")}
+		var templ_7745c5c3_Var17 = []any{"text-lg", templ.KV("font-bold", highlight == "profile")}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var17...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -237,7 +237,7 @@ func DashboardNavBar(highlight string) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		var templ_7745c5c3_Var19 = []any{"text-xl", templ.KV("font-bold", highlight == "arts")}
+		var templ_7745c5c3_Var19 = []any{"text-lg", templ.KV("font-bold", highlight == "arts")}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var19...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -263,7 +263,7 @@ func DashboardNavBar(highlight string) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		var templ_7745c5c3_Var21 = []any{"text-xl", templ.KV("font-bold", highlight == "exhibit")}
+		var templ_7745c5c3_Var21 = []any{"text-lg", templ.KV("font-bold", highlight == "exhibit")}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var21...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -289,7 +289,7 @@ func DashboardNavBar(highlight string) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		var templ_7745c5c3_Var23 = []any{"text-xl", templ.KV("font-bold", highlight == "state")}
+		var templ_7745c5c3_Var23 = []any{"text-lg", templ.KV("font-bold", highlight == "state")}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var23...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err

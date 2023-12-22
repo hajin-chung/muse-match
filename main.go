@@ -56,7 +56,11 @@ func main() {
 
 	app.Get("/dashboard/art", middleware.SessionProtected, controllers.DashboardArtController)
 	app.Get("/dashboard/art/new", middleware.SessionProtected, controllers.DashboardArtCreateViewController)
+	app.Post("/dashboard/art/new", middleware.SessionProtected, controllers.DashboardArtCreateController)
+	// app.Get("/dashboard/art/:id", middleware.SessionProtected, controllers.DashboardArtUpdateViewController)
+	// app.Post("/dashboard/art/:id", middleware.SessionProtected, controllers.DashboardArtUpdateController)
 	app.Get("/test", controllers.TestController)
+	app.Get("/image", controllers.ImageGetController)
 	// app.Get("/auth/callback/naver", controllers.NaverCallbackController)
 
 	// app.Use(controllers.NotFoundController)

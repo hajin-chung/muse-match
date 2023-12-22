@@ -58,32 +58,32 @@ templ Header(user *models.User) {
 			}
 		</div>
 	</div>
-	<script src="/scripts/header-dropdown.js"></script>
+	<script src="/scripts/header-dropdown.js" type="module"></script>
 }
 
 templ DashboardNavBar(highlight string) {
 	<div class="flex flex-col justify-center border-l-gray-400 border-[1px] gap-8 px-8 flex-shrink-0">
 		<a href="/dashboard/profile" class="flex gap-2">
 			<img src="/icons/user.svg" class="w-6 h-6"/>
-			<p class={ "text-xl", templ.KV("font-bold", highlight == "profile") }>
+			<p class={ "text-lg", templ.KV("font-bold", highlight == "profile") }>
 				프로필 편집
 			</p>
 		</a>
 		<a href="/dashboard/art" class="flex gap-2">
 			<img src="/icons/art.svg" class="w-6 h-6"/>
-			<p class={ "text-xl", templ.KV("font-bold", highlight == "arts") }>
+			<p class={ "text-lg", templ.KV("font-bold", highlight == "arts") }>
 				작품
 			</p>
 		</a>
 		<a href="/dashboard/exhibit" class="flex gap-2">
 			<img src="/icons/exhibit.svg" class="w-6 h-6"/>
-			<p class={ "text-xl", templ.KV("font-bold", highlight == "exhibit") }>
+			<p class={ "text-lg", templ.KV("font-bold", highlight == "exhibit") }>
 				전시하기
 			</p>
 		</a>
 		<a href="/dashboard/state" class="flex gap-2">
 			<img src="/icons/info.svg" class="w-6 h-6"/>
-			<p class={ "text-xl", templ.KV("font-bold", highlight == "state") }>
+			<p class={ "text-lg", templ.KV("font-bold", highlight == "state") }>
 				전시 현황
 			</p>
 		</a>
