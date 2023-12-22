@@ -4,6 +4,40 @@ import (
 	"musematch/models"
 )
 
+func ArtGetById(artId string) (*models.Art, error) {
+	art := models.Art{}
+	err := db.Get(&art, "SELECT * FROM art WHERE id=$1", artId)
+	return &art, err
+}
+
+func ArtTagsGetById(artId string) ([]string, error) {
+	artTags := []models.ArtTag{}
+	err := db.Select(&artTags, "SELECT * FROM art_tag WHERE art_id=$1", artId)
+	if err != nil {
+		return nil, err
+	}
+
+	tags := []string{}
+	for _, artTag := range(artTags) {
+		tags = append(tags, artTag.Tag)
+	}
+	return tags, nil
+}
+
+func ArtImageIdsGetById(artId string) ([]string, error) {
+	artImages := []models.ArtImage{}
+	err := db.Select(&artImages, "SELECT * FROM art_image WHERE art_id=$1", artId)
+	if err != nil {
+		return nil, err
+	}
+
+	imageIds := make([]string, len(artImages))
+	for _, artImage := range(artImages) {
+		imageIds[artImage.Idx] = artImage.Id
+	}
+	return imageIds, nil
+}
+
 func GetArtInfosByUserId(userId string) ([]models.ArtInfo, error) {
 	arts := []models.ArtInfo{}
 	err := db.Select(

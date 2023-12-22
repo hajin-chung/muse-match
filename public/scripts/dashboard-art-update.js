@@ -61,7 +61,6 @@ const submit = dq("#submit");
 const spinner = dq("#spinner");
 const check = dq("#check");
 
-
 submit.addEventListener("click", async () => {
   if (isLoading) return;
   isLoading = true;

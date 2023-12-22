@@ -55,10 +55,10 @@ templ Header(user *models.User) {
 					<a class="text-xs" href="/dashboard/profile">회원 정보</a>
 					<a class="text-xs" href="/auth/logout">로그아웃</a>
 				</div>
+				<script src="/scripts/header-dropdown.js"></script>
 			}
 		</div>
 	</div>
-	<script src="/scripts/header-dropdown.js" type="module"></script>
 }
 
 templ DashboardNavBar(highlight string) {

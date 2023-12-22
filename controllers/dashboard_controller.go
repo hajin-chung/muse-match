@@ -109,16 +109,26 @@ func DashboardArtCreateController(c *fiber.Ctx) error {
 func DashboardArtUpdateViewController(c *fiber.Ctx) error {
 	sess, _ := globals.Store.Get(c)
 	id := sess.Get("id").(string)
-	// artId := c.Params("id")
+	artId := c.Params("id")
 
 	user, err := queries.GetUserById(id)
 	if err != nil {
 		return err
 	}
+	art, err := queries.ArtGetById(artId)
+	if err != nil {
+		return err
+	}
+	tags, err := queries.ArtTagsGetById(artId)
+	if err != nil {
+		return err
+	}
+	imageIds, err := queries.ArtImageIdsGetById(artId)
+	if err != nil {
+		return err
+	}
 
-	// art, err := queries.GetArtById(artId)
-
-	page := pages.DashboardArtNewPage("대시보드 - 작품 등록하기", user)
+	page := pages.DashboardArtUpdatePage("대시보드 - 작품 수정하기", user, art, tags, imageIds)
 	return utils.Render(c, page)
 }
 
