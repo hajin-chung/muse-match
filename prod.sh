@@ -7,9 +7,9 @@ git pull
 sh build.sh
 
 # copy template files
-cp -r public "$PROD_PATH/"
-cp .env "$PROD_PATH/.env"
-cp musematch "#PROD_PATH/"
+sudo cp -r public "$PROD_PATH/"
+sudo cp .env "$PROD_PATH/.env"
+sudo cp musematch "$PROD_PATH/"
 
 # restart server daemon
 sudo systemctl restart musematch
