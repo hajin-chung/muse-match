@@ -176,7 +176,7 @@ func DashboardArtNewPage(title string, user *models.User) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"h-full overflow-y-scroll w-full\"><div class=\"flex flex-col px-[100px] py-6 h-max w-[80%]\"><p class=\"font-bold text-xl\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"h-full overflow-y-scroll w-full flex justify-center\"><div class=\"flex flex-col px-[100px] py-6 h-max w-[80%]\"><p class=\"font-bold text-xl\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

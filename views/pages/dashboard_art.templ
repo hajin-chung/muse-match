@@ -47,7 +47,7 @@ templ DashboardArtNewPage(title string, user *models.User) {
 			@views.Header(user)
 			<div class="w-full h-full flex">
 				@views.DashboardNavBar("arts")
-				<div class="h-full overflow-y-scroll w-full">
+				<div class="h-full overflow-y-scroll w-full flex justify-center">
 					<div class="flex flex-col px-[100px] py-6 h-max w-[80%]">
 						<p class="font-bold text-xl">작품 업로드</p>
 						<div class="h-6"></div>
