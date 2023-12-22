@@ -233,7 +233,7 @@ func DashboardNavBar(highlight string) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</p></a> <a href=\"/dashboard/arts\" class=\"flex gap-2\"><img src=\"/icons/art.svg\" class=\"w-6 h-6\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</p></a> <a href=\"/dashboard/art\" class=\"flex gap-2\"><img src=\"/icons/art.svg\" class=\"w-6 h-6\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
