@@ -168,7 +168,7 @@ func DashboardArtNewPage(title string, user *models.User) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"w-full h-full flex relative\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"w-full h-full flex\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -176,7 +176,7 @@ func DashboardArtNewPage(title string, user *models.User) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"flex flex-col overflow-y-scroll px-[100px] py-6 w-full gap-5\"><p class=\"font-bold text-xl\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"h-full overflow-y-scroll w-full\"><div class=\"flex flex-col px-[100px] py-6 h-max w-[80%]\"><p class=\"font-bold text-xl\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -185,7 +185,7 @@ func DashboardArtNewPage(title string, user *models.User) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</p><div class=\"h-6\"></div><div class=\"flex gap-5 h-[540px] w-full\"><div class=\"w-full h-full\"><img class=\"w-full h-full bg-gray-100 rounded-lg\"></div><div class=\"flex flex-col w-20 gap-4 relative\"><button class=\"rounded-lg border-2 border-black flex w-20 h-20 items-center justify-center sticky bottom-0\"><img src=\"/icons/plus.svg\" class=\"w-8 h-8\"></button></div></div><div class=\"w-full flex gap-7\"><div class=\"px-5 py-6 flex flex-col shadow-md w-80\"><input id=\"name\" class=\"bg-gray-200 font-bold text-2xl w-full px-2 py-1.5 rounded-lg\" placeholder=\"볓이 빛나는 밤에\"><div class=\"h-7\"></div><textarea class=\"p-2 bg-gray-200 font-thin text-xs w-full h-11 rounded-lg\" id=\"description\"></textarea><div class=\"h-2\"></div><div class=\"flex gap-1.5 items-center\"><input id=\"price\" class=\"px-3 py-1.5 w-24 rounded-lg bg-gray-200\"><p>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</p><div class=\"h-6\"></div><div class=\"flex gap-5 h-[540px] w-full\"><div class=\"w-full h-full\"><img class=\"w-full h-full bg-gray-100 rounded-lg\"></div><div class=\"flex flex-col w-20 gap-4 relative\"><button class=\"rounded-lg border-2 border-black flex w-20 h-20 items-center justify-center sticky bottom-0\"><img src=\"/icons/plus.svg\" class=\"w-8 h-8\"></button></div></div><div class=\"w-full flex gap-7\"><div class=\"px-5 py-6 flex flex-col shadow-md w-80\"><input id=\"name\" class=\"bg-gray-200 font-bold text-2xl w-full px-2 py-1.5 rounded-lg\" placeholder=\"볓이 빛나는 밤에\"><div class=\"h-7\"></div><textarea class=\"p-2 bg-gray-200 font-thin text-xs w-full h-11 rounded-lg\" id=\"description\" placeholder=\"oil on canvas\n20cm X 10cm (x호) | 2022\"></textarea><div class=\"h-2\"></div><div class=\"flex gap-1.5 items-center\"><input id=\"price\" class=\"px-3 py-1.5 w-24 rounded-lg bg-gray-200\"><p>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -194,7 +194,7 @@ func DashboardArtNewPage(title string, user *models.User) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</p></div></div></div></div></div><div class=\"flex justify-center w-full border-t-gray-400 border-[1px]\"><div class=\"flex justify-end items-center w-layout py-1.5\"><button id=\"submit\" class=\"flex items-center py-2 px-4 gap-1.5 bg-black rounded-lg\"><img src=\"/icons/check.svg\" class=\"w-6 h-6 invert\"><p class=\"font-bold text-white\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</p></div></div></div></div></div></div><div class=\"flex justify-center w-full border-t-gray-400 border-[1px] absolute bottom-0 bg-white\"><div class=\"flex justify-end items-center w-layout py-1.5\"><button id=\"submit\" class=\"flex items-center py-2 px-4 gap-1.5 bg-black rounded-lg\"><img src=\"/icons/check.svg\" class=\"w-6 h-6 invert\"><p class=\"font-bold text-white\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

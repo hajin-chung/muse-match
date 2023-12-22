@@ -56,6 +56,7 @@ func main() {
 
 	app.Get("/dashboard/art", middleware.SessionProtected, controllers.DashboardArtController)
 	app.Get("/dashboard/art/new", middleware.SessionProtected, controllers.DashboardArtCreateViewController)
+	app.Get("/test", controllers.TestController)
 	// app.Get("/auth/callback/naver", controllers.NaverCallbackController)
 
 	// app.Use(controllers.NotFoundController)
