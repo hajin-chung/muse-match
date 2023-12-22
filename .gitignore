@@ -6,3 +6,5 @@ tmp
 migrate.sql
 output.css
 .log.txt
+
+views/**/*.go
