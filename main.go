@@ -55,6 +55,7 @@ func main() {
 	app.Get("/auth/callback/kakao", controllers.KakaoCallbackController)
 
 	app.Get("/dashboard/art", middleware.SessionProtected, controllers.DashboardArtController)
+	app.Get("/dashboard/art/new", middleware.SessionProtected, controllers.DashboardArtCreateViewController)
 	// app.Get("/auth/callback/naver", controllers.NaverCallbackController)
 
 	// app.Use(controllers.NotFoundController)

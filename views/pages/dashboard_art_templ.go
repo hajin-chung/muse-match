@@ -49,7 +49,7 @@ func DashboardArtPage(title string, user *models.User, arts []models.ArtInfo) te
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"flex flex-col w-full px-6 pt-7\"><div class=\"flex w-full justify-between items-end pb-4\"><p class=\"font-bold text-2xl\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"flex flex-col w-full px-6 pt-7\"><div class=\"flex w-full justify-between items-end pb-4\"><p class=\"font-bold text-xl\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -58,7 +58,7 @@ func DashboardArtPage(title string, user *models.User, arts []models.ArtInfo) te
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</p><button class=\"flex items-center gap-2 py-1.5 px-4 bg-black rounded-lg text-white\"><img src=\"/icons/plus.svg\" class=\"w-6 h-6 invert\"><p class=\"font-bold\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</p><a class=\"flex items-center gap-2 py-1.5 px-4 bg-black rounded-lg text-white\" href=\"/dashboard/art/new\"><img src=\"/icons/plus.svg\" class=\"w-6 h-6 invert\"><p class=\"font-bold\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -67,7 +67,7 @@ func DashboardArtPage(title string, user *models.User, arts []models.ArtInfo) te
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</p></button></div><div class=\"grid gap-6 grid-cols-auto-280\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</p></a></div><div class=\"grid gap-6 grid-cols-auto-280\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -107,7 +107,16 @@ func DashboardArtPage(title string, user *models.User, arts []models.ArtInfo) te
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</p></div><a href=\"/\"><img src=\"/icons/pen.svg\" class=\"w-6 h-6\"></a></div></div>")
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</p></div><a href=\"")
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+				var templ_7745c5c3_Var8 templ.SafeURL = templ.URL("/dashboard/art/" + art.Id)
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(string(templ_7745c5c3_Var8)))
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\"><img src=\"/icons/pen.svg\" class=\"w-6 h-6\"></a></div></div>")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
@@ -122,6 +131,88 @@ func DashboardArtPage(title string, user *models.User, arts []models.ArtInfo) te
 			return templ_7745c5c3_Err
 		})
 		templ_7745c5c3_Err = views.Layout(title).Render(templ.WithChildren(ctx, templ_7745c5c3_Var2), templ_7745c5c3_Buffer)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		if !templ_7745c5c3_IsBuffer {
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteTo(templ_7745c5c3_W)
+		}
+		return templ_7745c5c3_Err
+	})
+}
+
+func DashboardArtNewPage(title string, user *models.User) templ.Component {
+	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
+		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templ_7745c5c3_W.(*bytes.Buffer)
+		if !templ_7745c5c3_IsBuffer {
+			templ_7745c5c3_Buffer = templ.GetBuffer()
+			defer templ.ReleaseBuffer(templ_7745c5c3_Buffer)
+		}
+		ctx = templ.InitializeContext(ctx)
+		templ_7745c5c3_Var9 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var9 == nil {
+			templ_7745c5c3_Var9 = templ.NopComponent
+		}
+		ctx = templ.ClearChildren(ctx)
+		templ_7745c5c3_Var10 := templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
+			templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templ_7745c5c3_W.(*bytes.Buffer)
+			if !templ_7745c5c3_IsBuffer {
+				templ_7745c5c3_Buffer = templ.GetBuffer()
+				defer templ.ReleaseBuffer(templ_7745c5c3_Buffer)
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"w-screen h-screen overflow-hidden flex flex-col relative\">")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = views.Header(user).Render(ctx, templ_7745c5c3_Buffer)
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"w-full h-full flex relative\">")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = views.DashboardNavBar("arts").Render(ctx, templ_7745c5c3_Buffer)
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"flex flex-col overflow-y-scroll px-[100px] py-6 w-full gap-5\"><p class=\"font-bold text-xl\">")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Var11 := `작품 업로드`
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var11)
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</p><div class=\"h-6\"></div><div class=\"flex gap-5 h-[540px] w-full\"><div class=\"w-full h-full\"><img class=\"w-full h-full bg-gray-100 rounded-lg\"></div><div class=\"flex flex-col w-20 gap-4 relative\"><button class=\"rounded-lg border-2 border-black flex w-20 h-20 items-center justify-center sticky bottom-0\"><img src=\"/icons/plus.svg\" class=\"w-8 h-8\"></button></div></div><div class=\"w-full flex gap-7\"><div class=\"px-5 py-6 flex flex-col shadow-md w-80\"><input id=\"name\" class=\"bg-gray-200 font-bold text-2xl w-full px-2 py-1.5 rounded-lg\" placeholder=\"볓이 빛나는 밤에\"><div class=\"h-7\"></div><textarea class=\"p-2 bg-gray-200 font-thin text-xs w-full h-11 rounded-lg\" id=\"description\"></textarea><div class=\"h-2\"></div><div class=\"flex gap-1.5 items-center\"><input id=\"price\" class=\"px-3 py-1.5 w-24 rounded-lg bg-gray-200\"><p>")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Var12 := `₩`
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var12)
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</p></div></div></div></div></div><div class=\"flex justify-center w-full border-t-gray-400 border-[1px]\"><div class=\"flex justify-end items-center w-layout py-1.5\"><button id=\"submit\" class=\"flex items-center py-2 px-4 gap-1.5 bg-black rounded-lg\"><img src=\"/icons/check.svg\" class=\"w-6 h-6 invert\"><p class=\"font-bold text-white\">")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Var13 := `등록`
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var13)
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</p></button></div></div></div>")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			if !templ_7745c5c3_IsBuffer {
+				_, templ_7745c5c3_Err = io.Copy(templ_7745c5c3_W, templ_7745c5c3_Buffer)
+			}
+			return templ_7745c5c3_Err
+		})
+		templ_7745c5c3_Err = views.Layout(title).Render(templ.WithChildren(ctx, templ_7745c5c3_Var10), templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
