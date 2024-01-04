@@ -1,8 +1,7 @@
 root = "."
-tmp_dir = "tmp"
 
 [build]
-  bin = "./tmp/main"
+  bin = "./musematch"
   cmd = "sh build.sh"
   delay = 500
   exclude_dir = ["assets", "tmp", "vendor"]

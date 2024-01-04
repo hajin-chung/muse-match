@@ -1,6 +1,8 @@
 package controllers
 
 import (
+	"errors"
+	"log"
 	"musematch/globals"
 	"musematch/models"
 	"musematch/queries"
@@ -27,4 +29,18 @@ func MainController(c *fiber.Ctx) error {
 
 	page := pages.Main("this is title", user)
 	return utils.Render(c, page)
+}
+
+func ErrorController(c *fiber.Ctx, err error) error {
+	code := fiber.StatusInternalServerError
+	log.Println(err, code)
+
+	var e *fiber.Error
+	if errors.As(err, &e) {
+		code = e.Code
+	}
+
+	// Send custom error page
+	return c.Status(fiber.StatusInternalServerError).SendString("Internal Server Error")
+
 }

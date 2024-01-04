@@ -41,7 +41,7 @@ function addImage(image, url) {
 
 function removeImage(thumbnail) {
   const idx = imageList.findIndex(({ itemUrl }) => itemUrl === thumbnail.src);
-  if (idx !== -1) imageList.splice(idx, 0);
+  if (idx !== -1) imageList.splice(idx, 1);
   thumbnailList.removeChild(thumbnail)
   preview.removeAttribute("src")
   selectImage(null);
@@ -60,7 +60,6 @@ let isLoading = false;
 const submit = dq("#submit");
 const spinner = dq("#spinner");
 const check = dq("#check");
-
 
 submit.addEventListener("click", async () => {
   if (isLoading) return;

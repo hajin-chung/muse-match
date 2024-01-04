@@ -1,3 +1,5 @@
+const artId = window.location.href.split("/").pop()
+
 const dq = document.querySelector.bind(document);
 
 const thumbnailList = dq("#thumbnail-list");
@@ -5,8 +7,31 @@ const addButton = dq("#add-button");
 const imageInput = dq("#image-input");
 const preview = dq("#preview")
 const thumbnailTemplate = dq("#thumbnail-template")
-
 const imageList = [];
+
+const tagList = dq("#tag-list")
+const tagTemplate = dq("#tag-template")
+const tagInput = dq("#tag-input")
+const tags = []
+
+async function init() {
+  const prevImageIds = [...dq("#prevImageIds").children].map((el) => el.innerText)
+  await Promise.all(prevImageIds.map(async (id) => {
+    const url = `/image?id=${id}`;
+    const res = await fetch(url);
+    console.log(res)
+    const blob = await res.blob();
+    const file = new File([blob], "url")
+    addImage(file, url)
+  }));
+
+  if (imageList.length > 0) selectImage(imageList[0].url)
+
+  const prevTags = [...dq("#prevTags").children].map(el => el.innerText)
+  prevTags.forEach(tag => addTag(tag))
+}
+
+init().catch(err => console.error(err))
 
 addButton.addEventListener("click", () => {
   imageInput.click();
@@ -41,10 +66,10 @@ function addImage(image, url) {
 
 function removeImage(thumbnail) {
   const idx = imageList.findIndex(({ itemUrl }) => itemUrl === thumbnail.src);
-  if (idx !== -1) imageList.splice(idx, 0);
+  if (idx !== -1) imageList.splice(idx, 1);
   thumbnailList.removeChild(thumbnail)
   preview.removeAttribute("src")
-  selectImage(null);
+  selectImage(imageList[0].url);
 }
 
 function selectImage(url) {
@@ -55,54 +80,6 @@ function selectImage(url) {
   }
   preview.src = url;
 }
-
-let isLoading = false;
-const submit = dq("#submit");
-const spinner = dq("#spinner");
-const check = dq("#check");
-
-submit.addEventListener("click", async () => {
-  if (isLoading) return;
-  isLoading = true;
-  check.classList.add("hidden");
-  spinner.classList.remove("hidden");
-
-
-  const payload = {
-    name: dq("#name").value,
-    description: dq("#description").value,
-    price: parseInt(dq("#price").value),
-    info: dq("#info").value,
-    imageLength: imageList.length,
-    tags: tags
-  }
-
-  const res = await fetch("/dashboard/art/new", {
-    method: "POST",
-    body: JSON.stringify(payload),
-  });
-  // TODO: handle error 
-
-  const data = await res.json();
-  const uploadUrls = data.uploadUrls
-
-  await Promise.all(uploadUrls.map(async (url, idx) => {
-    return await fetch(url, {
-      method: "PUT",
-      body: imageList[idx].image,
-    })
-  }));
-
-
-  isLoading = false;
-  check.classList.remove("hidden");
-  spinner.classList.add("hidden");
-})
-
-const tagList = dq("#tag-list")
-const tagTemplate = dq("#tag-template")
-const tagInput = dq("#tag-input")
-const tags = []
 
 tagList.addEventListener("click", () => {
   tagInput.focus();
@@ -142,3 +119,72 @@ function removeTag(elem, name) {
 
   tagList.removeChild(elem);
 }
+
+function submitButton() {
+  let isLoading = false;
+  const submit = dq("#submit");
+  const spinner = dq("#submit #spinner");
+  const check = dq("#submit #check");
+
+  submit.addEventListener("click", async () => {
+    if (isLoading) return;
+    isLoading = true;
+    check.classList.add("hidden");
+    spinner.classList.remove("hidden");
+
+
+    const payload = {
+      name: dq("#name").value,
+      description: dq("#description").value,
+      price: parseInt(dq("#price").value),
+      info: dq("#info").value,
+      imageLength: imageList.length,
+      tags: tags
+    }
+
+    const res = await fetch(`/dashboard/art/${artId}`, {
+      method: "POST",
+      body: JSON.stringify(payload),
+    });
+    // TODO: handle error 
+
+    const data = await res.json();
+    const uploadUrls = data.uploadUrls
+
+    await Promise.all(uploadUrls.map(async (url, idx) => {
+      return await fetch(url, {
+        method: "PUT",
+        body: imageList[idx].image,
+      })
+    }));
+
+
+    isLoading = false;
+    check.classList.remove("hidden");
+    spinner.classList.add("hidden");
+  })
+}
+
+function deleteButton() {
+  let isLoading = false;
+  const button = dq("#delete");
+  const spinner = dq("#delete #spinner");
+  const check = dq("#delete #check");
+
+  button.addEventListener("click", async () => {
+    if (isLoading) return;
+    isLoading = true;
+    check.classList.add("hidden");
+    spinner.classList.remove("hidden");
+
+    await fetch(`/dashboard/art/${artId}`, { method: "DELETE" })
+
+    isLoading = false;
+    check.classList.remove("hidden");
+    spinner.classList.add("hidden");
+    window.location.href = "/dashboard/art";
+  })
+}
+
+submitButton()
+deleteButton()

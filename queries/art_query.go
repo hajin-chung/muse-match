@@ -103,20 +103,6 @@ func ArtImagesDelete(artId string) error {
 	return err
 }
 
-func ArtImagesUpdate(artId string, imageIds []string) error {
-	if len(imageIds) == 0 {
-		return nil
-	}
-
-	err := ArtImagesDelete(artId)
-	if err != nil {
-		return err
-	}
-
-	err = ArtImagesCreate(artId, imageIds)
-	return err
-}
-
 func ArtTagsCreate(artId string, tags []string) error {
 	if len(tags) == 0 {
 		return nil
@@ -153,6 +139,11 @@ func ArtTagsUpdate(artId string, tags []string) error {
 		return err
 	}
 
-	err = ArtTagsUpdate(artId, tags)
+	err = ArtTagsCreate(artId, tags)
+	return err
+}
+
+func ArtDelete(artId string) error {
+	_, err := db.Exec("DELETE FROM art WHERE id=$1", artId)
 	return err
 }

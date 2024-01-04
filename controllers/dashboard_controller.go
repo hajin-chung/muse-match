@@ -159,13 +159,18 @@ func DashboardArtUpdateController(c *fiber.Ctx) error {
 		return err
 	}
 
+	err = queries.ArtImagesDelete(artId)
+	if err != nil {
+		return err
+	}
+
 	imageIds := []string{}
 	for i := 0; i < payload.ImageLength; i++ {
 		imageId := utils.CreateId()
 		imageIds = append(imageIds, imageId)
 	}
 
-	err = queries.ArtImagesUpdate(artId, imageIds)
+	err = queries.ArtImagesCreate(artId, imageIds)
 	if err != nil {
 		log.Println(err)
 	}
@@ -181,4 +186,15 @@ func DashboardArtUpdateController(c *fiber.Ctx) error {
 	}
 
 	return c.JSON(fiber.Map{"uploadUrls": uploadUrls})
+}
+
+func DashboardArtDeleteController(c *fiber.Ctx) error {
+	artId := c.Params("id")
+	log.Println(artId)
+	err := queries.ArtDelete(artId)
+	if err != nil {
+		return err
+	}
+
+	return c.JSON(fiber.Map{"success": true})
 }
