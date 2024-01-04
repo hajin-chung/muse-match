@@ -8,9 +8,9 @@ templ DashboardArtPage(title string, user *models.User, arts []models.ArtInfo) {
 	@views.Layout(title) {
 		<div class="w-screen h-screen overflow-hidden flex flex-col">
 			@views.Header(user)
-			<div class="w-full h-full flex">
+			<div class="w-full h-content flex">
 				@views.DashboardNavBar("arts")
-				<div class="flex flex-col w-full px-6 pt-7">
+				<div class="flex flex-col h-full w-full px-6 pt-7">
 					<div class="flex w-full justify-between items-end pb-4">
 						<p class="font-bold text-xl">작품</p>
 						<a class="flex items-center gap-2 py-1.5 px-4 bg-black rounded-lg text-white" href="/dashboard/art/new">
@@ -47,7 +47,7 @@ templ DashboardArtNewPage(title string, user *models.User) {
 	@views.Layout(title) {
 		<div class="w-screen h-screen overflow-hidden flex flex-col relative">
 			@views.Header(user)
-			<div class="w-full h-full flex">
+			<div class="w-full h-content flex">
 				@views.DashboardNavBar("arts")
 				<div class="h-full overflow-y-scroll w-full flex justify-center">
 					<div class="flex flex-col px-[100px] py-6 h-max w-4/5 pb-32">
@@ -137,7 +137,7 @@ templ DashboardArtUpdatePage(title string, user *models.User, art *models.Art, t
 	@views.Layout(title) {
 		<div class="w-screen h-screen overflow-hidden flex flex-col relative">
 			@views.Header(user)
-			<div class="w-full h-full flex">
+			<div class="w-full h-content flex">
 				@views.DashboardNavBar("arts")
 				<div class="h-full overflow-y-scroll w-full flex justify-center">
 					<div class="flex flex-col px-[100px] py-6 h-max w-4/5 pb-32">

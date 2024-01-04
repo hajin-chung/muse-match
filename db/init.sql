@@ -39,6 +39,7 @@ CREATE TABLE user_art_list (
 CREATE TABLE user_art_list_item (
 	list_id varchar(10) NOT NULL,
 	art_id varchar(10) NOT NULL,
+	idx INTEGER
 	PRIMARY KEY (list_id, art_id)
 );
 

@@ -3,6 +3,10 @@ module.exports = {
 	content: ["views/**/*.templ"],
 	theme: {
 		extend: {
+			spacing: {
+				"50": "200px",
+				"content": "calc(100% - 48px)"
+			},
 			fontSize: {
 				xxs: "10px",
 			},
@@ -19,6 +23,10 @@ module.exports = {
 			},
 			gridTemplateColumns: {
 				'auto-280': 'repeat(auto-fill, 280px)'
+			},
+			aspectRatio: {
+				'banner': "4 / 1",
+				"thumbnail": "4 / 3"
 			}
 		},
 	},

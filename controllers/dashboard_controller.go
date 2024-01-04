@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"log"
 	"musematch/globals"
+	"musematch/models"
 	"musematch/queries"
 	"musematch/utils"
 	"musematch/views/pages"
@@ -197,4 +198,46 @@ func DashboardArtDeleteController(c *fiber.Ctx) error {
 	}
 
 	return c.JSON(fiber.Map{"success": true})
+}
+
+func DashboardProfileViewController(c *fiber.Ctx) error {
+	sess, _ := globals.Store.Get(c)
+	id := sess.Get("id").(string)
+
+	user, err := queries.GetUserById(id)
+	if err != nil {
+		log.Println("hi")
+		return err
+	}
+	
+	link, err := queries.GetUserLink(id)
+	if err != nil {
+		log.Println("h2i")
+		return err
+	}
+
+	history, err := queries.GetUserHistory(id)
+	if err != nil {
+		log.Println("132")
+		return err
+	}
+
+	artList, err := queries.GetUserArtLists(id)
+	if err != nil {
+		log.Println("132dsa")
+		return err
+	}
+
+	arts, err := queries.GetUserArtMap(id)
+
+	profile := models.UserProfile{
+		User: user,
+		Link: link,
+		History: history,
+		ArtList: artList,
+		Arts: arts,
+	}
+
+	page := pages.DashboardProfilePage("sample title", &profile)
+	return utils.Render(c, page)
 }

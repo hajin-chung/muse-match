@@ -3,7 +3,7 @@ package middleware
 import (
 	"fmt"
 	"musematch/globals"
-	"musematch/utils"
+	// "musematch/utils"
 
 	"github.com/gofiber/fiber/v2"
 )
@@ -14,7 +14,7 @@ func Logger(c *fiber.Ctx) error {
 		reqMsg += fmt.Sprintf("%s:%s;", key, value)
 	}
 	reqMsg += fmt.Sprintf("%s", string(c.BodyRaw()))
-	utils.Log(reqMsg)
+	// utils.Log(reqMsg)
 
 	res := c.Next()
 
@@ -22,7 +22,7 @@ func Logger(c *fiber.Ctx) error {
 	for key, value := range c.GetRespHeaders() {
 		resMsg += fmt.Sprintf("%s:%s;", key, value)
 	}
-	utils.Log(resMsg)
+	// utils.Log(resMsg)
 	return res
 }
 

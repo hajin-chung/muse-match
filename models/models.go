@@ -38,6 +38,22 @@ type UserArtList struct {
 type UserArtListItem struct {
 	ListId string `db:"list_id"`
 	ArtId  string `db:"art_id"`
+	Idx    int    `db:"idx"`
+}
+
+type UserArtListMap struct {
+	List []UserArtList
+	Item map[string][]string // ListId -> ArtId
+}
+
+type UserArtMap map[string]Art
+
+type UserProfile struct {
+	User    *User
+	Link    []UserLink
+	History []UserHistory
+	ArtList *UserArtListMap
+	Arts    UserArtMap
 }
 
 type UserLikeUser struct {

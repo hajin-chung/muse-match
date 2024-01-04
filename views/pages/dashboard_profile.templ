@@ -1,0 +1,154 @@
+package pages
+
+import "musematch/models"
+import "musematch/views"
+import "strconv"
+
+templ DashboardProfilePage(title string, profile *models.UserProfile) {
+	@views.Layout(title) {
+		<div class="w-screen h-screen flex flex-col relative">
+			@views.Header(profile.User)
+			<div class="w-full h-content flex">
+				@views.DashboardNavBar("profile")
+				<div class="h-full overflow-y-scroll w-full">
+					<div class="flex flex-col w-full px-16 pt-10 pb-20 gap-6">
+						<div class="w-full flex gap-10">
+							<p class="w-60 flex-shrink-0">배너 사진</p>
+							<div class="relative flex items-center justify-center w-full aspect-banner bg-gray-100 rounded-lg group overflow-clip">
+								<img src={ "/image?id=banner-" + profile.User.Id } class="w-full h-full top-0 left-0 absolute"/>
+								<button class="w-10 h-10 rounded-full bg-white bg-opacity-20 z-10">
+									<img src="/icons/pen.svg" class="w-8 h-8"/>
+								</button>
+							</div>
+						</div>
+						<div class="w-full flex gap-10">
+							<p class="w-60 flex-shrink-0">프로필 사진</p>
+							<div class="w-20 h-20 border-2 border-black rounded-full bg-gray-100 group relative overflow-clip">
+								<img src={ profile.User.Picture } class="w-full h-full absolute top-0 left-0"/>
+								<button class="w-full h-full flex justify-center items-center bg-white bg-opacity-20 z-10">
+									<img src="/icons/pen.svg" class="w-8 h-8"/>
+								</button>
+							</div>
+						</div>
+						<div class="w-full flex gap-10">
+							<p class="w-60 flex-shrink-0">이름</p>
+							<input class="w-60 rounded-lg p-2 bg-gray-100" value={ profile.User.Name }/>
+						</div>
+						<div class="w-full flex gap-10">
+							<p class="w-60 flex-shrink-0">소개</p>
+							<textarea class="w-full min-h-20 rounded-lg p-2 bg-gray-100">
+								{ profile.User.Description }
+							</textarea>
+						</div>
+						<div class="w-full flex gap-10">
+							<p class="w-60 flex-shrink-0">링크</p>
+							<div class="w-full flex gap-4 flex-wrap">
+								<div class="flex items-center gap-4">
+									<img src="/icons/instagram.svg" class="w-6 h-6"/>
+									<input class="p-2 w-50 rounded-lg bg-gray-100" value={ profile.User.InstagramId }/>
+								</div>
+								<div class="flex items-center gap-4">
+									<img src="/icons/facebook.svg" class="w-6 h-6"/>
+									<input class="p-2 w-50 rounded-lg bg-gray-100" value={ profile.User.FacebookId }/>
+								</div>
+								<div class="flex items-center gap-4">
+									<img src="/icons/x.svg" class="w-6 h-6"/>
+									<input class="p-2 w-50 rounded-lg bg-gray-100" value={ profile.User.TwitterId }/>
+								</div>
+								for _, link := range profile.Link {
+									<div class="flex items-center gap-4">
+										<img src="/icons/link.svg" class="w-6 h-6"/>
+										<input class="p-2 w-50 rounded-lg bg-gray-100" value={ link.Content }/>
+									</div>
+								}
+								<button class="px-4 py-1 flex items-center gap-2 rounded-lg bg-black">
+									<img src="/icons/plus.svg" class="w-6 h-6 invert"/>
+									<p class="font-bold text-white">링크 추가</p>
+								</button>
+							</div>
+						</div>
+						<div class="w-full flex gap-10">
+							<p class="w-60 flex-shrink-0">노트</p>
+							<textarea class="w-full min-h-20 rounded-lg p-2 bg-gray-100">
+								{ profile.User.Note }
+							</textarea>
+						</div>
+						<div class="w-full flex gap-10">
+							<p class="w-60 flex-shrink-0">이력</p>
+							<div class="flex flex-col gap-4 w-full">
+								<div class="grid grid-cols-2 gap-3">
+									for _, history := range profile.History {
+										<div class="flex flex-col py-2 px-5 bg-gray-100 rounded-lg h-60">
+											<div class="flex w-full items-center p-1 border-b-black border-b-[1px]">
+												<input class="bg-transparent font-bold w-full" value={ history.Title }/>
+												<button class="w-4 h-4">
+													<img src="/icons/trash.svg" class="w-full h-full"/>
+												</button>
+											</div>
+										</div>
+									}
+								</div>
+								<button class="bg-black w-full rounded-lg flex justify-center items-center gap-3 py-1.5">
+									<img src="/icons/plus.svg" class="w-4 h-4 invert"/>
+									<p class="font-bold text-white">이력 추가</p>
+								</button>
+							</div>
+						</div>
+						<div class="w-full flex gap-10">
+							<p class="w-60 flex-shrink-0">작품 리스트</p>
+							<div class="w-full gap-3 flex flex-col">
+								for _, artList := range profile.ArtList.List {
+									<div class="flex flex-col gap-2 w-full">
+										<div class="flex w-full justify-between">
+											<input
+												class="px-2.5 py-1 font-bold rounded-lg bg-gray-100"
+												value={ artList.Title }
+											/>
+											<div class="flex gap-5">
+												<button class="bg-red-500 flex items-center px-3 py-1">
+													<img src="/icons/trash.svg" class="w-4 h-4 invert"/>
+													<p class="font-bold text-white">삭제</p>
+												</button>
+												<button class="bg-black flex items-center px-3 py-1">
+													<img src="/icons/pen.svg" class="w-4 h-4 invert"/>
+													<p class="font-bold text-white">수정</p>
+												</button>
+											</div>
+										</div>
+										<div class="overflow-x-scroll w-full">
+											<div class="flex gap-3">
+												for _, artId := range profile.ArtList.Item[artList.Id] {
+													<div class="w-48 flex flex-col gap-1">
+														<img class="w-full aspect-thumbnail mb-1" src={ "/image?id=" + artId }/>
+														<p class="font-bold">{ profile.Arts[artId].Name }</p>
+														<p class="font-thin text-xs">{ profile.Arts[artId].Info }</p>
+														<p class="text-xs">{ strconv.Itoa(profile.Arts[artId].Price) }</p>
+													</div>
+												}
+											</div>
+										</div>
+									</div>
+								}
+								<button class="bg-black w-full rounded-lg flex justify-center items-center gap-3 py-1.5">
+									<img src="/icons/plus.svg" class="w-4 h-4 invert"/>
+									<p class="font-bold text-white">리스트 추가</p>
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="flex justify-center w-full border-t-gray-400 border-[1px] absolute bottom-0 bg-white">
+				<div class="flex justify-end items-center w-layout py-1.5">
+					<button id="submit" class="flex items-center py-2 px-4 gap-1.5 bg-black rounded-lg">
+						<img src="/icons/check.svg" class="w-6 h-6 invert" id="check"/>
+						<div class="w-6 h-6 hidden" id="spinner">
+							<span class="w-5 h-5 m-0.5 loader"></span>
+						</div>
+						<p class="font-bold text-white">등록</p>
+					</button>
+				</div>
+			</div>
+		</div>
+	}
+}

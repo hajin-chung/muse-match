@@ -147,3 +147,9 @@ func ArtDelete(artId string) error {
 	_, err := db.Exec("DELETE FROM art WHERE id=$1", artId)
 	return err
 }
+
+func GetArtsByUserId(userId string) ([]models.Art, error) {
+	arts := []models.Art{}
+	err := db.Select("SELECT * FROM art WHERE user_id=$1", userId)
+	return arts, err
+}
