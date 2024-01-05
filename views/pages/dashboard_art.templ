@@ -129,7 +129,7 @@ templ DashboardArtNewPage(title string, user *models.User) {
 			</button>
 			<img class="w-20 h-20 rounded-lg object-cover" id="thumbnail-image"/>
 		</div>
-		<script src="/scripts/dashboard-art-new.js"></script>
+		<script type="module" src="/scripts/dashboard-art-new.js"></script>
 	}
 }
 
@@ -251,6 +251,6 @@ templ DashboardArtUpdatePage(title string, user *models.User, art *models.Art, t
 				<p>{ tag }</p>
 			}
 		</div>
-		<script src="/scripts/dashboard-art-update.js"></script>
+		<script type="module" src="/scripts/dashboard-art-update.js"></script>
 	}
 }

@@ -1,6 +1,6 @@
-const artId = window.location.href.split("/").pop()
+import { dq } from "./lib.js";
 
-const dq = document.querySelector.bind(document);
+const artId = window.location.href.split("/").pop()
 
 const thumbnailList = dq("#thumbnail-list");
 const addButton = dq("#add-button");

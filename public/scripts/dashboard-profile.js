@@ -1,9 +1,4 @@
-/** @type { (id: string) => HTMLElement } */
-const di = document.getElementById.bind(document);
-/** @type { (qs: string) => HTMLElement } */
-const dq = qs => document.querySelector(qs);
-/** @type { (qs: string) => HTMLElement[] } */
-const dqs = qs => [...document.querySelectorAll(qs)];
+import { dqs, di } from "./lib.js";
 
 const bannerInput = di("banner-input");
 const pictureInput = di("picture-input");
