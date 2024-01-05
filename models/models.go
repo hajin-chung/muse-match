@@ -45,7 +45,7 @@ type UserArtListMap struct {
 	Item map[string][]string // ListId -> ArtId
 }
 
-type UserArtMap map[string]Art
+type UserArtMap map[string]ArtInfo
 
 type UserProfile struct {
 	User    *User

@@ -2,9 +2,13 @@ import { dqs, di } from "./lib.js";
 
 const bannerInput = di("banner-input");
 const pictureInput = di("picture-input");
+const histories = di("histories");
+const lists = di("lists");
 
 const linkTemplate = di("link-template");
 const historyTemplate = di("history-template");
+const listTemplate = di("list-template");
+const listItemTemplate = di("list-item-template");
 
 di("banner-button").addEventListener("click", () => {
   bannerInput.click();
@@ -35,14 +39,107 @@ pictureInput.addEventListener("change", () => {
 });
 
 di("link-button").addEventListener("click", () => {
-  newLink = linkTemplate.content.cloneNode(true);
+  const newLink = linkTemplate.content.cloneNode(true);
   di("links").insertBefore(newLink, di("link-button"));
 });
 
+dqs("#history").forEach((history) => {
+  history.querySelector("#delete-button").onclick = () => {
+    history.parentNode.removeChild(history)
+  }
+})
+
 di("history-button").addEventListener("click", () => {
-  newHistory = historyTemplate.content.cloneNode(true);
-  di("histories").appendChild(newHistory);
+  let newHistory = historyTemplate.content.cloneNode(true);
+  histories.appendChild(newHistory);
+  newHistory = histories.lastChild;
+  newHistory.querySelector("#delete-button").onclick = () => {
+    histories.removeChild(newHistory);
+  }
 });
+
+dqs("#list").forEach(list => {
+  list.querySelector("#delete-button").onclick = () => {
+    lists.removeChild(list);
+  }
+  list.querySelector("#update-button").onclick = () => {
+    openModal(list)
+  }
+})
+
+di("list-button").addEventListener("click", () => {
+  let newList = listTemplate.content.cloneNode(true);
+  lists.insertBefore(newList, di("list-button"));
+  newList = lists.children[lists.children.length - 2]
+  newList.querySelector("#delete-button").onclick = () => {
+    lists.removeChild(newList);
+  }
+  newList.querySelector("#update-button").onclick = () => openModal(newList)
+});
+
+const modal = di("modal");
+const artCards = dqs(".art-card");
+let modalTarget;
+/** @type {string[]} */
+let modalList = [];
+
+artCards.forEach(artCard => {
+  artCard.onclick = () => {
+    const num = artCard.querySelector(".number");
+    if (num.style.display === "flex") {
+      // remove num and shift numbers
+      const index = modalList.findIndex((id) => id === artCard.id);
+      console.log({modalList, artCard, index})
+      for (let i = index + 1; i < modalList.length; i++) {
+        modal.querySelector(`#${modalList[i]}`).querySelector(".number").innerText = i;
+      }
+      modalList.splice(index, 1);
+      num.style.display = "none";
+    } else {
+      num.style.display = "flex";
+      num.innerHTML = modalList.length + 1;
+      modalList.push(artCard.id);
+    }
+  }
+});
+
+di("list-submit").onclick = closeModal;
+
+function openModal(target) {
+  modalTarget = target;
+  modalList = [];
+
+  modal.style.display = "flex";
+
+  modalList = [...target.querySelectorAll("#items > .art-card")].map(c => c.id);
+
+  artCards.map(c => {
+    const num = c.querySelector(".number")
+    const idx = modalList.findIndex((id) => id === c.id)
+    if (idx !== -1) {
+      num.innerHTML = idx + 1;
+      num.style.display = "flex";
+    } else {
+      num.innerHTML = "";
+      num.style.display = "hidden";
+    }
+  })
+}
+
+function closeModal() {
+  modal.style.display = "none";
+  artCards.map(c => c.querySelector(".number")).forEach(num => {
+    num.innerHTML = "";
+    num.style.display = "none";
+  })
+
+  const items = modalTarget.querySelector("#items");
+  items.innerHTML = "";
+  modalList.forEach((id) => {
+    const item = di(id).cloneNode(true);
+    items.appendChild(item);
+  });
+}
 
 let isLoading = false;
 
@@ -56,6 +153,12 @@ di("submit").addEventListener("click", async () => {
     const title = h.querySelector("#title-input").value;
     const content = h.querySelector("#content-input").value;
     return { title, content };
+  });
+
+  const list = dqs("#list").map(l => {
+    const title = l.querySelector("#title").value;
+    const artIds = [...l.querySelectorAll(".art-card")].map(c => c.id);
+    return { title, artIds };
   })
 
   const profile = {
@@ -66,7 +169,8 @@ di("submit").addEventListener("click", async () => {
     twitterId: di("twitter-input").value,
     links: dqs("#link-input").map(el => el.value),
     note: di("note-input").value,
-    history: history,
+    history,
+    list,
   };
 
   const res = await fetch("/dashboard/profile", {

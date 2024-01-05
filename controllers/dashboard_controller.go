@@ -218,6 +218,11 @@ type HistoryPayload struct {
 	Content string `json:"content"`
 }
 
+type ListPayload struct {
+	Title  string   `json:"title"`
+	ArtIds []string `json:"artIds"`
+}
+
 type ProfileUpdatePayload struct {
 	Name        string           `json:"name"`
 	Description string           `json:"description"`
@@ -227,6 +232,7 @@ type ProfileUpdatePayload struct {
 	Links       []string         `json:"links"`
 	Note        string           `json:"note"`
 	History     []HistoryPayload `json:"history"`
+	List        []ListPayload    `json:"list"`
 }
 
 func DashboardProfileController(c *fiber.Ctx) error {
@@ -276,6 +282,37 @@ func DashboardProfileController(c *fiber.Ctx) error {
 	}
 
 	err = queries.UpdateUserHistory(id, histories)
+	if err != nil {
+		return err
+	}
+
+	artLists := []models.UserArtList{}
+	artListItems := []models.UserArtListItem{}
+	for _, artList := range payload.List {
+		artListId := utils.CreateId()
+		artLists = append(artLists, models.UserArtList{
+			Id:     artListId,
+			UserId: id,
+			Title:  artList.Title,
+		})
+		for idx, artId := range artList.ArtIds {
+			artListItems = append(artListItems, models.UserArtListItem{
+				ListId: artListId,
+				ArtId:  artId,
+				Idx:    idx,
+			})
+		}
+	}
+
+	log.Printf("%+v\n", artLists)
+	log.Printf("%+v\n", artListItems)
+
+	err = queries.UpdateUserArtList(id, artLists)
+	if err != nil {
+		return err
+	}
+
+	err = queries.UpdateUserArtListItem(id, artListItems)
 	if err != nil {
 		return err
 	}

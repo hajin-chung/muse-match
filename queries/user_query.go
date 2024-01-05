@@ -48,7 +48,9 @@ func GetUserHistory(id string) ([]models.UserHistory, error) {
 }
 
 func GetUserArtLists(id string) (*models.UserArtListMap, error) {
-	artListMap := models.UserArtListMap{}
+	artListMap := models.UserArtListMap{
+		Item: map[string][]string{},
+	}
 	artLists := []models.UserArtList{}
 
 	err := db.Select(&artLists, "SELECT * FROM user_art_list WHERE user_id=$1", id)
@@ -79,7 +81,7 @@ func GetUserArtLists(id string) (*models.UserArtListMap, error) {
 
 func GetUserArtMap(id string) (models.UserArtMap, error) {
 	artMap := models.UserArtMap{}
-	arts, err := GetArtsByUserId(id)
+	arts, err := GetArtInfosByUserId(id)
 	if err != nil {
 		return nil, err
 	}
@@ -191,4 +193,42 @@ func GetUserProfile(userId string) (*models.UserProfile, error) {
 	}
 
 	return &profile, nil
+}
+
+func DeleteUserArtList(userId string) error {
+	_, err := db.Exec("DELETE FROM user_art_list WHERE user_id=$1", userId)
+	return err
+}
+
+func UpdateUserArtList(userId string, artList []models.UserArtList) error {
+	err := DeleteUserArtList(userId)
+	if err != nil {
+		return err
+	}
+
+	_, err = db.NamedExec(`
+		INSERT INTO user_art_list (id, user_id, title)
+		VALUES (:id, :user_id, :title)`,
+		artList,
+	)
+	return err
+}
+
+func DeleteUserArtListItem() error {
+	_, err := db.Exec("DELETE FROM user_art_list_item")
+	return err
+}
+
+func UpdateUserArtListItem(userId string, listItems []models.UserArtListItem) error {
+	err := DeleteUserArtListItem()
+	if err != nil {
+		return err
+	}
+
+	_, err = db.NamedExec(`
+		INSERT INTO user_art_list_item (list_id, art_id, idx)
+		VALUES (:list_id, :art_id, :idx)`,
+		listItems,
+	)
+	return err
 }
