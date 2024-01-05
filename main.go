@@ -62,6 +62,9 @@ func main() {
 	app.Delete("/dashboard/art/:id", middleware.SessionProtected, controllers.DashboardArtDeleteController)
 	app.Get("/dashboard/profile", middleware.SessionProtected, controllers.DashboardProfileViewController)
 	app.Post("/dashboard/profile", middleware.SessionProtected, controllers.DashboardProfileController)
+
+	app.Get("/artist/:user_id", controllers.ArtistController)
+
 	app.Get("/test", controllers.TestController)
 	app.Get("/image", controllers.ImageGetController)
 	// app.Get("/auth/callback/naver", controllers.NaverCallbackController)

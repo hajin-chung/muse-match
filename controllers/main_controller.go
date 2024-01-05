@@ -44,3 +44,26 @@ func ErrorController(c *fiber.Ctx, err error) error {
 	return c.Status(fiber.StatusInternalServerError).SendString("Internal Server Error")
 
 }
+
+func ArtistController(c *fiber.Ctx) error {
+	sess, _ := globals.Store.Get(c)
+
+	var user *models.User
+	userId, ok := sess.Get("id").(string)
+	if ok {
+		_user, err := queries.GetUserById(userId)
+		user = _user
+		if err != nil {
+			return err
+		}
+	}
+
+	artistId := c.Params("user_id")
+	profile, err := queries.GetUserProfile(artistId)
+	if err != nil {
+		return err
+	}
+
+	page := pages.ArtistPage("sample title", user, profile)
+	return utils.Render(c, page)
+}
