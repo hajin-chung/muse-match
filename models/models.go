@@ -26,7 +26,6 @@ type UserHistory struct {
 	UserId  string `db:"user_id"`
 	Title   string `db:"title"`
 	Content string `db:"content"`
-	Deleted int    `db:"deleted"`
 }
 
 type UserArtList struct {

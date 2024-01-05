@@ -1,6 +1,8 @@
 package queries
 
-import "musematch/models"
+import (
+	"musematch/models"
+)
 
 func GetUserBySub(sub string) (*models.User, error) {
 	user := models.User{}
@@ -57,16 +59,16 @@ func GetUserArtLists(id string) (*models.UserArtListMap, error) {
 	for _, artList := range artLists {
 		artListItems := []models.UserArtListItem{}
 		err = db.Select(
-			&artListItems, 
+			&artListItems,
 			"SELECT * FROM user_art_list_item WHERE list_id=$1",
 			artList.Id,
 		)
 		if err != nil {
 			return nil, err
 		}
-		
+
 		for _, item := range artListItems {
-			artListMap.Item[artList.Id] = 
+			artListMap.Item[artList.Id] =
 				append(artListMap.Item[artList.Id], item.ArtId)
 		}
 	}
@@ -86,4 +88,70 @@ func GetUserArtMap(id string) (models.UserArtMap, error) {
 		artMap[art.Id] = art
 	}
 	return artMap, nil
+}
+
+func UpdateUser(
+	id string,
+	name string,
+	description string,
+	instagramId string,
+	facebookId string,
+	twitterId string,
+	note string,
+) error {
+	_, err := db.Exec(`
+		UPDATE user
+		SET name=?, description=?, instagram_id=?, facebook_id=?, twitter_id=?, note=?
+		WHERE id=?;`,
+		name, description,
+		instagramId, facebookId, twitterId,
+		note, id,
+	)
+	return err
+}
+
+func DeleteUserLink(id string) error {
+	_, err := db.Exec("DELETE FROM user_link WHERE user_id=?", id)
+	return err
+}
+
+func UpdateUserLink(id string, links []models.UserLink) error {
+	err := DeleteUserLink(id)
+	if err != nil {
+		return err
+	}
+
+	if len(links) == 0 {
+		return nil
+	}
+
+	_, err = db.NamedExec(`
+		INSERT INTO user_link (id, user_id, content)
+		VALUES (:id, :user_id, :content)
+	`, links)
+
+	return err
+}
+
+func DeleteUserHistory(userId string) error {
+	_, err := db.Exec("DELETE FROM user_history WHERE id=?", userId)
+	return err
+}
+
+func UpdateUserHistory(id string, histories []models.UserHistory) error {
+	err := DeleteUserHistory(id)
+	if err != nil {
+		return err
+	}
+
+	if len(histories) == 0 {
+		return nil
+	}
+
+	_, err = db.NamedExec(`
+		INSERT INTO user_history (id, user_id, title, content)
+		VALUES (:id, :user_id, :title, :content)
+	`, histories)
+
+	return err
 }

@@ -26,8 +26,7 @@ CREATE TABLE user_history (
 	id varchar(10) NOT NULL PRIMARY KEY,
 	user_id varchar(10) NOT NULL,
 	title TEXT NOT NULL,
-	content TEXT NOT NULL,
-	deleted INTEGER
+	content TEXT NOT NULL
 );
 
 CREATE TABLE user_art_list (
@@ -39,7 +38,7 @@ CREATE TABLE user_art_list (
 CREATE TABLE user_art_list_item (
 	list_id varchar(10) NOT NULL,
 	art_id varchar(10) NOT NULL,
-	idx INTEGER
+	idx INTEGER,
 	PRIMARY KEY (list_id, art_id)
 );
 

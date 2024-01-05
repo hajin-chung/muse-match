@@ -209,35 +209,104 @@ func DashboardProfileViewController(c *fiber.Ctx) error {
 		log.Println("hi")
 		return err
 	}
-	
+
 	link, err := queries.GetUserLink(id)
 	if err != nil {
-		log.Println("h2i")
 		return err
 	}
 
 	history, err := queries.GetUserHistory(id)
 	if err != nil {
-		log.Println("132")
 		return err
 	}
 
 	artList, err := queries.GetUserArtLists(id)
 	if err != nil {
-		log.Println("132dsa")
 		return err
 	}
 
 	arts, err := queries.GetUserArtMap(id)
 
 	profile := models.UserProfile{
-		User: user,
-		Link: link,
+		User:    user,
+		Link:    link,
 		History: history,
 		ArtList: artList,
-		Arts: arts,
+		Arts:    arts,
 	}
 
 	page := pages.DashboardProfilePage("sample title", &profile)
 	return utils.Render(c, page)
+}
+
+type HistoryPayload struct {
+	Title   string `json:"title"`
+	Content string `json:"content"`
+}
+
+type ProfileUpdatePayload struct {
+	Name        string           `json:"name"`
+	Description string           `json:"description"`
+	InstagramId string           `json:"instagramId"`
+	FacebookId  string           `json:"facebookId"`
+	TwitterId   string           `json:"twitterId"`
+	Links       []string         `json:"links"`
+	Note        string           `json:"note"`
+	History     []HistoryPayload `json:"history"`
+}
+
+func DashboardProfileController(c *fiber.Ctx) error {
+	sess, _ := globals.Store.Get(c)
+	id := sess.Get("id").(string)
+
+	body := c.Body()
+	payload := ProfileUpdatePayload{}
+
+	err := json.Unmarshal(body, &payload)
+	if err != nil {
+		return err
+	}
+
+	log.Printf("%+v\n", payload)
+
+	err = queries.UpdateUser(
+		id, payload.Name, payload.Description,
+		payload.InstagramId, payload.FacebookId, payload.TwitterId,
+		payload.Note,
+	)
+	if err != nil {
+		return err
+	}
+
+	links := []models.UserLink{}
+	for _, content := range payload.Links {
+		links = append(links, models.UserLink{
+			Id:      utils.CreateId(),
+			UserId:  id,
+			Content: content,
+		})
+	}
+	err = queries.UpdateUserLink(id, links)
+	if err != nil {
+		return err
+	}
+
+	histories := []models.UserHistory{}
+	for _, history := range payload.History {
+		histories = append(histories, models.UserHistory{
+			Id:      utils.CreateId(),
+			UserId:  id,
+			Title:   history.Title,
+			Content: history.Content,
+		})
+	}
+
+	err = queries.UpdateUserHistory(id, histories)
+	if err != nil {
+		return err
+	}
+
+	bannerUrl, err := utils.PresignedPutUrl("banner-" + id)
+	pictureUrl, err := utils.PresignedPutUrl(id)
+	return c.JSON(fiber.Map{"bannerUrl": bannerUrl, "pictureUrl": pictureUrl})
 }

@@ -61,7 +61,7 @@ func main() {
 	app.Post("/dashboard/art/:id", middleware.SessionProtected, controllers.DashboardArtUpdateController)
 	app.Delete("/dashboard/art/:id", middleware.SessionProtected, controllers.DashboardArtDeleteController)
 	app.Get("/dashboard/profile", middleware.SessionProtected, controllers.DashboardProfileViewController)
-	// app.Post("/dashboard/profile", middleware.SessionProtected, controllers.DashboardProfileController)
+	app.Post("/dashboard/profile", middleware.SessionProtected, controllers.DashboardProfileController)
 	app.Get("/test", controllers.TestController)
 	app.Get("/image", controllers.ImageGetController)
 	// app.Get("/auth/callback/naver", controllers.NaverCallbackController)
