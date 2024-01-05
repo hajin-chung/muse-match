@@ -134,7 +134,7 @@ func UpdateUserLink(id string, links []models.UserLink) error {
 }
 
 func DeleteUserHistory(userId string) error {
-	_, err := db.Exec("DELETE FROM user_history WHERE id=?", userId)
+	_, err := db.Exec("DELETE FROM user_history WHERE user_id=?", userId)
 	return err
 }
 
@@ -154,4 +154,41 @@ func UpdateUserHistory(id string, histories []models.UserHistory) error {
 	`, histories)
 
 	return err
+}
+
+func GetUserProfile(userId string) (*models.UserProfile, error) {
+	user, err := GetUserById(userId)
+	if err != nil {
+		return nil, err
+	}
+
+	link, err := GetUserLink(userId)
+	if err != nil {
+		return nil, err
+	}
+
+	history, err := GetUserHistory(userId)
+	if err != nil {
+		return nil, err
+	}
+
+	artList, err := GetUserArtLists(userId)
+	if err != nil {
+		return nil, err
+	}
+
+	arts, err := GetUserArtMap(userId)
+	if err != nil {
+		return nil, err
+	}
+
+	profile := models.UserProfile{
+		User:    user,
+		Link:    link,
+		History: history,
+		ArtList: artList,
+		Arts:    arts,
+	}
+
+	return &profile, nil
 }
