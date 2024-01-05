@@ -43,7 +43,7 @@ templ Header(user *models.User) {
 				}
 			</div>
 			if user != nil {
-				<div id="dropdown-menu" class="absolute -bottom-1 right-0 hidden p-4 flex-col gap-2 shadow-md translate-y-full rounded-lg z-10">
+				<div id="dropdown-menu" class="absolute bg-white -bottom-1 right-0 hidden p-4 flex-col gap-2 shadow-md translate-y-full rounded-lg z-10">
 					<a class="text-xs" href="/dashboard/art">마이 페이지</a>
 					<a class="text-xs" href="/dashboard">
 						if user.IsOwner != 0 {
