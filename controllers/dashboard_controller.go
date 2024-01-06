@@ -191,7 +191,6 @@ func DashboardArtUpdateController(c *fiber.Ctx) error {
 
 func DashboardArtDeleteController(c *fiber.Ctx) error {
 	artId := c.Params("id")
-	log.Println(artId)
 	err := queries.ArtDelete(artId)
 	if err != nil {
 		return err
@@ -247,8 +246,6 @@ func DashboardProfileController(c *fiber.Ctx) error {
 		return err
 	}
 
-	log.Printf("%+v\n", payload)
-
 	err = queries.UpdateUser(
 		id, payload.Name, payload.Description,
 		payload.InstagramId, payload.FacebookId, payload.TwitterId,
@@ -303,9 +300,6 @@ func DashboardProfileController(c *fiber.Ctx) error {
 			})
 		}
 	}
-
-	log.Printf("%+v\n", artLists)
-	log.Printf("%+v\n", artListItems)
 
 	err = queries.UpdateUserArtList(id, artLists)
 	if err != nil {

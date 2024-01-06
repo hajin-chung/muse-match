@@ -89,7 +89,6 @@ artCards.forEach(artCard => {
     if (num.style.display === "flex") {
       // remove num and shift numbers
       const index = modalList.findIndex((id) => id === artCard.id);
-      console.log({modalList, artCard, index})
       for (let i = index + 1; i < modalList.length; i++) {
         modal.querySelector(`#${modalList[i]}`).querySelector(".number").innerText = i;
       }

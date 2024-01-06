@@ -19,7 +19,6 @@ async function init() {
   await Promise.all(prevImageIds.map(async (id) => {
     const url = `/image?id=${id}`;
     const res = await fetch(url);
-    console.log(res)
     const blob = await res.blob();
     const file = new File([blob], "url")
     addImage(file, url)
