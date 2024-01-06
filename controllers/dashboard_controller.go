@@ -301,14 +301,18 @@ func DashboardProfileController(c *fiber.Ctx) error {
 		}
 	}
 
-	err = queries.UpdateUserArtList(id, artLists)
-	if err != nil {
-		return err
+	if len(artLists) > 0 {
+		err = queries.UpdateUserArtList(id, artLists)
+		if err != nil {
+			return err
+		}
 	}
 
-	err = queries.UpdateUserArtListItem(id, artListItems)
-	if err != nil {
-		return err
+	if len(artListItems) > 0 {
+		err = queries.UpdateUserArtListItem(id, artListItems)
+		if err != nil {
+			return err
+		}
 	}
 
 	bannerUrl, err := utils.PresignedPutUrl("banner-" + id)

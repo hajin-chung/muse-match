@@ -223,14 +223,14 @@ templ DashboardHistoryInput(histories []models.UserHistory) {
 		</div>
 	</div>
 	<template id="history-template">
-		<div id="history" class="gap-3 flex flex-col py-2 px-5 bg-gray-100 rounded-lg h-60">
+		<div class="history gap-3 flex flex-col py-2 px-5 bg-gray-100 rounded-lg h-60">
 			<div class="flex w-full items-center p-1 border-b-black border-b-[1px]">
-				<input id="title-input" class="bg-transparent font-bold w-full outline-none"/>
-				<button id="delete-button" class="w-4 h-4">
+				<input class="title-input bg-transparent font-bold w-full outline-none"/>
+				<button class="delete-button w-4 h-4">
 					<img src="/icons/trash.svg" class="w-full h-full"/>
 				</button>
 			</div>
-			<textarea id="content-input" class="bg-transparent h-full outline-none"></textarea>
+			<textarea class="content-input bg-transparent h-full outline-none"></textarea>
 		</div>
 	</template>
 }
