@@ -1,0 +1,70 @@
+package pages
+
+import "musematch/models"
+import "musematch/views"
+import "strconv"
+
+templ ArtPage(title string, user *models.User, art *models.Art, artist *models.User, tags []string, imageIds []string, exhibitInfo *models.Exhibit, place *models.Place) {
+	@views.Layout(title) {
+		@views.Header(user)
+		<div class="flex justify-center w-full">
+			<div class="flex flex-col w-layout px-36">
+				<div class="h-5"></div>
+				<div class="flex gap-4 w-full h-[576px]">
+					<img
+						id="focus"
+						src={ "/image?id=" + imageIds[0] }
+						class="h-full w-full object-contain"
+					/>
+					<div class="h-full overflow-y-scroll flex-shrink-0">
+						<div class="flex flex-col gap-4 h-full">
+							for _, imageId := range imageIds {
+								<button id={ imageId } class="image-button w-20 h-20 rounded-lg overflow-clip">
+									<img src={ "/image?id=" + imageId } class="w-full h-full object-cover"/>
+								</button>
+							}
+						</div>
+					</div>
+				</div>
+				<div class="h-4"></div>
+				<div class="flex gap-8">
+					<div class="flex flex-col gap-3 w-80  flex-shrink-0">
+						<div class="w-full shadow-lg flex flex-col px-6 py-7">
+							<p class="font-bold text-2xl">{ art.Name }</p>
+							<a href={ templ.URL("/artist/" + artist.Id) } class="font-bold">{ artist.Name }</a>
+							<p class="font-thin text-xs">{ art.Description }</p>
+							<p>{ strconv.Itoa(art.Price) }</p>
+						</div>
+						<button class="w-full rounded-lg border-[1px] border-black py-2 text-center">
+							구매 / 문의	
+						</button>
+						// TODO: view count
+						if exhibitInfo != nil {
+							<div class="flex flex-col gap-2">
+								<p><span class="font-bold underline">{ place.Title }</span>에서 전시중</p>
+								<div class="flex w-full justify-end">
+									<p class="text-xs">
+										기간: <span class="font-bold">{ exhibitInfo.StartDate } ~ { exhibitInfo.EndDate }</span>
+									</p>
+									<a class="text-xs text-blue-500" href={ templ.URL("/place/" + place.Id) }>
+										전시장 바로가기 > 
+									</a>
+								</div>
+							</div>
+						}
+					</div>
+					<div class="flex flex-col gap-3 w-full">
+						<p class="text-xl font-bold">작품 정보</p>
+						<p class="w-full break-all">{ art.Info }</p>
+						<div class="flex w-full flex-wrap gap-2">
+							for _, tag := range tags {
+								<p class="text-xs text-blue-400">#{ tag }</p>
+							}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script type="module" src="/scripts/art.js"></script>
+	}
+}

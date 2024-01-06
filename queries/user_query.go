@@ -79,6 +79,9 @@ func GetUserArtLists(id string) (*models.UserArtListMap, error) {
 	return &artListMap, nil
 }
 
+// func GetUserFirstArtList(userId string) (models.UserArtListWithInfo, error) {
+// }
+
 func GetUserArtMap(id string) (models.UserArtMap, error) {
 	artMap := models.UserArtMap{}
 	arts, err := GetArtInfosByUserId(id)

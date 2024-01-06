@@ -47,6 +47,11 @@ type UserArtListMap struct {
 	Item map[string][]string // ListId -> ArtId
 }
 
+type UserArtListWithInfo struct {
+	Title string
+	Arts  []ArtInfo
+}
+
 type UserArtMap map[string]ArtInfo
 
 type UserProfile struct {

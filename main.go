@@ -64,6 +64,7 @@ func main() {
 	app.Post("/dashboard/profile", middleware.SessionProtected, controllers.DashboardProfileController)
 
 	app.Get("/artist/:user_id", controllers.ArtistController)
+	app.Get("/art/:art_id", controllers.ArtController)
 
 	app.Get("/test", controllers.TestController)
 	app.Get("/image", controllers.ImageGetController)

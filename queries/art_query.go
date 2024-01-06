@@ -1,7 +1,10 @@
 package queries
 
 import (
+	"database/sql"
 	"musematch/models"
+	"musematch/utils"
+	"time"
 )
 
 func GetArtById(artId string) (*models.Art, error) {
@@ -18,7 +21,7 @@ func GetArtTagsById(artId string) ([]string, error) {
 	}
 
 	tags := []string{}
-	for _, artTag := range(artTags) {
+	for _, artTag := range artTags {
 		tags = append(tags, artTag.Tag)
 	}
 	return tags, nil
@@ -32,10 +35,29 @@ func GetArtImagesById(artId string) ([]string, error) {
 	}
 
 	imageIds := make([]string, len(artImages))
-	for _, artImage := range(artImages) {
+	for _, artImage := range artImages {
 		imageIds[artImage.Idx] = artImage.Id
 	}
 	return imageIds, nil
+}
+
+func GetArtInfoById(artId string) (*models.ArtInfo, error) {
+	artInfo := models.ArtInfo{}
+	err := db.Get(
+		&artInfo,
+		`SELECT 
+			art.id, art.name, art.description, art.user_id, art.price, art_image.id as thumbnail, user.name as artist 
+		FROM art
+			LEFT JOIN art_image ON art.id = art_image.art_id
+			LEFT JOIN user ON art.user_id = user.id
+		WHERE art.id = $1 AND art_image.idx = 0`,
+		artId,
+	)
+
+	if err != nil {
+		return nil, err
+	}
+	return &artInfo, nil
 }
 
 func GetArtInfosByUserId(userId string) ([]models.ArtInfo, error) {
@@ -55,6 +77,39 @@ func GetArtInfosByUserId(userId string) ([]models.ArtInfo, error) {
 		return nil, err
 	}
 	return arts, nil
+}
+
+func GetArtExhibitInfoById(artId string) (*models.Exhibit, *models.Place, error) {
+	exhibitInfo := models.Exhibit{}
+	place := models.Place{}
+	current := utils.DateToString(time.Now())
+	err := db.Get(
+		&exhibitInfo, `
+		SELECT * FROM exhibit 
+		WHERE start_date <= $1 AND $1 <= end_date AND art_id=$2`,
+		current, artId,
+	)
+	if err == sql.ErrNoRows {
+		return nil, nil, nil
+	} else if err != nil {
+		return nil, nil, err
+	}
+
+	err = db.Get(
+		&place, `
+		SELECT place.title as title, place.id as id
+		FROM place_location 
+		LEFT JOIN place ON place.id = place_location.place_id 
+		WHERE place_location.id = ?`,
+		exhibitInfo.LocationId,
+	)
+	if err == sql.ErrNoRows {
+		return nil, nil, nil
+	} else if err != nil {
+		return nil, nil, err
+	}
+
+	return &exhibitInfo, &place, nil
 }
 
 func ArtCreate(userId string, artId string, name string, description string, price int, info string) error {

@@ -74,12 +74,12 @@ templ ArtistPage(title string, user *models.User, profile *models.UserProfile, a
 					for s := 0; s < 4; s++ {
 						<div class="flex flex-col gap-4">
 							for i := s; i < len(artGrid); i+=4 {
-								<div class="flex flex-col gap-1">
+								<a href={ templ.URL("/art/" + artGrid[s].Id) } class="flex flex-col gap-1">
 									<img src={ "/image?id=" + artGrid[s].Thumbnail } class="w-full mb-1"/>
 									<p class="font-bold">{ artGrid[s].Name }</p>
 									<p class="font-thin text-xs">{ artGrid[s].Description }</p>
 									<p class="text-xs">{ strconv.Itoa(artGrid[s].Price) }</p>
-								</div>
+								</a>
 							}
 						</div>
 					}
@@ -95,12 +95,12 @@ templ ArtistPage(title string, user *models.User, profile *models.UserProfile, a
 							<div class="w-full overflow-x-scroll">
 								<div class="flex gap-4">
 									for _, artId := range profile.ArtList.Item[artList.Id] {
-										<div class="w-80 flex flex-col gap-1 flex-shrink-0">
+										<a href={ templ.URL("/art/" + artId) } class="w-80 flex flex-col gap-1 flex-shrink-0">
 											<img src={ "/image?id=" + profile.Arts[artId].Thumbnail } class="w-full aspect-thumbnail object-cover mb-2"/>
 											<p class="font-bold">{ profile.Arts[artId].Name }</p>
 											<p class="font-thin text-xs">{ profile.Arts[artId].Description }</p>
 											<p class="text-xs">{ strconv.Itoa(profile.Arts[artId].Price) }</p>
-										</div>
+										</a>
 									}
 								</div>
 							</div>
