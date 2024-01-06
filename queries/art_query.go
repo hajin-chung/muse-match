@@ -69,9 +69,9 @@ func ArtCreate(userId string, artId string, name string, description string, pri
 func ArtUpdate(artId string, name string, description string, price int, info string) error {
 	_, err := db.Exec(`
 		UPDATE art
-		SET name=$2, description=$3, price=$4, info=$5
-		WHERE id=$1`,
-		artId, name, description, price, info,
+		SET name=?, description=?, price=?, info=?
+		WHERE id=?`,
+		name, description, price, info, artId,
 	)
 	return err
 }
