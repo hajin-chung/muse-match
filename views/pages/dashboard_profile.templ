@@ -13,50 +13,8 @@ templ DashboardProfilePage(title string, profile *models.UserProfile) {
 				@views.DashboardNavBar("profile")
 				<div class="h-full overflow-y-scroll w-full">
 					<div class="flex flex-col w-full px-24 pt-10 pb-20 gap-10">
-						<div class="w-full flex gap-10">
-							<p class="w-60 flex-shrink-0">배너 사진</p>
-							<div class="relative flex items-center justify-center w-full aspect-banner bg-gray-100 rounded-lg group overflow-clip">
-								<img
-									id="banner"
-									src={ "/image?id=banner-" + profile.User.Id }
-									class="w-full h-full top-0 left-0 absolute object-cover"
-								/>
-								<button
-									id="banner-button"
-									class="flex justify-center items-center w-10 h-10 rounded-full bg-white bg-opacity-20 z-10"
-								>
-									<img src="/icons/pen.svg" class="w-8 h-8"/>
-								</button>
-								<input
-									type="file"
-									id="banner-input"
-									accept="image/png, image/jpeg"
-									class="hidden"
-								/>
-							</div>
-						</div>
-						<div class="w-full flex gap-10">
-							<p class="w-60 flex-shrink-0">프로필 사진</p>
-							<div class="w-20 h-20 border-2 border-black rounded-full bg-gray-100 relative overflow-clip flex items-center justify-center">
-								<img
-									id="picture"
-									src={ profile.User.Picture }
-									class="w-full h-full absolute top-0 left-0"
-								/>
-								<button
-									id="picture-button"
-									class="w-10 h-10 flex justify-center items-center rounded-full bg-white bg-opacity-20 z-10"
-								>
-									<img src="/icons/pen.svg" class="w-8 h-8"/>
-								</button>
-								<input
-									type="file"
-									id="picture-input"
-									accept="image/png, image/jpeg"
-									class="hidden"
-								/>
-							</div>
-						</div>
+						@DashboardBannerInput(profile.User.Id)
+						@DashboardPictureInput(profile.User.Picture)
 						<div class="w-full flex gap-10">
 							<p class="w-60 flex-shrink-0">이름</p>
 							<input
@@ -71,144 +29,15 @@ templ DashboardProfilePage(title string, profile *models.UserProfile) {
 								{ profile.User.Description }
 							</textarea>
 						</div>
-						<div class="w-full flex gap-10">
-							<p class="w-60 flex-shrink-0">링크</p>
-							<div class="w-full flex gap-4 flex-wrap" id="links">
-								<div class="flex items-center gap-4">
-									<img src="/icons/instagram.svg" class="w-6 h-6"/>
-									<input
-										id="instagram-input"
-										class="p-2 w-50 rounded-lg bg-gray-100"
-										value={ profile.User.InstagramId }
-									/>
-								</div>
-								<div class="flex items-center gap-4">
-									<img src="/icons/facebook.svg" class="w-6 h-6"/>
-									<input
-										id="facebook-input"
-										class="p-2 w-50 rounded-lg bg-gray-100"
-										value={ profile.User.FacebookId }
-									/>
-								</div>
-								<div class="flex items-center gap-4">
-									<img src="/icons/x.svg" class="w-6 h-6"/>
-									<input
-										id="twitter-input"
-										class="p-2 w-50 rounded-lg bg-gray-100"
-										value={ profile.User.TwitterId }
-									/>
-								</div>
-								for _, link := range profile.Link {
-									<div class="flex items-center gap-4">
-										<img src="/icons/link.svg" class="w-6 h-6"/>
-										<input
-											id="link-input"
-											class="p-2 w-50 rounded-lg bg-gray-100"
-											value={ link.Content }
-										/>
-									</div>
-								}
-								<button
-									id="link-button"
-									class="px-4 py-1 flex items-center gap-2 rounded-lg bg-black"
-								>
-									<img src="/icons/plus.svg" class="w-6 h-6 invert"/>
-									<p class="font-bold text-white">링크 추가</p>
-								</button>
-							</div>
-						</div>
+						@DashboardLinkInput(profile)
 						<div class="w-full flex gap-10">
 							<p class="w-60 flex-shrink-0">노트</p>
 							<textarea id="note-input" class="w-full min-h-20 rounded-lg p-2 bg-gray-100">
 								{ profile.User.Note }
 							</textarea>
 						</div>
-						<div class="w-full flex gap-10">
-							<p class="w-60 flex-shrink-0">이력</p>
-							<div class="flex flex-col gap-4 w-full">
-								<div class="grid grid-cols-2 gap-3" id="histories">
-									for _, history := range profile.History {
-										<div id="history" class="flex gap-3 flex-col py-2 px-5 bg-gray-100 rounded-lg h-60">
-											<div class="flex w-full items-center p-1 border-b-black border-b-[1px]">
-												<input
-													id="title-input"
-													class="bg-transparent font-bold w-full outline-none"
-													value={ history.Title }
-												/>
-												<button id="delete-button" class="w-4 h-4">
-													<img src="/icons/trash.svg" class="w-full h-full"/>
-												</button>
-											</div>
-											<textarea id="content-input" class="bg-transparent h-full outline-none">
-												{ history.Content }
-											</textarea>
-										</div>
-									}
-								</div>
-								<button
-									id="history-button"
-									class="bg-black w-full rounded-lg flex justify-center items-center gap-3 py-1.5"
-								>
-									<img src="/icons/plus.svg" class="w-4 h-4 invert"/>
-									<p class="font-bold text-white">이력 추가</p>
-								</button>
-							</div>
-						</div>
-						<div class="w-full flex gap-10">
-							<p class="w-60 flex-shrink-0">작품 리스트</p>
-							<div id="lists" class="w-full gap-3 flex flex-col">
-								for _, artList := range profile.ArtList.List {
-									<div id="list" class="flex flex-col gap-2 w-full">
-										<div class="flex w-full justify-between">
-											<input
-												id="title"
-												placeholder="리스트 제목"
-												class="px-2.5 py-1 font-bold rounded-lg bg-gray-100"
-												value={ artList.Title }
-											/>
-											<div class="flex gap-5">
-												<button id="delete-button" class="gap-1 rounded-lg bg-red-500 flex items-center px-3 py-1">
-													<img src="/icons/trash.svg" class="w-4 h-4 rounded-lg invert"/>
-													<p class="font-bold text-white">삭제</p>
-												</button>
-												<button id="update-button" class="gap-1 rounded-lg bg-black flex items-center px-3 py-1">
-													<img src="/icons/pen.svg" class="w-4 h-4 rounded-lg invert"/>
-													<p class="font-bold text-white">수정</p>
-												</button>
-											</div>
-										</div>
-										<div class="overflow-x-scroll w-full">
-											<div id="items" class="flex gap-3">
-												if len(profile.ArtList.Item[artList.Id]) == 0 {
-													<div id="placeholder" class="w-full h-40 flex justify-center items-center">
-														수정버튼을 눌러 작품을 추가해보세요.
-													</div>
-												}
-												for _, artId := range profile.ArtList.Item[artList.Id] {
-													<div id={ artId } class="art-card w-48 flex flex-col gap-1">
-														<div class="number hidden text-white bg-black justify-center items-center absolute top-1 right-1 rounded-full w-6 h-6"></div>
-														<img
-															class="w-full aspect-thumbnail mb-1 object-cover"
-															src={ "/image?id=" + profile.Arts[artId].Thumbnail }
-														/>
-														<p class="font-bold">{ profile.Arts[artId].Name }</p>
-														<p class="font-thin text-xs">{ profile.Arts[artId].Description }</p>
-														<p class="text-xs">{ strconv.Itoa(profile.Arts[artId].Price) }</p>
-													</div>
-												}
-											</div>
-										</div>
-									</div>
-								}
-								<button
-									id="list-button"
-									class="bg-black w-full rounded-lg flex justify-center items-center gap-3 py-1.5"
-								>
-									<img src="/icons/plus.svg" class="w-4 h-4 invert"/>
-									<p class="font-bold text-white">리스트 추가</p>
-								</button>
-							</div>
-						</div>
+						@DashboardHistoryInput(profile.History)
+						@DashboardArtListInput(profile)
 					</div>
 				</div>
 			</div>
@@ -254,47 +83,236 @@ templ DashboardProfilePage(title string, profile *models.UserProfile) {
 				</div>
 			</div>
 		</div>
-		<template id="link-template">
+		<script type="module" src="/scripts/dashboard-profile.js"></script>
+	}
+}
+
+templ DashboardBannerInput(userId string) {
+	<div class="w-full flex gap-10">
+		<p class="w-60 flex-shrink-0">배너 사진</p>
+		<div class="relative flex items-center justify-center w-full aspect-banner bg-gray-100 rounded-lg group overflow-clip">
+			<img
+				id="banner"
+				src={ "/image?id=banner-" + userId }
+				class="w-full h-full top-0 left-0 absolute object-cover"
+			/>
+			<button
+				id="banner-button"
+				class="flex justify-center items-center w-10 h-10 rounded-full bg-white bg-opacity-20 z-10"
+			>
+				<img src="/icons/pen.svg" class="w-8 h-8"/>
+			</button>
+			<input
+				type="file"
+				id="banner-input"
+				accept="image/png, image/jpeg"
+				class="hidden"
+			/>
+		</div>
+	</div>
+}
+
+templ DashboardPictureInput(pictureUrl string) {
+	<div class="w-full flex gap-10">
+		<p class="w-60 flex-shrink-0">프로필 사진</p>
+		<div class="w-20 h-20 border-2 border-black rounded-full bg-gray-100 relative overflow-clip flex items-center justify-center">
+			<img
+				id="picture"
+				src={ pictureUrl }
+				class="w-full h-full absolute top-0 left-0"
+			/>
+			<button
+				id="picture-button"
+				class="w-10 h-10 flex justify-center items-center rounded-full bg-white bg-opacity-20 z-10"
+			>
+				<img src="/icons/pen.svg" class="w-8 h-8"/>
+			</button>
+			<input
+				type="file"
+				id="picture-input"
+				accept="image/png, image/jpeg"
+				class="hidden"
+			/>
+		</div>
+	</div>
+}
+
+templ DashboardLinkInput(profile *models.UserProfile) {
+	<div class="w-full flex gap-10">
+		<p class="w-60 flex-shrink-0">링크</p>
+		<div class="w-full flex gap-4 flex-wrap" id="links">
 			<div class="flex items-center gap-4">
-				<img src="/icons/link.svg" class="w-6 h-6"/>
-				<input id="link-input" class="p-2 w-50 rounded-lg bg-gray-100"/>
+				<img src="/icons/instagram.svg" class="w-6 h-6"/>
+				<input
+					id="instagram-input"
+					class="p-2 w-50 rounded-lg bg-gray-100"
+					value={ profile.User.InstagramId }
+				/>
 			</div>
-		</template>
-		<template id="history-template">
-			<div id="history" class="gap-3 flex flex-col py-2 px-5 bg-gray-100 rounded-lg h-60">
-				<div class="flex w-full items-center p-1 border-b-black border-b-[1px]">
-					<input id="title-input" class="bg-transparent font-bold w-full outline-none"/>
-					<button id="delete-button" class="w-4 h-4">
-						<img src="/icons/trash.svg" class="w-full h-full"/>
-					</button>
+			<div class="flex items-center gap-4">
+				<img src="/icons/facebook.svg" class="w-6 h-6"/>
+				<input
+					id="facebook-input"
+					class="p-2 w-50 rounded-lg bg-gray-100"
+					value={ profile.User.FacebookId }
+				/>
+			</div>
+			<div class="flex items-center gap-4">
+				<img src="/icons/x.svg" class="w-6 h-6"/>
+				<input
+					id="twitter-input"
+					class="p-2 w-50 rounded-lg bg-gray-100"
+					value={ profile.User.TwitterId }
+				/>
+			</div>
+			for _, link := range profile.Link {
+				<div class="flex items-center gap-4">
+					<img src="/icons/link.svg" class="w-6 h-6"/>
+					<input
+						class="link-input p-2 w-50 rounded-lg bg-gray-100"
+						value={ link.Content }
+					/>
 				</div>
-				<textarea id="content-input" class="bg-transparent h-full outline-none"></textarea>
-			</div>
-		</template>
-		<template id="list-template">
-			<div id="list" class="flex flex-col gap-2 w-full">
-				<div class="flex w-full justify-between">
-					<input id="title" placeholder="리스트 제목" class="px-2.5 py-1 font-bold rounded-lg bg-gray-100"/>
-					<div class="flex gap-5">
-						<button id="delete-button" class="gap-1 rounded-lg bg-red-500 flex items-center px-3 py-1">
-							<img src="/icons/trash.svg" class="w-4 h-4 rounded-lg invert"/>
-							<p class="font-bold text-white">삭제</p>
-						</button>
-						<button id="update-button" class="gap-1 rounded-lg bg-black flex items-center px-3 py-1">
-							<img src="/icons/pen.svg" class="w-4 h-4 rounded-lg invert"/>
-							<p class="font-bold text-white">수정</p>
-						</button>
+			}
+			<button
+				id="link-button"
+				class="px-4 py-1 flex items-center gap-2 rounded-lg bg-black"
+			>
+				<img src="/icons/plus.svg" class="w-6 h-6 invert"/>
+				<p class="font-bold text-white">링크 추가</p>
+			</button>
+		</div>
+	</div>
+	<template id="link-template">
+		<div class="flex items-center gap-4">
+			<img src="/icons/link.svg" class="w-6 h-6"/>
+			<input class="link-input p-2 w-50 rounded-lg bg-gray-100"/>
+		</div>
+	</template>
+}
+
+templ DashboardHistoryInput(histories []models.UserHistory) {
+	<div class="w-full flex gap-10">
+		<p class="w-60 flex-shrink-0">이력</p>
+		<div class="flex flex-col gap-4 w-full">
+			<div class="grid grid-cols-2 gap-3" id="histories">
+				for _, history := range histories {
+					<div class="history flex gap-3 flex-col py-2 px-5 bg-gray-100 rounded-lg h-60">
+						<div class="flex w-full items-center p-1 border-b-black border-b-[1px]">
+							<input
+								class="title-input bg-transparent font-bold w-full outline-none"
+								value={ history.Title }
+							/>
+							<button class="delete-button w-4 h-4">
+								<img src="/icons/trash.svg" class="w-full h-full"/>
+							</button>
+						</div>
+						<textarea class="content-input bg-transparent h-full outline-none">
+							{ history.Content }
+						</textarea>
 					</div>
-				</div>
-				<div class="overflow-x-scroll w-full">
-					<div id="items" class="flex gap-3">
-						<div id="placeholder" class="w-full h-40 flex justify-center items-center">
-							수정버튼을 눌러 작품을 추가해보세요.
+				}
+			</div>
+			<button
+				id="history-button"
+				class="bg-black w-full rounded-lg flex justify-center items-center gap-3 py-1.5"
+			>
+				<img src="/icons/plus.svg" class="w-4 h-4 invert"/>
+				<p class="font-bold text-white">이력 추가</p>
+			</button>
+		</div>
+	</div>
+	<template id="history-template">
+		<div id="history" class="gap-3 flex flex-col py-2 px-5 bg-gray-100 rounded-lg h-60">
+			<div class="flex w-full items-center p-1 border-b-black border-b-[1px]">
+				<input id="title-input" class="bg-transparent font-bold w-full outline-none"/>
+				<button id="delete-button" class="w-4 h-4">
+					<img src="/icons/trash.svg" class="w-full h-full"/>
+				</button>
+			</div>
+			<textarea id="content-input" class="bg-transparent h-full outline-none"></textarea>
+		</div>
+	</template>
+}
+
+templ DashboardArtListInput(profile *models.UserProfile) {
+	<div class="w-full flex gap-10">
+		<p class="w-60 flex-shrink-0">작품 리스트</p>
+		<div id="lists" class="w-full gap-3 flex flex-col">
+			for _, artList := range profile.ArtList.List {
+				<div class="art-list flex flex-col gap-2 w-full">
+					<div class="flex w-full justify-between">
+						<input
+							id="title"
+							placeholder="리스트 제목"
+							class="px-2.5 py-1 font-bold rounded-lg bg-gray-100"
+							value={ artList.Title }
+						/>
+						<div class="flex gap-5">
+							<button class="delete-button gap-1 rounded-lg bg-red-500 flex items-center px-3 py-1">
+								<img src="/icons/trash.svg" class="w-4 h-4 rounded-lg invert"/>
+								<p class="font-bold text-white">삭제</p>
+							</button>
+							<button class="update-button gap-1 rounded-lg bg-black flex items-center px-3 py-1">
+								<img src="/icons/pen.svg" class="w-4 h-4 rounded-lg invert"/>
+								<p class="font-bold text-white">수정</p>
+							</button>
+						</div>
+					</div>
+					<div class="overflow-x-scroll w-full">
+						<div class="items flex gap-3">
+							if len(profile.ArtList.Item[artList.Id]) == 0 {
+								<div id="placeholder" class="w-full h-40 flex justify-center items-center">
+									수정버튼을 눌러 작품을 추가해보세요.
+								</div>
+							}
+							for _, artId := range profile.ArtList.Item[artList.Id] {
+								<div id={ artId } class="art-card w-48 flex flex-col gap-1">
+									<div class="number hidden text-white bg-black justify-center items-center absolute top-1 right-1 rounded-full w-6 h-6"></div>
+									<img
+										class="w-full aspect-thumbnail mb-1 object-cover"
+										src={ "/image?id=" + profile.Arts[artId].Thumbnail }
+									/>
+									<p class="font-bold">{ profile.Arts[artId].Name }</p>
+									<p class="font-thin text-xs">{ profile.Arts[artId].Description }</p>
+									<p class="text-xs">{ strconv.Itoa(profile.Arts[artId].Price) }</p>
+								</div>
+							}
 						</div>
 					</div>
 				</div>
+			}
+			<button
+				id="list-button"
+				class="bg-black w-full rounded-lg flex justify-center items-center gap-3 py-1.5"
+			>
+				<img src="/icons/plus.svg" class="w-4 h-4 invert"/>
+				<p class="font-bold text-white">리스트 추가</p>
+			</button>
+		</div>
+	</div>
+	<template id="list-template">
+		<div class="art-list flex flex-col gap-2 w-full">
+			<div class="flex w-full justify-between">
+				<input id="title" placeholder="리스트 제목" class="px-2.5 py-1 font-bold rounded-lg bg-gray-100"/>
+				<div class="flex gap-5">
+					<button class="delete-button gap-1 rounded-lg bg-red-500 flex items-center px-3 py-1">
+						<img src="/icons/trash.svg" class="w-4 h-4 rounded-lg invert"/>
+						<p class="font-bold text-white">삭제</p>
+					</button>
+					<button class="update-button gap-1 rounded-lg bg-black flex items-center px-3 py-1">
+						<img src="/icons/pen.svg" class="w-4 h-4 rounded-lg invert"/>
+						<p class="font-bold text-white">수정</p>
+					</button>
+				</div>
 			</div>
-		</template>
-		<script type="module" src="/scripts/dashboard-profile.js"></script>
-	}
+			<div class="overflow-x-scroll w-full">
+				<div class="items flex gap-3">
+					<div id="placeholder" class="w-full h-40 flex justify-center items-center">
+						수정버튼을 눌러 작품을 추가해보세요.
+					</div>
+				</div>
+			</div>
+		</div>
+	</template>
 }

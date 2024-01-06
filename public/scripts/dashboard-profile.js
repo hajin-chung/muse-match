@@ -8,7 +8,6 @@ const lists = di("lists");
 const linkTemplate = di("link-template");
 const historyTemplate = di("history-template");
 const listTemplate = di("list-template");
-const listItemTemplate = di("list-item-template");
 
 di("banner-button").addEventListener("click", () => {
   bannerInput.click();
@@ -43,8 +42,8 @@ di("link-button").addEventListener("click", () => {
   di("links").insertBefore(newLink, di("link-button"));
 });
 
-dqs("#history").forEach((history) => {
-  history.querySelector("#delete-button").onclick = () => {
+dqs(".history").forEach((history) => {
+  history.querySelector(".delete-button").onclick = () => {
     history.parentNode.removeChild(history)
   }
 })
@@ -53,16 +52,16 @@ di("history-button").addEventListener("click", () => {
   let newHistory = historyTemplate.content.cloneNode(true);
   histories.appendChild(newHistory);
   newHistory = histories.lastChild;
-  newHistory.querySelector("#delete-button").onclick = () => {
+  newHistory.querySelector(".delete-button").onclick = () => {
     histories.removeChild(newHistory);
   }
 });
 
-dqs("#list").forEach(list => {
-  list.querySelector("#delete-button").onclick = () => {
+dqs(".art-list").forEach(list => {
+  list.querySelector(".delete-button").onclick = () => {
     lists.removeChild(list);
   }
-  list.querySelector("#update-button").onclick = () => {
+  list.querySelector(".update-button").onclick = () => {
     openModal(list)
   }
 })
@@ -71,14 +70,14 @@ di("list-button").addEventListener("click", () => {
   let newList = listTemplate.content.cloneNode(true);
   lists.insertBefore(newList, di("list-button"));
   newList = lists.children[lists.children.length - 2]
-  newList.querySelector("#delete-button").onclick = () => {
+  newList.querySelector(".delete-button").onclick = () => {
     lists.removeChild(newList);
   }
-  newList.querySelector("#update-button").onclick = () => openModal(newList)
+  newList.querySelector(".update-button").onclick = () => openModal(newList)
 });
 
 const modal = di("modal");
-const artCards = dqs(".art-card");
+const artCards = dqs("#modal .art-card");
 let modalTarget;
 /** @type {string[]} */
 let modalList = [];
@@ -110,7 +109,7 @@ function openModal(target) {
 
   modal.style.display = "flex";
 
-  modalList = [...target.querySelectorAll("#items > .art-card")].map(c => c.id);
+  modalList = [...target.querySelectorAll(".items > .art-card")].map(c => c.id);
 
   artCards.map(c => {
     const num = c.querySelector(".number")
@@ -132,7 +131,7 @@ function closeModal() {
     num.style.display = "none";
   })
 
-  const items = modalTarget.querySelector("#items");
+  const items = modalTarget.querySelector(".items");
   items.innerHTML = "";
   modalList.forEach((id) => {
     const item = di(id).cloneNode(true);
@@ -148,13 +147,13 @@ di("submit").addEventListener("click", async () => {
   di("check").classList.add("hidden");
   di("spinner").classList.remove("hidden");
 
-  const history = dqs("#history").map(h => {
-    const title = h.querySelector("#title-input").value;
-    const content = h.querySelector("#content-input").value;
+  const history = dqs(".history").map(h => {
+    const title = h.querySelector(".title-input").value;
+    const content = h.querySelector(".content-input").value;
     return { title, content };
   });
 
-  const list = dqs("#list").map(l => {
+  const list = dqs(".art-list").map(l => {
     const title = l.querySelector("#title").value;
     const artIds = [...l.querySelectorAll(".art-card")].map(c => c.id);
     return { title, artIds };
@@ -166,7 +165,7 @@ di("submit").addEventListener("click", async () => {
     instagramId: di("instagram-input").value,
     facebookId: di("facebook-input").value,
     twitterId: di("twitter-input").value,
-    links: dqs("#link-input").map(el => el.value),
+    links: dqs(".link-input").map(el => el.value),
     note: di("note-input").value,
     history,
     list,
