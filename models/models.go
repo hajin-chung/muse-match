@@ -1,5 +1,7 @@
 package models
 
+// TODO: add createdAt for all types
+
 type User struct {
 	Id          string `db:"id"`
 	Name        string `db:"name"`

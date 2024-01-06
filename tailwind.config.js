@@ -6,7 +6,8 @@ module.exports = {
 			spacing: {
 				"25": "100px",
 				"50": "200px",
-				"content": "calc(100% - 48px)"
+				"content": "calc(100% - 48px)",
+				"expand": "calc((1344px - 100vw)/2)"
 			},
 			fontSize: {
 				xxs: "10px",

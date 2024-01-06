@@ -2,6 +2,7 @@ import { di, dq } from "./lib.js"
 
 /** type {("grid" | "list")} */
 let mode = "grid"
+di("list").classList.add("hidden");
 
 di("grid-button").onclick = () => {
   if (mode === "grid") return

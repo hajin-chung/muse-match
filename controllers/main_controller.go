@@ -45,6 +45,14 @@ func ErrorController(c *fiber.Ctx, err error) error {
 
 }
 
+func ArtMapToList(artMap models.UserArtMap) []models.ArtInfo {
+	list := []models.ArtInfo{}
+	for _, artInfo := range artMap {
+		list = append(list, artInfo)
+	}
+	return list
+}
+
 func ArtistController(c *fiber.Ctx) error {
 	sess, _ := globals.Store.Get(c)
 
@@ -63,7 +71,8 @@ func ArtistController(c *fiber.Ctx) error {
 	if err != nil {
 		return err
 	}
+	artGrid := ArtMapToList(profile.Arts)
 
-	page := pages.ArtistPage("sample title", user, profile)
+	page := pages.ArtistPage("sample title", user, profile, artGrid)
 	return utils.Render(c, page)
 }
