@@ -116,15 +116,15 @@ func DashboardArtUpdateViewController(c *fiber.Ctx) error {
 	if err != nil {
 		return err
 	}
-	art, err := queries.ArtGetById(artId)
+	art, err := queries.GetArtById(artId)
 	if err != nil {
 		return err
 	}
-	tags, err := queries.ArtTagsGetById(artId)
+	tags, err := queries.GetArtTagsById(artId)
 	if err != nil {
 		return err
 	}
-	imageIds, err := queries.ArtImageIdsGetById(artId)
+	imageIds, err := queries.GetArtImagesById(artId)
 	if err != nil {
 		return err
 	}

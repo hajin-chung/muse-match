@@ -4,13 +4,13 @@ import (
 	"musematch/models"
 )
 
-func ArtGetById(artId string) (*models.Art, error) {
+func GetArtById(artId string) (*models.Art, error) {
 	art := models.Art{}
 	err := db.Get(&art, "SELECT * FROM art WHERE id=$1", artId)
 	return &art, err
 }
 
-func ArtTagsGetById(artId string) ([]string, error) {
+func GetArtTagsById(artId string) ([]string, error) {
 	artTags := []models.ArtTag{}
 	err := db.Select(&artTags, "SELECT * FROM art_tag WHERE art_id=$1", artId)
 	if err != nil {
@@ -24,7 +24,7 @@ func ArtTagsGetById(artId string) ([]string, error) {
 	return tags, nil
 }
 
-func ArtImageIdsGetById(artId string) ([]string, error) {
+func GetArtImagesById(artId string) ([]string, error) {
 	artImages := []models.ArtImage{}
 	err := db.Select(&artImages, "SELECT * FROM art_image WHERE art_id=$1", artId)
 	if err != nil {
