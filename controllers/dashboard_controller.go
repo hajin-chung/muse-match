@@ -466,7 +466,6 @@ func DashboardPlaceUpdateViewController(c *fiber.Ctx) error {
 	}
 
 	locations, err := queries.GetPlaceLocationsById(placeId)
-	log.Printf("%+v\n", locations)
 	if err != nil {
 		return err
 	}
