@@ -66,7 +66,7 @@ func main() {
 	app.Get("/dashboard/place/new", middleware.SessionProtected, controllers.DashboardPlaceCreateViewController)
 	app.Post("/dashboard/place/new", middleware.SessionProtected, controllers.DashboardPlaceCreateController)
 	app.Get("/dashboard/place/:place_id", middleware.SessionProtected, controllers.DashboardPlaceUpdateViewController)
-	// app.Post("/dashboard/place/:place_id", middleware.SessionProtected, controllers.DashboardPlaceUpdateController)
+	app.Post("/dashboard/place/:place_id", middleware.SessionProtected, controllers.DashboardPlaceUpdateController)
 
 	app.Get("/artist/:user_id", controllers.ArtistController)
 	app.Get("/art/:art_id", controllers.ArtController)

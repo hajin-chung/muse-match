@@ -18,9 +18,9 @@ templ DashboardPlacesPage(title string, user *models.User, placeInfos []models.P
 								<p class="font-bold text-white">장소 추가</p>
 							</a>
 						</div>
-						<div class="flex flex-wrap gap-4">
+						<div class="grid grid-cols-2 gap-8">
 							for _, placeInfo := range placeInfos {
-								<div class="flex flex-col gap-2 w-1/2">
+								<div class="flex flex-col gap-2 w-full">
 									<img
 										class="w-full aspect-banner rounded-lg object-cover"
 										src={ "/image?id=" + placeInfo.Thumbnail }
@@ -203,15 +203,15 @@ templ DashboardPlaceUpdatePage(title string, user *models.User, place *models.Pl
 								</div>
 								<div class="flex gap-2 items-center">
 									<img src="/icons/instagram.svg" class="w-6 h-6 mr-2"/>
-									<input id="instagram-input" class="bg-gray-100 py-2 px-2.5 rounded-lg"/>
+									<input value={ place.InstagramId } id="instagram-input" class="bg-gray-100 py-2 px-2.5 rounded-lg"/>
 								</div>
 								<div class="flex gap-2 items-center">
 									<img src="/icons/facebook.svg" class="w-6 h-6 mr-2"/>
-									<input id="facebook-input" class="bg-gray-100 py-2 px-2.5 rounded-lg"/>
+									<input value={ place.FacebookId } id="facebook-input" class="bg-gray-100 py-2 px-2.5 rounded-lg"/>
 								</div>
 								<div class="flex gap-2 items-center">
 									<img src="/icons/x.svg" class="w-6 h-6 mr-2"/>
-									<input id="twitter-input" class="bg-gray-100 py-2 px-2.5 rounded-lg"/>
+									<input value={ place.TwitterId } id="twitter-input" class="bg-gray-100 py-2 px-2.5 rounded-lg"/>
 								</div>
 								for _, link := range links {
 									<div class="flex gap-2 items-center">

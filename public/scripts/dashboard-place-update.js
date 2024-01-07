@@ -1,11 +1,21 @@
 import { dq, di, dqs } from "./lib.js"
 
+const placeId = document.location.href.split("/").at(-1)
+
+const thumbnailList = di("thumbnail-list")
+const thumbnailImageInput = di("thumbnail-image-input")
+
+dqs(".thumbnail").forEach(thumbnailImage => {
+  const thumbnail = thumbnailImage.parentNode
+  thumbnail.onclick = () => selectImage(thumbnailImage.src)
+  thumbnail.querySelector(".delete").onclick = () => 
+    thumbnailList.removeChild(thumbnail)
+})
+
 di("thumbnail-button").onclick = () => {
   di("thumbnail-image-input").click()
 }
 
-const thumbnailList = di("thumbnail-list")
-const thumbnailImageInput = di("thumbnail-image-input")
 thumbnailImageInput.onchange = () => {
   if (thumbnailImageInput.files.length < 1) {
     return
@@ -45,6 +55,16 @@ di("link-button").onclick = () => {
 const locationList = di("location-list")
 const locationImageInput = di("location-image-input")
 let locationTarget = null
+
+dqs(".location").forEach(location => {
+  location.querySelector(".upload-button").onclick = () => {
+    locationTarget = location
+    locationImageInput.click()
+  }
+  location.querySelector(".delete-button").onclick = () =>
+    locationList.removeChild(location)
+})
+
 di("location-button").onclick = () => {
   let newLocation = di("location-template").content.cloneNode(true)
   locationList.appendChild(newLocation)
@@ -91,7 +111,7 @@ di("submit").onclick = async () => {
     locations,
   }
 
-  const res = await fetch("/dashboard/place/new", {
+  const res = await fetch(`/dashboard/place/${placeId}`, {
     method: "POST",
     body: JSON.stringify(payload)
   })

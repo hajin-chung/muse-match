@@ -442,13 +442,106 @@ func DashboardPlaceCreateController(c *fiber.Ctx) error {
 
 func DashboardPlaceUpdateViewController(c *fiber.Ctx) error {
 	sess, _ := globals.Store.Get(c)
-	id := sess.Get("id").(string)
+	userId := sess.Get("id").(string)
+	placeId := c.Params("place_id")
 
-	user, err := queries.GetUserById(id)
+	user, err := queries.GetUserById(userId)
 	if err != nil {
 		return err
 	}
 
-	page := pages.DashboardPlaceNewPage("대시보드 - 작품", user)
+	place, err := queries.GetPlaceById(placeId)
+	if err != nil {
+		return err
+	}
+
+	links, err := queries.GetPlaceLinksById(placeId)
+	if err != nil {
+		return err
+	}
+
+	images, err := queries.GetPlaceImagesById(placeId)
+	if err != nil {
+		return err
+	}
+
+	locations, err := queries.GetPlaceLocationsById(placeId)
+	log.Printf("%+v\n", locations)
+	if err != nil {
+		return err
+	}
+
+	page := pages.DashboardPlaceUpdatePage("대시보드 - 작품", user, place, links, images, locations)
 	return utils.Render(c, page)
+}
+
+func DashboardPlaceUpdateController(c *fiber.Ctx) error {
+	placeId := c.Params("place_id")
+
+	body := c.Body()
+	payload := PlaceMutatePayload{}
+	err := json.Unmarshal(body, &payload)
+	if err != nil {
+		return err
+	}
+
+	err = queries.UpdatePlace(
+		placeId, payload.Title, payload.Address,
+		payload.InstagramId, payload.FacebookId, payload.TwitterId)
+	if err != nil {
+		return err
+	}
+
+	err = queries.UpdatePlaceLinks(placeId, payload.Links)
+	if err != nil {
+		return err
+	}
+
+	imageIds := []string{}
+	for i := 0; i < payload.ImageCount; i++ {
+		imageId := utils.CreateId()
+		imageIds = append(imageIds, imageId)
+	}
+
+	err = queries.UpdatePlaceImages(placeId, imageIds)
+	if err != nil {
+		return err
+	}
+
+	locations := []models.PlaceLocation{}
+	for _, location := range payload.Locations {
+		locations = append(locations, models.PlaceLocation{
+			Id:          utils.CreateId(),
+			PlaceId:     placeId,
+			Title:       location.Title,
+			Description: location.Description,
+		})
+	}
+	err = queries.UpdatePlaceLocations(placeId, locations)
+	if err != nil {
+		return err
+	}
+
+	imageUrls := []string{}
+	for _, imageId := range imageIds {
+		url, err := utils.PresignedPutUrl(imageId)
+		if err != nil {
+			return err
+		}
+		imageUrls = append(imageUrls, url)
+	}
+
+	locationImageUrls := []string{}
+	for _, location := range locations {
+		url, err := utils.PresignedPutUrl(location.Id)
+		if err != nil {
+			return err
+		}
+		locationImageUrls = append(locationImageUrls, url)
+	}
+
+	return c.JSON(fiber.Map{
+		"imageUrls":         imageUrls,
+		"locationImageUrls": locationImageUrls,
+	})
 }
