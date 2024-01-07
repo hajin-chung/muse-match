@@ -62,6 +62,11 @@ func main() {
 	app.Delete("/dashboard/art/:id", middleware.SessionProtected, controllers.DashboardArtDeleteController)
 	app.Get("/dashboard/profile", middleware.SessionProtected, controllers.DashboardProfileViewController)
 	app.Post("/dashboard/profile", middleware.SessionProtected, controllers.DashboardProfileController)
+	app.Get("/dashboard/places", middleware.SessionProtected, controllers.DashboardPlacesController)
+	app.Get("/dashboard/place/new", middleware.SessionProtected, controllers.DashboardPlaceCreateViewController)
+	app.Post("/dashboard/place/new", middleware.SessionProtected, controllers.DashboardPlaceCreateController)
+	app.Get("/dashboard/place/:place_id", middleware.SessionProtected, controllers.DashboardPlaceUpdateViewController)
+	// app.Post("/dashboard/place/:place_id", middleware.SessionProtected, controllers.DashboardPlaceUpdateController)
 
 	app.Get("/artist/:user_id", controllers.ArtistController)
 	app.Get("/art/:art_id", controllers.ArtController)

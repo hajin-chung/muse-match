@@ -1,0 +1,310 @@
+package pages
+
+import "musematch/models"
+import "musematch/views"
+
+templ DashboardPlacesPage(title string, user *models.User, placeInfos []models.PlaceInfo) {
+	@views.Layout(title) {
+		<div class="w-screen h-screen flex flex-col relative">
+			@views.Header(user)
+			<div class="w-full h-content flex">
+				@views.DashboardPlaceNavBar("place")
+				<div class="h-full overflow-y-scroll w-full">
+					<div class="flex flex-col w-full px-24 pt-10 pb-20 gap-6">
+						<div class="flex w-full justify-between">
+							<p class="font-bold text-2xl">프로필</p>
+							<a href="/dashboard/place/new" class="flex gap-2 py-1.5 px-4 rounded-lg bg-black items-center">
+								<img src="/icons/plus.svg" class="w-6 h-6 invert"/>
+								<p class="font-bold text-white">장소 추가</p>
+							</a>
+						</div>
+						<div class="flex flex-wrap gap-4">
+							for _, placeInfo := range placeInfos {
+								<div class="flex flex-col gap-2 w-1/2">
+									<img
+										class="w-full aspect-banner rounded-lg object-cover"
+										src={ "/image?id=" + placeInfo.Thumbnail }
+									/>
+									<div class="flex w-full justify-between items-center">
+										<p class="font-bold">{ placeInfo.Title }</p>
+										<a class="w-5 h-5" href={ templ.URL("/dashboard/place/" + placeInfo.Id) }>
+											<img class="w-5 h-5" src="/icons/pen.svg"/>
+										</a>
+									</div>
+									<p>주소: { placeInfo.Address }</p>
+								</div>
+							}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	}
+}
+
+templ DashboardPlaceNewPage(title string, user *models.User) {
+	@views.Layout(title) {
+		<div class="w-screen h-screen flex flex-col relative">
+			@views.Header(user)
+			<div class="w-full h-content flex">
+				@views.DashboardPlaceNavBar("place")
+				<div class="h-full overflow-y-scroll w-full">
+					<div class="flex flex-col w-full px-24 pt-4 pb-20">
+						<div class="h-6"></div>
+						<p class="font-bold text-2xl">새 프로필</p>
+						<div class="h-6"></div>
+						<div class="flex gap-5 w-full h-[576px]">
+							<div class="w-full h-full">
+								<img id="preview" class="w-full h-full bg-gray-100 rounded-lg object-contain"/>
+							</div>
+							<div class="flex flex-col relative h-full">
+								<div class="max-h-full w-full overflow-y-scroll">
+									<div class="flex flex-col w-20" id="thumbnail-list"></div>
+								</div>
+								<button id="thumbnail-button" class="rounded-lg border-2 border-black flex w-20 h-20 items-center justify-center sticky bottom-0 shrink-0">
+									<img src="/icons/plus.svg" class="w-8 h-8"/>
+								</button>
+								<input type="file" id="thumbnail-image-input" class="hidden"/>
+							</div>
+						</div>
+						<div class="h-5"></div>
+						<div class="flex w-full gap-16">
+							<div id="link-list" class="flex flex-col gap-2 w-1/2 items-start">
+								<input id="title-input" class="w-full py-2 px-3 bg-gray-100 rounded-lg font-bold text-xl" placeholder="장소 이름"/>
+								<div class="flex gap-2 items-center">
+									<p class="font-bold w-8 flex-shrink-0">주소</p>
+									<input id="address-input" class="bg-gray-100 py-2 px-2.5 rounded-lg"/>
+								</div>
+								<div class="flex gap-2 items-center">
+									<img src="/icons/instagram.svg" class="w-6 h-6 mr-2"/>
+									<input id="instagram-input" class="bg-gray-100 py-2 px-2.5 rounded-lg"/>
+								</div>
+								<div class="flex gap-2 items-center">
+									<img src="/icons/facebook.svg" class="w-6 h-6 mr-2"/>
+									<input id="facebook-input" class="bg-gray-100 py-2 px-2.5 rounded-lg"/>
+								</div>
+								<div class="flex gap-2 items-center">
+									<img src="/icons/x.svg" class="w-6 h-6 mr-2"/>
+									<input id="twitter-input" class="bg-gray-100 py-2 px-2.5 rounded-lg"/>
+								</div>
+								<button id="link-button" class="flex gap-2 py-1.5 px-4 rounded-lg bg-black items-center">
+									<img src="/icons/plus.svg" class="w-6 h-6 invert"/>
+									<p class="font-bold text-white">링크 추가</p>
+								</button>
+							</div>
+							<div class="w-1/2 h-full bg-gray-200">
+								hi
+								// map
+							</div>
+						</div>
+						<div class="h-12"></div>
+						<div class="flex flex-col gap-4 w-full">
+							<div class="flex w-full justify-between">
+								<p class="font-bold text-xl">전시 위치 수정</p>
+								<button id="location-button" class="flex gap-2 py-1.5 px-4 rounded-lg bg-black items-center">
+									<img src="/icons/plus.svg" class="w-6 h-6 invert"/>
+									<p class="font-bold text-white">위치 추가</p>
+								</button>
+							</div>
+							<div id="location-list" class="grid grid-cols-3 w-full gap-8"></div>
+							<input type="file" class="hidden" id="location-image-input"/>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="flex justify-center w-full border-t-gray-400 border-[1px] absolute bottom-0 bg-white">
+				<div class="flex justify-end items-center w-layout py-1.5">
+					<button id="submit" class="flex items-center py-2 px-4 gap-1.5 bg-black rounded-lg">
+						<img src="/icons/check.svg" class="w-6 h-6 invert" id="check"/>
+						<div class="w-6 h-6 hidden" id="spinner">
+							<span class="w-5 h-5 m-0.5 loader"></span>
+						</div>
+						<p class="font-bold text-white">등록</p>
+					</button>
+				</div>
+			</div>
+		</div>
+		<template id="thumbnail-template">
+			<div class="w-20 h-20 relative mb-4 group" draggable="true">
+				<button class="delete w-7 h-7 hidden group-hover:flex absolute rounded-lg bg-gray-200 opacity-80 top-0 right-0 justify-center items-center">
+					<img src="/icons/xmark.svg" class="h-5 w-5"/>
+				</button>
+				<img class="thumbnail w-20 h-20 rounded-lg object-cover"/>
+			</div>
+		</template>
+		<template id="link-template">
+			<div class="flex gap-2 items-center">
+				<img src="/icons/link.svg" class="w-6 h-6 mr-2"/>
+				<input class="link-input bg-gray-100 py-2 px-2.5 rounded-lg"/>
+			</div>
+		</template>
+		<template id="location-template">
+			<div class="location flex flex-col gap-2 w-full">
+				<button class="upload-button w-full aspect-thumbnail relative rounded-lg overflow-clip">
+					<img class="image w-full h-full top-0 left-0 absolute object-contain"/>
+					<div class="flex justify-center rounded-lg items-center w-full h-full bg-gray-100">
+						<img src="/icons/upload.svg" class="w-8 h-8"/>
+					</div>
+				</button>
+				<div class="flex w-full gap-2">
+					<input class="title-input p-2 w-full font-bold rounded-lg bg-gray-100"/>
+					<button class="delete-button flex-shrink-0">
+						<img src="/icons/trash.svg" class="w-5 h-5"/>
+					</button>
+				</div>
+				<input class="description-input py-1 px-2 bg-gray-100 rounded-lg text-xs"/>
+			</div>
+		</template>
+		<script src="/scripts/dashboard-place-new.js" type="module"></script>
+	}
+}
+
+templ DashboardPlaceUpdatePage(title string, user *models.User, place *models.Place, links []models.PlaceLink, images []models.PlaceImage, locations []models.PlaceLocation) {
+	@views.Layout(title) {
+		<div class="w-screen h-screen flex flex-col relative">
+			@views.Header(user)
+			<div class="w-full h-content flex">
+				@views.DashboardPlaceNavBar("place")
+				<div class="h-full overflow-y-scroll w-full">
+					<div class="flex flex-col w-full px-24 pt-4 pb-20">
+						<div class="h-6"></div>
+						<p class="font-bold text-2xl">프로필 수정하기</p>
+						<div class="h-6"></div>
+						<div class="flex gap-5 w-full h-[576px]">
+							<div class="w-full h-full">
+								<img id="preview" class="w-full h-full bg-gray-100 rounded-lg object-contain"/>
+							</div>
+							<div class="flex flex-col relative h-full">
+								<div class="max-h-full w-full overflow-y-scroll">
+									<div class="flex flex-col w-20" id="thumbnail-list">
+										for _, image := range images {
+											<div class="w-20 h-20 relative mb-4 group" draggable="true">
+												<button class="delete w-7 h-7 hidden group-hover:flex absolute rounded-lg bg-gray-200 opacity-80 top-0 right-0 justify-center items-center">
+													<img src="/icons/xmark.svg" class="h-5 w-5"/>
+												</button>
+												<img src={ "/image?id=" + image.Id } class="thumbnail w-20 h-20 rounded-lg object-cover"/>
+											</div>
+										}
+									</div>
+								</div>
+								<button id="thumbnail-button" class="rounded-lg border-2 border-black flex w-20 h-20 items-center justify-center sticky bottom-0 shrink-0">
+									<img src="/icons/plus.svg" class="w-8 h-8"/>
+								</button>
+								<input type="file" id="thumbnail-image-input" class="hidden"/>
+							</div>
+						</div>
+						<div class="h-5"></div>
+						<div class="flex w-full gap-16">
+							<div id="link-list" class="flex flex-col gap-2 w-1/2 items-start">
+								<input value={ place.Title } id="title-input" class="w-full py-2 px-3 bg-gray-100 rounded-lg font-bold text-xl" placeholder="장소 이름"/>
+								<div class="flex gap-2 items-center">
+									<p class="font-bold w-8 flex-shrink-0">주소</p>
+									<input value={ place.Address } id="address-input" class="bg-gray-100 py-2 px-2.5 rounded-lg"/>
+								</div>
+								<div class="flex gap-2 items-center">
+									<img src="/icons/instagram.svg" class="w-6 h-6 mr-2"/>
+									<input id="instagram-input" class="bg-gray-100 py-2 px-2.5 rounded-lg"/>
+								</div>
+								<div class="flex gap-2 items-center">
+									<img src="/icons/facebook.svg" class="w-6 h-6 mr-2"/>
+									<input id="facebook-input" class="bg-gray-100 py-2 px-2.5 rounded-lg"/>
+								</div>
+								<div class="flex gap-2 items-center">
+									<img src="/icons/x.svg" class="w-6 h-6 mr-2"/>
+									<input id="twitter-input" class="bg-gray-100 py-2 px-2.5 rounded-lg"/>
+								</div>
+								for _, link := range links {
+									<div class="flex gap-2 items-center">
+										<img src="/icons/link.svg" class="w-6 h-6 mr-2"/>
+										<input value={ link.Content } class="link-input bg-gray-100 py-2 px-2.5 rounded-lg"/>
+									</div>
+								}
+								<button id="link-button" class="flex gap-2 py-1.5 px-4 rounded-lg bg-black items-center">
+									<img src="/icons/plus.svg" class="w-6 h-6 invert"/>
+									<p class="font-bold text-white">링크 추가</p>
+								</button>
+							</div>
+							<div class="w-1/2 h-full bg-gray-200">
+								hi
+								// map
+							</div>
+						</div>
+						<div class="h-12"></div>
+						<div class="flex flex-col gap-4 w-full">
+							<div class="flex w-full justify-between">
+								<p class="font-bold text-xl">전시 위치 수정</p>
+								<button id="location-button" class="flex gap-2 py-1.5 px-4 rounded-lg bg-black items-center">
+									<img src="/icons/plus.svg" class="w-6 h-6 invert"/>
+									<p class="font-bold text-white">위치 추가</p>
+								</button>
+							</div>
+							<div id="location-list" class="grid grid-cols-3 w-full gap-8">
+								for _, location := range locations {
+									<div class="location flex flex-col gap-2 w-full">
+										<button class="upload-button w-full aspect-thumbnail relative rounded-lg overflow-clip">
+											<img src={ "/image?id=" + location.Id } class="image w-full h-full top-0 left-0 absolute object-contain"/>
+											<div class="flex justify-center rounded-lg items-center w-full h-full bg-gray-100">
+												<img src="/icons/upload.svg" class="w-8 h-8"/>
+											</div>
+										</button>
+										<div class="flex w-full gap-2">
+											<input value={ location.Title } class="title-input p-2 w-full font-bold rounded-lg bg-gray-100"/>
+											<button class="delete-button flex-shrink-0">
+												<img src="/icons/trash.svg" class="w-5 h-5"/>
+											</button>
+										</div>
+										<input value={ location.Description } class="description-input py-1 px-2 bg-gray-100 rounded-lg text-xs"/>
+									</div>
+								}
+							</div>
+							<input type="file" class="hidden" id="location-image-input"/>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="flex justify-center w-full border-t-gray-400 border-[1px] absolute bottom-0 bg-white">
+				<div class="flex justify-end items-center w-layout py-1.5">
+					<button id="submit" class="flex items-center py-2 px-4 gap-1.5 bg-black rounded-lg">
+						<img src="/icons/check.svg" class="w-6 h-6 invert" id="check"/>
+						<div class="w-6 h-6 hidden" id="spinner">
+							<span class="w-5 h-5 m-0.5 loader"></span>
+						</div>
+						<p class="font-bold text-white">등록</p>
+					</button>
+				</div>
+			</div>
+		</div>
+		<template id="thumbnail-template">
+			<div class="w-20 h-20 relative mb-4 group" draggable="true">
+				<button class="delete w-7 h-7 hidden group-hover:flex absolute rounded-lg bg-gray-200 opacity-80 top-0 right-0 justify-center items-center">
+					<img src="/icons/xmark.svg" class="h-5 w-5"/>
+				</button>
+				<img class="thumbnail w-20 h-20 rounded-lg object-cover"/>
+			</div>
+		</template>
+		<template id="link-template">
+			<div class="flex gap-2 items-center">
+				<img src="/icons/link.svg" class="w-6 h-6 mr-2"/>
+				<input class="link-input bg-gray-100 py-2 px-2.5 rounded-lg"/>
+			</div>
+		</template>
+		<template id="location-template">
+			<div class="location flex flex-col gap-2 w-full">
+				<button class="upload-button w-full aspect-thumbnail relative rounded-lg overflow-clip">
+					<img class="image w-full h-full top-0 left-0 absolute object-contain"/>
+					<div class="flex justify-center rounded-lg items-center w-full h-full bg-gray-100">
+						<img src="/icons/upload.svg" class="w-8 h-8"/>
+					</div>
+				</button>
+				<div class="flex w-full gap-2">
+					<input class="title-input p-2 w-full font-bold rounded-lg bg-gray-100"/>
+					<button class="delete-button flex-shrink-0">
+						<img src="/icons/trash.svg" class="w-5 h-5"/>
+					</button>
+				</div>
+				<input class="description-input py-1 px-2 bg-gray-100 rounded-lg text-xs"/>
+			</div>
+		</template>
+		<script src="/scripts/dashboard-place-update.js" type="module"></script>
+	}
+}

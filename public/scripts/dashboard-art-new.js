@@ -67,7 +67,6 @@ submit.addEventListener("click", async () => {
   check.classList.add("hidden");
   spinner.classList.remove("hidden");
 
-
   const payload = {
     name: dq("#name").value,
     description: dq("#description").value,

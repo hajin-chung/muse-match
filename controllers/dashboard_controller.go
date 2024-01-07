@@ -319,3 +319,136 @@ func DashboardProfileController(c *fiber.Ctx) error {
 	pictureUrl, err := utils.PresignedPutUrl(id)
 	return c.JSON(fiber.Map{"bannerUrl": bannerUrl, "pictureUrl": pictureUrl})
 }
+
+func DashboardPlacesController(c *fiber.Ctx) error {
+	sess, _ := globals.Store.Get(c)
+	id := sess.Get("id").(string)
+
+	user, err := queries.GetUserById(id)
+	if err != nil {
+		return err
+	}
+
+	placeInfos, err := queries.GetPlaceInfosByUserId(id)
+	if err != nil {
+		return err
+	}
+
+	page := pages.DashboardPlacesPage("대시보드 - 작품", user, placeInfos)
+	return utils.Render(c, page)
+}
+
+func DashboardPlaceCreateViewController(c *fiber.Ctx) error {
+	sess, _ := globals.Store.Get(c)
+	id := sess.Get("id").(string)
+
+	user, err := queries.GetUserById(id)
+	if err != nil {
+		return err
+	}
+
+	page := pages.DashboardPlaceNewPage("대시보드 - 작품", user)
+	return utils.Render(c, page)
+}
+
+type LocationPayload struct {
+	Title       string `josn:"title"`
+	Description string `josn:"description"`
+}
+
+type PlaceMutatePayload struct {
+	Title       string            `json:"title"`
+	Address     string            `json:"address"`
+	InstagramId string            `json:"instagramId"`
+	FacebookId  string            `json:"facebookId"`
+	TwitterId   string            `json:"twitterId"`
+	Links       []string          `json:"links"`
+	ImageCount  int               `json:"imageCount"`
+	Locations   []LocationPayload `json:"locations"`
+}
+
+func DashboardPlaceCreateController(c *fiber.Ctx) error {
+	sess, _ := globals.Store.Get(c)
+	userId := sess.Get("id").(string)
+
+	body := c.Body()
+	payload := PlaceMutatePayload{}
+	err := json.Unmarshal(body, &payload)
+	if err != nil {
+		return err
+	}
+
+	placeId := utils.CreateId()
+	err = queries.CreatePlace(
+		placeId, userId, payload.Title, payload.Address,
+		payload.InstagramId, payload.FacebookId, payload.TwitterId)
+	if err != nil {
+		return err
+	}
+
+	err = queries.CreatePlaceLinks(placeId, payload.Links)
+	if err != nil {
+		return err
+	}
+
+	imageIds := []string{}
+	for i := 0; i < payload.ImageCount; i++ {
+		imageId := utils.CreateId()
+		imageIds = append(imageIds, imageId)
+	}
+
+	err = queries.CreatePlaceImages(placeId, imageIds)
+	if err != nil {
+		return err
+	}
+
+	locations := []models.PlaceLocation{}
+	for _, location := range payload.Locations {
+		locations = append(locations, models.PlaceLocation{
+			Id:          utils.CreateId(),
+			PlaceId:     placeId,
+			Title:       location.Title,
+			Description: location.Description,
+		})
+	}
+	err = queries.CreatePlaceLocations(locations)
+	if err != nil {
+		return err
+	}
+
+	imageUrls := []string{}
+	for _, imageId := range imageIds {
+		url, err := utils.PresignedPutUrl(imageId)
+		if err != nil {
+			return err
+		}
+		imageUrls = append(imageUrls, url)
+	}
+
+	locationImageUrls := []string{}
+	for _, location := range locations {
+		url, err := utils.PresignedPutUrl(location.Id)
+		if err != nil {
+			return err
+		}
+		locationImageUrls = append(locationImageUrls, url)
+	}
+
+	return c.JSON(fiber.Map{
+		"imageUrls":         imageUrls,
+		"locationImageUrls": locationImageUrls,
+	})
+}
+
+func DashboardPlaceUpdateViewController(c *fiber.Ctx) error {
+	sess, _ := globals.Store.Get(c)
+	id := sess.Get("id").(string)
+
+	user, err := queries.GetUserById(id)
+	if err != nil {
+		return err
+	}
+
+	page := pages.DashboardPlaceNewPage("대시보드 - 작품", user)
+	return utils.Render(c, page)
+}

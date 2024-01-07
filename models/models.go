@@ -109,11 +109,19 @@ type ArtImage struct {
 
 type Place struct {
 	Id          string `db:"id"`
+	UserId      string `db:"user_id"`
 	Title       string `db:"title"`
 	Address     string `db:"address"`
 	InstagramId string `db:"instagram_id"`
 	FacebookId  string `db:"facebook_id"`
 	TwitterId   string `db:"twitter_id"`
+}
+
+type PlaceInfo struct {
+	Id        string `db:"id"`
+	Title     string `db:"title"`
+	Address   string `db:"address"`
+	Thumbnail string `db:"thumbnail"`
 }
 
 type PlaceLink struct {
