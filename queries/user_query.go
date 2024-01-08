@@ -4,6 +4,20 @@ import (
 	"musematch/models"
 )
 
+func GetUserInfos() ([]models.UserInfo, error) {
+	userInfos := []models.UserInfo{}
+	err := db.Select(&userInfos, `
+		SELECT user.id, user.name, COUNT(art.id) AS art_count
+		FROM user 
+		JOIN art ON user.id = art.user_id
+		GROUP BY user.id, user.name;
+	`)
+	if err != nil {
+		return nil, err
+	}
+	return userInfos, nil
+}
+
 func GetUserBySub(sub string) (*models.User, error) {
 	user := models.User{}
 	err := db.Get(&user, "SELECT * FROM user WHERE sub = $1", sub)

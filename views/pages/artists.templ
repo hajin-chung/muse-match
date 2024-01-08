@@ -1,0 +1,33 @@
+package pages
+
+import "musematch/models"
+import "musematch/views"
+import "strconv"
+
+templ ArtistsPage(title string, user *models.User, artists []models.UserInfo) {
+	@views.Layout(title) {
+		@views.Header(user)
+		<div class="flex justify-center w-full">
+			<div class="flex flex-col items-center">
+				<div class="h-6"></div>
+				<div class="w-full h-[145px] bg-gray-200"></div>
+				<div class="h-6"></div>
+				<div class="grid gap-5 grid-cols-3">
+					for col := 0; col < 4; col++ {
+						<div class="flex flex-col gap-5">
+							for i := col; i < len(artists); i+= 3 {
+								<div class="flex flex-col gap-1 w-[336px] border-[1px] border-gray-300 rounded-md overflow-clip">
+									<img src={ "/image?id=banner-" + artists[i].Id } class="w-full mb-1 aspect-banner"/>
+									<div class="flex gap-3 items-end pb-2">
+										<a href={ templ.URL("/artist/" + artists[i].Id) } class="text-sm pl-2">{ artists[i].Name }</a>
+										<p class="text-xs">{ strconv.Itoa(artists[i].ArtCount) } 작품</p>
+									</div>
+								</div>
+							}
+						</div>
+					}
+				</div>
+			</div>
+		</div>
+	}
+}

@@ -181,3 +181,25 @@ func ArtsController(c *fiber.Ctx) error {
 	page := pages.ArtsPage("title", user, arts)
 	return utils.Render(c, page)
 }
+
+func ArtistsController(c *fiber.Ctx) error {
+	sess, _ := globals.Store.Get(c)
+
+	var user *models.User
+	userId, ok := sess.Get("id").(string)
+	if ok {
+		_user, err := queries.GetUserById(userId)
+		user = _user
+		if err != nil {
+			return err
+		}
+	}
+
+	artists, err := queries.GetUserInfos()
+	if err != nil {
+		return err
+	}
+
+	page := pages.ArtistsPage("title", user, artists)
+	return utils.Render(c, page)
+}

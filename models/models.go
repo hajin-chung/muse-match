@@ -17,6 +17,12 @@ type User struct {
 	TwitterId   string `db:"twitter_id"`
 }
 
+type UserInfo struct {
+	Id string `db:"id"`
+	Name string `db:"name"`
+	ArtCount int `db:"art_count"`
+}
+
 type UserLink struct {
 	Id      string `db:"id"`
 	UserId  string `db:"user_id"`
