@@ -15,7 +15,7 @@ templ ArtsPage(title string, user *models.User, arts []models.ArtInfo) {
 					for col := 0; col < 4; col++ {
 						<div class="flex flex-col gap-5">
 							for i := col; i < len(arts); i+= 4 {
-								<div class="flex flex-col gap-1 w-50 border-[1px] border-gray-300 rounded-md overflow-clip">
+								<div class="flex flex-col gap-1 w-[240px] border-[1px] border-gray-300 rounded-md overflow-clip">
 									<img src={ "/image?id=" + arts[i].Thumbnail } class="w-full mb-1"/>
 									<a href={ templ.URL("/art/" + arts[i].Id) } class="text-sm px-2">{ arts[i].Name }</a>
 									<a href={ templ.URL("/artist/" + arts[i].UserId) } class="text-xs font-bold px-2">{ arts[i].Artist }</a>
