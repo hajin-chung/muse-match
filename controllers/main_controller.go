@@ -116,3 +116,46 @@ func ArtController(c *fiber.Ctx) error {
 	page := pages.ArtPage("sample title", user, art, artist, tags, imageIds, exhibitInfo, place)
 	return utils.Render(c, page)
 }
+
+func PlaceController(c *fiber.Ctx) error {
+	sess, _ := globals.Store.Get(c)
+
+	var user *models.User
+	userId, ok := sess.Get("id").(string)
+	if ok {
+		_user, err := queries.GetUserById(userId)
+		user = _user
+		if err != nil {
+			return err
+		}
+	}
+	
+	placeId := c.Params("place_id")
+	place, err := queries.GetPlaceById(placeId)
+	if err != nil {
+		return err
+	}
+
+	images, err := queries.GetPlaceImagesById(placeId)
+	if err != nil {
+		return err
+	}
+
+	links, err := queries.GetPlaceLinksById(placeId)
+	if err != nil {
+		return err
+	}
+
+	locations, err := queries.GetPlaceLocationsById(placeId)
+	if err != nil {
+		return err
+	}
+
+	arts ,err := queries.GetPlaceArtsById(placeId)
+	if err != nil {
+		return err
+	}
+
+	page := pages.PlacePage("title", user, place, images, links, locations, arts)
+	return utils.Render(c, page)
+}

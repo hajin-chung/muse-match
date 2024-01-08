@@ -1,0 +1,109 @@
+package pages
+
+import "musematch/models"
+import "musematch/views"
+import "strconv"
+
+templ PlacePage(title string, user *models.User,place *models.Place, images []models.PlaceImage, links []models.PlaceLink, locations []models.PlaceLocation, arts []models.ArtInfo) {
+	@views.Layout(title) {
+		@views.Header(user)
+		<div class="flex justify-center w-full">
+			<div class="flex flex-col w-layout">
+				<div class="h-5"></div>
+				<div class="flex flex-col gap-5 w-full px-6">
+					<div class="w-full h-[490px] rounded-lg overflow-clip">
+						for _, image := range images {
+							<p>{ image.Id }</p>
+						}
+					</div>
+					<div class="flex w-full justify-between">
+						<div class="flex flex-col">
+							<p class="font-bold text-xl">{ place.Title }</p>
+							<div class="h-1"></div>
+							<p>주소: { place.Address }</p>
+							<div class="h-6"></div>
+							<div class="flex gap-4">
+								<button class="py-2 px-8 border-[1px] border-black rounded-lg">전시 문의</button>
+								<button class="py-2 px-8 border-[1px] border-black rounded-lg">전시 신청</button>
+							</div>
+							<div class="h-4"></div>
+							<p><span>하루 ₩ 2,600</span> <span class="text-xs">(20호 기준 월 ₩80,000)</span></p>
+						</div>
+						<div class="flex gap-8">
+							<div class="flex flex-col gap-3 items-start">
+								if len(place.InstagramId) > 0 {
+									<div class="flex gap-2 items-center">
+										<img src="/icons/instagram.svg" class="w-6 h-6"/>
+										<p>{ place.InstagramId }</p>
+									</div>
+								}
+								if len(place.FacebookId) > 0 {
+									<div class="flex gap-2 items-center">
+										<img src="/icons/facebook.svg" class="w-6 h-6"/>
+										<p>{ place.FacebookId }</p>
+									</div>
+								}
+								if len(place.TwitterId) > 0 {
+									<div class="flex gap-2 items-center">
+										<img src="/icons/x.svg" class="w-6 h-6"/>
+										<p>{ place.TwitterId }</p>
+									</div>
+								}
+								for _, link := range links {
+									if len(link.Content) > 0 {
+										<div class="flex gap-2 items-center">
+											<img src="/icons/link.svg" class="w-6 h-6"/>
+											<p>{ link.Content }</p>
+										</div>
+									}
+								}
+								<button class="px-2 py-1.5 border-2 border-black rounded-lg flex items-center gap-2">
+									<img src="/icons/landmark.svg" class="w-6 h-6"/>
+									<p class="font-bold text-lg">전시장 가기</p>
+								</button>
+							</div>
+							<div class="w-[560px] h-full"></div>
+						</div>
+					</div>
+				</div>
+				<div class="h-9"></div>
+				<div class="flex flex-col w-screen mx-expand items-center px-4 py-4 gap-4 odd:bg-gray-100 even:bg-white">
+					<div class="w-layout flex gap-4">
+						<p class="font-bold text-xl">전시 작품</p>
+						<p class="font-bold text-xl">|</p>
+						<p class="font-bold text-xl">{ strconv.Itoa(len(arts)) }작품</p>
+					</div>
+					<div class="w-full overflow-x-scroll">
+						<div class="flex gap-4">
+							for _, art := range arts {
+								<a href={ templ.URL("/art/" + art.Id) } class="w-80 flex flex-col gap-1 flex-shrink-0">
+									<img src={ "/image?id=" + art.Thumbnail } class="w-full aspect-thumbnail object-cover mb-2"/>
+									<p class="font-bold">{ art.Name }</p>
+									<p class="text-xs">{ art.Artist }</p>
+									<p class="font-thin text-xs">{ art.Description }</p>
+									<p class="text-xs">{ strconv.Itoa(art.Price) }</p>
+								</a>
+							}
+						</div>
+					</div>
+				</div>
+				<div class="flex flex-col w-screen mx-expand items-center px-4 py-4 gap-4 odd:bg-gray-100 even:bg-white">
+					<div class="w-layout flex gap-4">
+						<p class="font-bold text-xl">전시 장소</p>
+					</div>
+					<div class="w-full overflow-x-scroll">
+						<div class="flex gap-4">
+							for _, location := range locations {
+								<div class="w-80 flex flex-col gap-1 flex-shrink-0">
+									<img src={ "/image?id=" + location.Id } class="w-full aspect-thumbnail object-cover mb-2"/>
+									<p class="font-bold">{ location.Title }</p>
+									<p class="font-thin text-xs">{ location.Description }</p>
+								</div>
+							}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	}
+}

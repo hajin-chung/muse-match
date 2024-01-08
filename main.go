@@ -70,6 +70,7 @@ func main() {
 
 	app.Get("/artist/:user_id", controllers.ArtistController)
 	app.Get("/art/:art_id", controllers.ArtController)
+	app.Get("/place/:place_id", controllers.PlaceController)
 
 	app.Get("/test", controllers.TestController)
 	app.Get("/image", controllers.ImageGetController)

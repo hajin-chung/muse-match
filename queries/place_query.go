@@ -3,6 +3,7 @@ package queries
 import (
 	"musematch/models"
 	"musematch/utils"
+	"time"
 )
 
 func GetPlaceById(placeId string) (*models.Place, error) {
@@ -173,4 +174,30 @@ func UpdatePlaceLocations(placeId string, locations []models.PlaceLocation) erro
 	}
 	err = CreatePlaceLocations(locations)
 	return err
+}
+
+func GetPlaceArtsById(placeId string) ([]models.ArtInfo, error) {
+	currentDate := utils.DateToString(time.Now())
+
+	arts := []models.ArtInfo{}
+	err := db.Select(&arts, `
+		SELECT 
+			art.id, art.name, art.description, art.user_id, art.price, 
+			user.name as artist, 
+			art_image.id as thumbnail
+		FROM exhibit
+			LEFT JOIN place_location ON place_location.id = exhibit.location_id
+			LEFT JOIN place ON place.id = place_location.place_id
+			LEFT JOIN art ON art.id = exhibit.art_id
+			LEFT JOIN art_image ON art.id = art_image.art_id
+			LEFT JOIN user ON art.user_id = user.id
+		WHERE place.id = $1
+			AND art_image.idx = 0
+			AND start_date < $2 
+			AND end_date > $2
+	`, placeId, currentDate)
+	if err != nil {
+		return nil, err
+	}
+	return arts, nil
 }
