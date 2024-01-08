@@ -26,7 +26,7 @@ templ DashboardPlacesPage(title string, user *models.User, placeInfos []models.P
 										src={ "/image?id=" + placeInfo.Thumbnail }
 									/>
 									<div class="flex w-full justify-between items-center">
-										<p class="font-bold">{ placeInfo.Title }</p>
+										<a href={ templ.URL("/place/" + placeInfo.Id) } class="font-bold">{ placeInfo.Title }</a>
 										<a class="w-5 h-5" href={ templ.URL("/dashboard/place/" + placeInfo.Id) }>
 											<img class="w-5 h-5" src="/icons/pen.svg"/>
 										</a>
