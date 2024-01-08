@@ -8,6 +8,7 @@ import (
 	"musematch/queries"
 	"musematch/utils"
 	"musematch/views/pages"
+	"strconv"
 
 	"github.com/gofiber/fiber/v2"
 )
@@ -129,7 +130,7 @@ func PlaceController(c *fiber.Ctx) error {
 			return err
 		}
 	}
-	
+
 	placeId := c.Params("place_id")
 	place, err := queries.GetPlaceById(placeId)
 	if err != nil {
@@ -151,7 +152,7 @@ func PlaceController(c *fiber.Ctx) error {
 		return err
 	}
 
-	arts ,err := queries.GetPlaceArtsById(placeId)
+	arts, err := queries.GetPlaceArtsById(placeId)
 	if err != nil {
 		return err
 	}
@@ -202,4 +203,35 @@ func ArtistsController(c *fiber.Ctx) error {
 
 	page := pages.ArtistsPage("title", user, artists)
 	return utils.Render(c, page)
+}
+
+func PlacesController(c *fiber.Ctx) error {
+	page := pages.PlacesPage("title")
+	return utils.Render(c, page)
+}
+
+func MapPlaceController(c *fiber.Ctx) error {
+	maxLat, err := strconv.ParseFloat(c.Query("max_lat"), 64)
+	if err != nil {
+		return err
+	}
+	maxLng, err := strconv.ParseFloat(c.Query("max_lng"), 64)
+	if err != nil {
+		return err
+	}
+	minLat, err := strconv.ParseFloat(c.Query("min_lat"), 64)
+	if err != nil {
+		return err
+	}
+	minLng, err := strconv.ParseFloat(c.Query("min_lng"), 64)
+	if err != nil {
+		return err
+	}
+
+	places, err := queries.GetPlaceInfosByCoord(maxLat, maxLng, minLat, minLng)
+	if err != nil {
+		return err
+	}
+
+	return c.JSON(fiber.Map{"places": places})
 }

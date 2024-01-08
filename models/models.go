@@ -18,9 +18,9 @@ type User struct {
 }
 
 type UserInfo struct {
-	Id string `db:"id"`
-	Name string `db:"name"`
-	ArtCount int `db:"art_count"`
+	Id       string `db:"id"`
+	Name     string `db:"name"`
+	ArtCount int    `db:"art_count"`
 }
 
 type UserLink struct {
@@ -114,20 +114,25 @@ type ArtImage struct {
 }
 
 type Place struct {
-	Id          string `db:"id"`
-	UserId      string `db:"user_id"`
-	Title       string `db:"title"`
-	Address     string `db:"address"`
-	InstagramId string `db:"instagram_id"`
-	FacebookId  string `db:"facebook_id"`
-	TwitterId   string `db:"twitter_id"`
+	Id          string  `db:"id"`
+	UserId      string  `db:"user_id"`
+	Title       string  `db:"title"`
+	Address     string  `db:"address"`
+	Lat         float64 `db:"lat"`
+	Lng         float64 `db:"lng"`
+	InstagramId string  `db:"instagram_id"`
+	FacebookId  string  `db:"facebook_id"`
+	TwitterId   string  `db:"twitter_id"`
 }
 
 type PlaceInfo struct {
-	Id        string `db:"id"`
-	Title     string `db:"title"`
-	Address   string `db:"address"`
-	Thumbnail string `db:"thumbnail"`
+	Id        string `db:"id" json:"id"`
+	Title     string `db:"title" json:"title"`
+	Address   string `db:"address" json:"address"`
+	Lat       string `db:"lat" json:"lat"`
+	Lng       string `db:"lng" json:"lng"`
+	Thumbnail string `db:"thumbnail" json:"thumbnail"`
+	ArtCount  int    `db:"art_count" json:"artCount"`
 }
 
 type PlaceLink struct {

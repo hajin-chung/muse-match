@@ -1,6 +1,7 @@
 package queries
 
 import (
+	"log"
 	"musematch/models"
 	"musematch/utils"
 	"time"
@@ -208,4 +209,38 @@ func GetPlaceArtsById(placeId string) ([]models.ArtInfo, error) {
 		return nil, err
 	}
 	return arts, nil
+}
+
+func GetPlaceInfosByCoord(maxLat float64, maxLng float64, minLat float64, minLng float64) ([]models.PlaceInfo, error) {
+	log.Println(maxLat, maxLng, minLat, minLng)
+	currentDate := utils.DateToString(time.Now())
+	places := []models.PlaceInfo{}
+	err := db.Select(&places, `
+		SELECT 
+			p.id,
+			p.title,
+			p.address,
+			p.lat,
+			p.lng,
+			pi.id as thumbnail,
+			COUNT(e.art_id) as art_count
+		FROM 
+			place p
+		INNER JOIN 
+			place_image pi ON p.id = pi.place_id AND pi.idx = 0
+		LEFT JOIN 
+			exhibit e ON p.id = e.location_id
+			AND e.state = 'EXHIBIT'
+			AND e.start_date <= ?
+			AND e.end_date >= ?
+		WHERE 
+			p.lat BETWEEN ? AND ?
+			AND p.lng BETWEEN ? AND ?
+		GROUP BY 
+			p.id, p.address, pi.id
+	`, currentDate, currentDate, minLat, maxLat, minLng, maxLng)
+	if err != nil {
+		return nil, err
+	}
+	return places, nil
 }
