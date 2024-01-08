@@ -1,0 +1,31 @@
+package pages
+
+import "musematch/models"
+import "musematch/views"
+
+templ ArtsPage(title string, user *models.User, arts []models.ArtInfo) {
+	@views.Layout(title) {
+		@views.Header(user)
+		<div class="flex justify-center w-full">
+			<div class="flex flex-col items-center">
+				<div class="h-6"></div>
+				<div class="w-full h-[145px] bg-gray-200"></div>
+				<div class="h-6"></div>
+				<div class="grid gap-5 grid-cols-4">
+					for col := 0; col < 4; col++ {
+						<div class="flex flex-col gap-5">
+							for i := col; i < len(arts); i+= 4 {
+								<div class="flex flex-col gap-1 w-50 border-[1px] border-gray-300 rounded-md overflow-clip">
+									<img src={ "/image?id=" + arts[i].Thumbnail } class="w-full mb-1"/>
+									<a href={ templ.URL("/art/" + arts[i].Id) } class="text-sm px-2">{ arts[i].Name }</a>
+									<a href={ templ.URL("/artist/" + arts[i].UserId) } class="text-xs font-bold px-2">{ arts[i].Artist }</a>
+									<p class="text-xs font-thin px-2 pb-2">{ arts[i].Description }</p>
+								</div>
+							}
+						</div>
+					}
+				</div>
+			</div>
+		</div>
+	}
+}

@@ -3,7 +3,6 @@ root = "."
 [build]
   bin = "./musematch"
   cmd = "sh build.sh"
-  delay = 100
   exclude_dir = ["assets", "tmp", "vendor"]
   exclude_file = []
   exclude_regex = [".*_templ.go"]
