@@ -378,6 +378,7 @@ func DashboardPlaceCreateController(c *fiber.Ctx) error {
 		return err
 	}
 
+	queries.UpdateUserIsOwner(userId)
 	placeId := utils.CreateId()
 	err = queries.CreatePlace(
 		placeId, userId, payload.Title, payload.Address,

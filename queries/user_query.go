@@ -235,3 +235,8 @@ func UpdateUserArtListItem(userId string, listItems []models.UserArtListItem) er
 	)
 	return err
 }
+
+func UpdateUserIsOwner(userId string) error {
+	_, err := db.Exec(`UPDATE user SET is_owner = 1 WHERE id=?`, userId)
+	return err
+}
