@@ -359,6 +359,8 @@ type LocationPayload struct {
 type PlaceMutatePayload struct {
 	Title       string            `json:"title"`
 	Address     string            `json:"address"`
+	Lat         float64           `json:"lat"`
+	Lng         float64           `json:"lng"`
 	InstagramId string            `json:"instagramId"`
 	FacebookId  string            `json:"facebookId"`
 	TwitterId   string            `json:"twitterId"`
@@ -381,7 +383,8 @@ func DashboardPlaceCreateController(c *fiber.Ctx) error {
 	queries.UpdateUserIsOwner(userId)
 	placeId := utils.CreateId()
 	err = queries.CreatePlace(
-		placeId, userId, payload.Title, payload.Address,
+		placeId, userId, payload.Title, 
+		payload.Address, payload.Lat, payload.Lng,
 		payload.InstagramId, payload.FacebookId, payload.TwitterId)
 	if err != nil {
 		return err
@@ -486,7 +489,8 @@ func DashboardPlaceUpdateController(c *fiber.Ctx) error {
 	}
 
 	err = queries.UpdatePlace(
-		placeId, payload.Title, payload.Address,
+		placeId, payload.Title, 
+		payload.Address, payload.Lat, payload.Lng,
 		payload.InstagramId, payload.FacebookId, payload.TwitterId)
 	if err != nil {
 		return err

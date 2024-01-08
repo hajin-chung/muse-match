@@ -73,29 +73,28 @@ templ DashboardPlaceNewPage(title string, user *models.User) {
 								<input id="title-input" class="w-full py-2 px-3 bg-gray-100 rounded-lg font-bold text-xl" placeholder="장소 이름"/>
 								<div class="flex gap-2 items-center">
 									<p class="font-bold w-8 flex-shrink-0">주소</p>
-									<input id="address-input" class="bg-gray-100 py-2 px-2.5 rounded-lg"/>
+									<button id="address-input" class="bg-gray-100 py-2 px-2.5 rounded-lg w-50">
+										<span id="address-placeholder" class="text-gray-800">주소 입력하기</span>
+									</button>
 								</div>
 								<div class="flex gap-2 items-center">
 									<img src="/icons/instagram.svg" class="w-6 h-6 mr-2"/>
-									<input id="instagram-input" class="bg-gray-100 py-2 px-2.5 rounded-lg"/>
+									<input id="instagram-input" class="bg-gray-100 py-2 px-2.5 rounded-lg w-50"/>
 								</div>
 								<div class="flex gap-2 items-center">
 									<img src="/icons/facebook.svg" class="w-6 h-6 mr-2"/>
-									<input id="facebook-input" class="bg-gray-100 py-2 px-2.5 rounded-lg"/>
+									<input id="facebook-input" class="bg-gray-100 py-2 px-2.5 rounded-lg w-50"/>
 								</div>
 								<div class="flex gap-2 items-center">
 									<img src="/icons/x.svg" class="w-6 h-6 mr-2"/>
-									<input id="twitter-input" class="bg-gray-100 py-2 px-2.5 rounded-lg"/>
+									<input id="twitter-input" class="bg-gray-100 py-2 px-2.5 rounded-lg w-50"/>
 								</div>
 								<button id="link-button" class="flex gap-2 py-1.5 px-4 rounded-lg bg-black items-center">
 									<img src="/icons/plus.svg" class="w-6 h-6 invert"/>
 									<p class="font-bold text-white">링크 추가</p>
 								</button>
 							</div>
-							<div class="w-1/2 h-full bg-gray-200">
-								hi
-								// map
-							</div>
+							<div id="map" class="w-1/2 bg-gray-200"></div>
 						</div>
 						<div class="h-12"></div>
 						<div class="flex flex-col gap-4 w-full">
@@ -135,7 +134,7 @@ templ DashboardPlaceNewPage(title string, user *models.User) {
 		<template id="link-template">
 			<div class="flex gap-2 items-center">
 				<img src="/icons/link.svg" class="w-6 h-6 mr-2"/>
-				<input class="link-input bg-gray-100 py-2 px-2.5 rounded-lg"/>
+				<input class="link-input bg-gray-100 py-2 px-2.5 rounded-lg w-50"/>
 			</div>
 		</template>
 		<template id="location-template">
@@ -155,6 +154,9 @@ templ DashboardPlaceNewPage(title string, user *models.User) {
 				<input class="description-input py-1 px-2 bg-gray-100 rounded-lg text-xs"/>
 			</div>
 		</template>
+		<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+		// TODO: update client id
+		<script type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=4m6pzvr77k&submodules=geocoder"></script>
 		<script src="/scripts/dashboard-place-new.js" type="module"></script>
 	}
 }
@@ -199,24 +201,26 @@ templ DashboardPlaceUpdatePage(title string, user *models.User, place *models.Pl
 								<input value={ place.Title } id="title-input" class="w-full py-2 px-3 bg-gray-100 rounded-lg font-bold text-xl" placeholder="장소 이름"/>
 								<div class="flex gap-2 items-center">
 									<p class="font-bold w-8 flex-shrink-0">주소</p>
-									<input value={ place.Address } id="address-input" class="bg-gray-100 py-2 px-2.5 rounded-lg"/>
+									<button id="address-input" class="bg-gray-100 py-2 px-2.5 rounded-lg w-50">
+										{ place.Address }
+									</button>
 								</div>
 								<div class="flex gap-2 items-center">
 									<img src="/icons/instagram.svg" class="w-6 h-6 mr-2"/>
-									<input value={ place.InstagramId } id="instagram-input" class="bg-gray-100 py-2 px-2.5 rounded-lg"/>
+									<input value={ place.InstagramId } id="instagram-input" class="bg-gray-100 py-2 px-2.5 rounded-lg w-50"/>
 								</div>
 								<div class="flex gap-2 items-center">
 									<img src="/icons/facebook.svg" class="w-6 h-6 mr-2"/>
-									<input value={ place.FacebookId } id="facebook-input" class="bg-gray-100 py-2 px-2.5 rounded-lg"/>
+									<input value={ place.FacebookId } id="facebook-input" class="bg-gray-100 py-2 px-2.5 rounded-lg w-50"/>
 								</div>
 								<div class="flex gap-2 items-center">
 									<img src="/icons/x.svg" class="w-6 h-6 mr-2"/>
-									<input value={ place.TwitterId } id="twitter-input" class="bg-gray-100 py-2 px-2.5 rounded-lg"/>
+									<input value={ place.TwitterId } id="twitter-input" class="bg-gray-100 py-2 px-2.5 rounded-lg w-50"/>
 								</div>
 								for _, link := range links {
 									<div class="flex gap-2 items-center">
 										<img src="/icons/link.svg" class="w-6 h-6 mr-2"/>
-										<input value={ link.Content } class="link-input bg-gray-100 py-2 px-2.5 rounded-lg"/>
+										<input value={ link.Content } class="link-input bg-gray-100 py-2 px-2.5 rounded-lg w-50"/>
 									</div>
 								}
 								<button id="link-button" class="flex gap-2 py-1.5 px-4 rounded-lg bg-black items-center">
@@ -224,10 +228,7 @@ templ DashboardPlaceUpdatePage(title string, user *models.User, place *models.Pl
 									<p class="font-bold text-white">링크 추가</p>
 								</button>
 							</div>
-							<div class="w-1/2 h-full bg-gray-200">
-								hi
-								// map
-							</div>
+							<div id="map" class="w-1/2 h-full bg-gray-200"></div>
 						</div>
 						<div class="h-12"></div>
 						<div class="flex flex-col gap-4 w-full">
@@ -285,7 +286,7 @@ templ DashboardPlaceUpdatePage(title string, user *models.User, place *models.Pl
 		<template id="link-template">
 			<div class="flex gap-2 items-center">
 				<img src="/icons/link.svg" class="w-6 h-6 mr-2"/>
-				<input class="link-input bg-gray-100 py-2 px-2.5 rounded-lg"/>
+				<input class="link-input bg-gray-100 py-2 px-2.5 rounded-lg w-50"/>
 			</div>
 		</template>
 		<template id="location-template">
@@ -305,6 +306,9 @@ templ DashboardPlaceUpdatePage(title string, user *models.User, place *models.Pl
 				<input class="description-input py-1 px-2 bg-gray-100 rounded-lg text-xs"/>
 			</div>
 		</template>
+		<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+		// TODO: update client id
+		<script type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=4m6pzvr77k&submodules=geocoder"></script>
 		<script src="/scripts/dashboard-place-update.js" type="module"></script>
 	}
 }

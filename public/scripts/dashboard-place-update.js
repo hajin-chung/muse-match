@@ -8,7 +8,7 @@ const thumbnailImageInput = di("thumbnail-image-input")
 dqs(".thumbnail").forEach(thumbnailImage => {
   const thumbnail = thumbnailImage.parentNode
   thumbnail.onclick = () => selectImage(thumbnailImage.src)
-  thumbnail.querySelector(".delete").onclick = () => 
+  thumbnail.querySelector(".delete").onclick = () =>
     thumbnailList.removeChild(thumbnail)
 })
 
@@ -44,6 +44,41 @@ function selectImage(url) {
     preview.classList.add("bg-gray-100");
   }
   preview.src = url;
+}
+
+const address = di("address-input").innerText
+if (address.length > 0) {
+  updateMap(address)
+}
+di("map").style.height = di("link-list").clientHeight + "px"
+
+di("address-input").onclick = () => {
+  new daum.Postcode({
+    oncomplete: function(data) {
+      const address = data.address
+      di("address-input").innerHTML = address
+      updateMap(address)
+    }
+  }).open();
+}
+
+let lng
+let lat
+function updateMap(address) {
+  naver.maps.Service.geocode({ query: address }, (status, res) => {
+    if (!res.v2) return
+    lng = res.v2.addresses[0].x
+    lat = res.v2.addresses[0].y
+    const position = new naver.maps.LatLng(lat, lng)
+    let mapOptions = {
+      center: position,
+    };
+
+    let map = new naver.maps.Map('map', mapOptions);
+
+    new naver.maps.Marker({ position, map });
+  })
+
 }
 
 const linkList = di("link-list")
@@ -100,9 +135,13 @@ di("submit").onclick = async () => {
     description: location.querySelector(".description-input").value,
   }))
 
+  const address = di("address-placeholder") ? "" : di("address-input").innerText
+
   const payload = {
     title: di("title-input").value,
-    address: di("address-input").value,
+    address,
+    lat: parseFloat(lat),
+    lng: parseFloat(lng),
     instagramId: di("instagram-input").value,
     facebookId: di("facebook-input").value,
     twitterId: di("twitter-input").value,

@@ -60,11 +60,14 @@ func GetPlaceLinksById(placeId string) ([]models.PlaceLink, error) {
 	return placeLinks, nil
 }
 
-func CreatePlace(placeId string, userId string, title string, address string, instagramId string, facebookId string, twitterId string) error {
+func CreatePlace(
+	placeId string, userId string, title string,
+	address string, lat float64, lng float64,
+	instagramId string, facebookId string, twitterId string) error {
 	_, err := db.Exec(`
-		INSERT INTO place (id, user_id, title, address, instagram_id, facebook_id, twitter_id)
-		VALUES (?, ?, ?, ?, ?, ?, ?)
-	`, placeId, userId, title, address, instagramId, facebookId, twitterId)
+		INSERT INTO place (id, user_id, title, address, lat, lng, instagram_id, facebook_id, twitter_id)
+		VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+	`, placeId, userId, title, address, lat, lng, instagramId, facebookId, twitterId)
 	return err
 }
 
@@ -123,12 +126,17 @@ func CreatePlaceLocations(locations []models.PlaceLocation) error {
 	return err
 }
 
-func UpdatePlace(placeId string, title string, address string, instagramId string, facebookId string, twitterId string) error {
+func UpdatePlace(
+	placeId string, title string,
+	address string, lat float64, lng float64,
+	instagramId string, facebookId string, twitterId string) error {
 	_, err := db.Exec(`
 		UPDATE place
-		SET title=?, address=?, instagram_id=?, facebook_id=?, twitter_id=?
+		SET 
+			title=?, address=?, lat=?, lng=?,
+			instagram_id=?, facebook_id=?, twitter_id=?
 		WHERE id=?
-	`, title, address, instagramId, facebookId, twitterId, placeId)
+	`, title, address, lat, lng, instagramId, facebookId, twitterId, placeId)
 	return err
 }
 

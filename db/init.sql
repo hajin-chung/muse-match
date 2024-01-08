@@ -85,6 +85,8 @@ CREATE TABLE place (
 	id varchar(10) NOT NULL PRIMARY KEY,
 	title TEXT DEFAULT "",
 	address TEXT DEFAULT "", 
+	lng REAL DEFAULT NULL,
+	lat REAL DEFAULT NULL,
 	user_id varchar(10) NOT NULL,
 	
 	instagram_id TEXT,
