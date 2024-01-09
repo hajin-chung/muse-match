@@ -1,0 +1,19 @@
+SELECT 
+  p.id,
+  p.address,
+  pi.id as thumbnail,
+  COUNT(e.art_id) as art_count
+FROM 
+    place p
+INNER JOIN 
+    place_image pi ON p.id = pi.place_id AND pi.idx = 0
+LEFT JOIN 
+    exhibit e ON p.id = e.location_id
+    AND e.state = 'EXHIBIT'
+    AND e.start_date <= '20240109'
+    AND e.end_date >= '20240109'
+WHERE 
+    p.lat BETWEEN 36.3597744 AND 36.3731826
+    AND p.lng BETWEEN 127.3517083 AND 127.3729085
+GROUP BY 
+    p.id, p.address, pi.id

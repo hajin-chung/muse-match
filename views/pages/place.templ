@@ -62,7 +62,12 @@ templ PlacePage(title string, user *models.User,place *models.Place, images []mo
 									<p class="font-bold text-lg">전시장 가기</p>
 								</button>
 							</div>
-							<div class="w-[560px] h-full"></div>
+							<div
+								id="map"
+								lat={ strconv.FormatFloat(place.Lat, 'f', -1, 64) }
+								lng={ strconv.FormatFloat(place.Lng, 'f', -1, 64) }
+								class="w-[560px] h-full"
+							></div>
 						</div>
 					</div>
 				</div>
@@ -105,5 +110,7 @@ templ PlacePage(title string, user *models.User,place *models.Place, images []mo
 				</div>
 			</div>
 		</div>
+		<script type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=4m6pzvr77k&submodules=geocoder"></script>
+		<script type="module" src="/scripts/place.js"></script>
 	}
 }
