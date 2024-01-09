@@ -3,7 +3,7 @@ package views
 import "musematch/models"
 
 templ Header(user *models.User) {
-	<div class="w-full flex justify-center shadow-md">
+	<div id="header" class="w-full flex justify-center shadow-md fixed top-0 left-0 bg-white z-10">
 		<div class="flex justify-between items-center w-layout h-12 relative">
 			<div class="flex items-center">
 				<a href="/" class="font-writing text-2xl">Muse Match</a>
@@ -28,7 +28,7 @@ templ Header(user *models.User) {
 				<div class="w-5"></div>
 				if user != nil {
 					<a href={ templ.URL("/artist/" + user.Id) } class="flex items-center">
-						<img src={ user.Picture } class="w-5 h-5 rounded-full"/>
+						<img id="picture" src={ user.Picture } class="w-5 h-5 rounded-full"/>
 						<div class="w-3"></div>
 						<p class="text-xs">{ user.Name }</p>
 					</a>
@@ -57,7 +57,7 @@ templ Header(user *models.User) {
 					<a class="text-xs" href="/dashboard/profile">회원 정보</a>
 					<a class="text-xs" href="/auth/logout">로그아웃</a>
 				</div>
-				<script type="module" src="/scripts/header-dropdown.js"></script>
+				<script type="module" src="/scripts/header.js"></script>
 			}
 		</div>
 	</div>

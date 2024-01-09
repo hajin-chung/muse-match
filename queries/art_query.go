@@ -79,7 +79,7 @@ func GetArtInfosByUserId(userId string) ([]models.ArtInfo, error) {
 	return arts, nil
 }
 
-func GetArtInfos() ([]models.ArtInfo, error) {
+func GetArtInfos(limit int) ([]models.ArtInfo, error) {
 	arts := []models.ArtInfo{}
 	err := db.Select(
 		&arts,
@@ -89,7 +89,8 @@ func GetArtInfos() ([]models.ArtInfo, error) {
 			LEFT JOIN art_image ON art.id = art_image.art_id
 			LEFT JOIN user ON art.user_id = user.id
 		WHERE art_image.idx = 0
-		LIMIT 100`,
+		LIMIT ?`,
+		limit,
 	)
 
 	if err != nil {

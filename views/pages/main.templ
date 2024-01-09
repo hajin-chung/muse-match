@@ -2,9 +2,106 @@ package pages
 
 import "musematch/views"
 import "musematch/models"
+import "strconv"
 
-templ Main(title string, user *models.User) {
+templ Main(title string, user *models.User, show []models.ArtWithExhibitInfo, arts []models.ArtInfo, places []models.PlaceInfo) {
 	@views.Layout(title) {
 		@views.Header(user)
+		<div id="banner" class="swpier overflow-hidden -mt-12 w-full h-full">
+			<div class="swiper-wrapper w-full h-full">
+				<a href="/" class="swiper-slide w-full h-full">
+					<img
+						src="https://images.unsplash.com/photo-1682688759157-57988e10ffa8?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+						class="w-full h-full object-cover"
+					/>
+				</a>
+				<a href="/" class="swiper-slide w-full h-full">
+					<img
+						src="https://images.unsplash.com/photo-1682688759157-57988e10ffa8?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+						class="w-full h-full object-cover"
+					/>
+				</a>
+				<a href="/" class="swiper-slide w-full h-full">
+					<img
+						src="https://images.unsplash.com/photo-1682688759157-57988e10ffa8?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+						class="w-full h-full object-cover"
+					/>
+				</a>
+			</div>
+			<div class="swiper-pagination absolute bottom-10"></div>
+		</div>
+		<div id="show" class="w-full h-full flex justify-center items-center relative">
+			<div class="w-50 h-full absolute left-0 top-0 left-shadow">
+				<img id="prev-image" class="h-[300px] absolute left-0 top-1/2 -translate-y-1/2"/>
+			</div>
+			<div class="w-50 h-full absolute right-0 top-0 right-shadow">
+				<img id="next-image" class="h-[300px] absolute right-0 top-1/2 -translate-y-1/2"/>
+			</div>
+			<div id="show" class="w-3/5 flex flex-col items-center">
+				<div class="flex flex-col self-start">
+					<div class="flex items-end gap-1">
+						<a>
+							<span id="place-title" class="font-bold underline"></span>
+							<span>에서 전시중</span>
+						</a>
+						<a class="place-link text-xs">전시장 바로가기></a>
+					</div>
+					<div class="h-2"></div>
+					<p class="text-xs">
+						기간: 
+						<span class="font-bold">
+							<span id="start-date"></span>
+							~
+							<span id="end-date"></span>
+						</span>
+					</p>
+				</div>
+				<div class="h-4"></div>
+				<div class="relative">
+					<img id="image" class="object-contain h-[400px]"/>
+				</div>
+				<div class="py-4 px-6 shadow-lg flex flex-col gap-2 self-end">
+					<a id="name" class="font-bold text-xl"></a>
+					<a id="artist" class="font-bold artist"></a>
+					<p id="description" class="font-thin text-xs"></p>
+					<p id="price" class="mt-1"></p>
+				</div>
+			</div>
+		</div>
+		<div id="content" class="w-full flex justify-center">
+			<div class="w-layout flex flex-col">
+				<div class="h-10"></div>
+				<p class="text-xl font-bold">금주의 작품</p>
+				<div class="h-4"></div>
+				<div id="arts" class="grid grid-cols-5 gap-8">
+					for _, art := range arts {
+						<a href={ templ.URL("/art/" + art.Id) } class="art aspect-square w-full relative group">
+							<img src={ "/image?id=" + art.Thumbnail } class="thumbnail w-full h-full"/>
+							<div class="absolute top-0 left-0 h-full w-full bg-black bg-opacity-40 hidden group-hover:block">
+								<p class="artist text-white font-bold absolute bottom-4 right-4">{ art.Artist }</p>
+							</div>
+						</a>
+					}
+				</div>
+				<div class="h-10"></div>
+				<p class="text-xl font-bold">일상속 전시</p>
+				<div class="h-4"></div>
+				<div class="grid grid-cols-2 gap-4">
+					for _, place := range places {
+						<a href={ templ.URL("/place/" + place.Id) } class="w-full aspect-banner relative rounded-lg overflow-clip group">
+							<img src={ "/image?id=" + place.Id } class="object-cover w-full h-full"/>
+							<div class="absolute top-0 left-0 w-full h-full bg-black bg-opacity-40 hidden group-hover:flex flex-col px-7 justify-center">
+								<p class="text-white font-bold">
+									<span class="text-2xl">{ place.Title }</span>
+									<span>{ strconv.Itoa(place.ArtCount) }점 전시중</span>
+								</p>
+								<p class="text-white">{place.Address}</p>
+							</div>
+						</a>
+					}
+				</div>
+			</div>
+		</div>
 	}
+	<script type="module" src="/scripts/main.js"></script>
 }

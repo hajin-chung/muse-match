@@ -102,6 +102,20 @@ type ArtInfo struct { // used in cards
 	Thumbnail   string `db:"thumbnail"`
 }
 
+type ArtWithExhibitInfo struct {
+	Id          string `db:"id"`
+	Name        string `db:"name"`
+	Description string `db:"description"`
+	UserId      string `db:"user_id"`
+	Price       int    `db:"price"`
+	Artist      string `db:"artist"`
+	Thumbnail   string `db:"thumbnail"`
+	PlaceTitle  string `db:"place_title"`
+	PlaceId     string `db:"place_id"`
+	StartDate   string `db:"start_date"`
+	EndDate     string `db:"end_date"`
+}
+
 type ArtTag struct {
 	ArtId string `db:"art_id"`
 	Tag   string `db:"tag"`

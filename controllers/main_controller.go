@@ -28,7 +28,17 @@ func MainController(c *fiber.Ctx) error {
 		}
 	}
 
-	page := pages.Main("this is title", user)
+	show := []models.ArtWithExhibitInfo{}
+	arts, err := queries.GetArtInfos(10)
+	if err != nil {
+		return err
+	}
+	places, err := queries.GetPlaceInfos(10)
+	if err != nil {
+		return err
+	}
+
+	page := pages.Main("this is title", user, show, arts, places)
 	return utils.Render(c, page)
 }
 
@@ -174,7 +184,7 @@ func ArtsController(c *fiber.Ctx) error {
 		}
 	}
 
-	arts, err := queries.GetArtInfos()
+	arts, err := queries.GetArtInfos(100)
 	if err != nil {
 		return err
 	}

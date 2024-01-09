@@ -34,6 +34,23 @@ func GetPlaceLocationsById(placeId string) ([]models.PlaceLocation, error) {
 	return locations, nil
 }
 
+func GetPlaceInfos(limit int) ([]models.PlaceInfo, error) {
+	places := []models.PlaceInfo{}
+	err := db.Select(
+		&places,
+		`SELECT 
+			place.id, place.title, place.address, place_image.id as thumbnail
+		FROM place LEFT JOIN place_image ON place.id = place_image.place_id 
+		LIMIT ?`,
+		limit,
+	)
+	if err != nil {
+		return nil, err
+	}
+
+	return places, nil
+}
+
 func GetPlaceInfosByUserId(userId string) ([]models.PlaceInfo, error) {
 	places := []models.PlaceInfo{}
 	err := db.Select(
